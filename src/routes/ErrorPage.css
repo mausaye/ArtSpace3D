@@ -1,0 +1,51 @@
+@font-face{
+    font-family: bernierShade;
+    src: url('../berniershade-regular.otf');
+}
+@font-face{
+    font-family: architectsDaughter;
+    src: url('../ArchitectsDaughter-Regular.ttf');
+}
+
+.error-page{
+    background-color: #280034;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img{
+    height: 30vh;
+    width: auto;
+    position: relative;
+    top: -3vh;
+    left: 30vw;
+    display: flex;
+}
+
+.error-details{
+    font-family: bernierShade;
+    color: #db3eb1;
+    font-size: xx-large;
+    position: relative;
+    left: 33vw;
+    min-width: 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-message{
+    font-family: architectsDaughter;
+    color: whitesmoke;
+    font-size: x-large;
+    position: relative;
+    top: 20vh;
+    right: 15vw;
+    min-width: 75vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

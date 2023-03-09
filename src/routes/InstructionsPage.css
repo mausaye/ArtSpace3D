@@ -6,7 +6,7 @@
 .instructMainPage{
     background-color: #280034;
     background-size: cover;
-    max-height: 100vh;
+    height: 100vh;
     display: flex;
     
 }
@@ -24,8 +24,8 @@
 .containerOuter{
     position: relative;
     margin: 18vh 8vh;
-    width: 35vh;
-    height: 70vh;
+    min-width: 35vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,8 +35,8 @@
 
 .containerInner{
     position: absolute;
-    width: 30vh;
-    height: 65vh;
+    min-width: 30vh;
+    min-height: 65vh;
     border: 5px solid;
     display: flex;
     align-items: center;

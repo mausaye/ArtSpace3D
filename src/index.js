@@ -11,6 +11,7 @@ import Brightness from './routes/InstructionsTabs/Brightness';
 import Sizing from './routes/InstructionsTabs/Sizing';
 import Rotation from './routes/InstructionsTabs/Rotation';
 import reportWebVitals from './reportWebVitals';
+import ErrorPage from './routes/ErrorPage';
 
 import{
   createBrowserRouter, 
@@ -21,11 +22,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainMenuRoot />,
+    errorElement: <ErrorPage />,
   },
+
+  /*
   {
     path: "/EnvironmentCreationPage",
     element: <DummyEnvironmentCreationPage/>
   },
+  */
 
   {
     path: "/InstructionsPage/",
