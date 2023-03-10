@@ -9,8 +9,6 @@ import{
   } from "react-router-dom";
 
 
-import './index.css';
-import App from './App';
 
 const router = createBrowserRouter;
 const root = ReactDOM.createRoot(document.getElementById('root'));
