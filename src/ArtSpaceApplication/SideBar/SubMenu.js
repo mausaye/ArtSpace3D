@@ -23,7 +23,7 @@ const SidebarLabel = styled.span`
   margin-left: 16px;
 `;
 
-const DropdownLink = styled(Link)`
+const DropdownLink = styled.div`
   background: #414757;
   height: 60px;
   padding-left: 3rem;
@@ -38,10 +38,26 @@ const DropdownLink = styled(Link)`
   }
 `;
 
-const SubMenu = ({ item, render }) => {
+function selectShape(shape, renderer){
+
+  switch(shape){
+    case "Cube":
+      renderer.addCube(1,1,1);
+      break;
+    case "Cone":
+      renderer.addCone(1,2,32);
+      break;
+    
+  }
+
+ // renderer.renderObjects();
+
+}
+
+const SubMenu = ({ item, renderer }) => {
   const [subnav, setSubnav] = useState(false);
 
-  console.log(render);
+  console.log(renderer);
   const showSubnav = () => setSubnav(!subnav);
 
   return (
@@ -65,7 +81,10 @@ const SubMenu = ({ item, render }) => {
           return (
             <DropdownLink to={item.path} key={index}>
               {item.icon}
-              <SidebarLabel>{item.title}</SidebarLabel>
+              <SidebarLabel onClick={()=>{
+                 selectShape(item.title, renderer)
+                console.log(item.title);
+              }}>{item.title}</SidebarLabel>
             </DropdownLink>
           );
         })}

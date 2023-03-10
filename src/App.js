@@ -53,17 +53,21 @@ const SidebarWrap = styled.div`
 `;
 
 
+var counter = 0;
+
 
 
   function App() {
-    var render = new ShapeRenderer();
+    var render;
+    
+      counter++;
+    render = new ShapeRenderer();
   
-    render.addCube(1, 1, 1, (0,0,0));
-    render.addCone(1,2,32, (0,0,0));
+    // render.addCube(1, 1, 1, (0,0,0));
+    // render.addSphere(1,2,32, (0,0,0));
   
-  
-    render.renderObjects();
     console.log("hi");
+    
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
@@ -82,19 +86,16 @@ const SidebarWrap = styled.div`
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} render="poop" />;
+              return <SubMenu item={item} key={index} renderer={render} />;
             })}
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
-
-
-
-     <Render/>
     </>
     )
 
 
+          
 
 }
 
