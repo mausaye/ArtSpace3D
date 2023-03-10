@@ -1,3 +1,4 @@
+
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
@@ -16,7 +17,7 @@ import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
-
+const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
 const Nav = styled.div`
   background: #15171c;
   height: 80px;
@@ -52,7 +53,17 @@ const SidebarWrap = styled.div`
 `;
 
 
-function App() {
+
+
+  function App() {
+    var render = new ShapeRenderer();
+  
+    render.addCube(1, 1, 1, (0,0,0));
+    render.addCone(1,2,32, (0,0,0));
+  
+  
+    render.renderObjects();
+    console.log("hi");
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
@@ -81,8 +92,10 @@ function App() {
 
      <Render/>
     </>
+    )
 
-  );
+
+
 }
 
 export default App;
