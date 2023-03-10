@@ -1,0 +1,36 @@
+@font-face{
+    font-family: brittany;
+    src: url('../../../assets/Fonts/BrittanySignature.ttf');
+}
+@font-face{
+    font-family: architectsDaughter;
+    src: url('../../../assets/Fonts/ArchitectsDaughter-Regular.ttf');
+}
+
+.heading{
+    position: relative;
+    top: 7vh;
+    margin: 0;
+    width: 65vw;
+    height: 23vh;
+    display: flex;
+    justify-content: center;
+    color: #db3eb1;
+    font-size: 13vh;
+    font-family: brittany;
+    
+}
+
+.body{
+    overflow-y: auto;
+    max-width: 63vw;
+    position: relative;
+    top: 9vh;
+    margin: 0;
+    height: 60vh;
+    font-family: architectsDaughter;
+    color: white;
+    font-size: 5vh;
+}
+
+
