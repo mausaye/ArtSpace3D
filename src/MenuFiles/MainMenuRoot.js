@@ -1,7 +1,5 @@
 import './MainMenuRoot.css';
 import {useNavigate} from 'react-router-dom';
-import Render from '../ArtSpaceApplication/ShapeRenderer'
-import App from '../App';
 
 
 export default function MainMenuRoot() {

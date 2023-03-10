@@ -1,16 +1,14 @@
-import { createRoot } from 'react-dom/client'
-import React, { useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import Render from './ArtSpaceApplication/ShapeRenderer'
-
-
-
-
+const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
 function App() {
-  return (
-    <Render/>
+  var render = new ShapeRenderer();
 
-  );
+  render.addCube(1, 1, 1, (0,0,0));
+
+  render.renderObjects();
+  console.log("hi");
+
+  //render.animate();
+
 }
 
 export default App;

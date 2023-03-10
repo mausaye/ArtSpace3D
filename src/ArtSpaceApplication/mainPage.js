@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+
 import '../index.css';
 import MainMenuRoot from '../MenuFiles/MainMenuRoot';
 //import render from './routes/DummyEnvCreationPage';
@@ -10,15 +10,12 @@ import Color from '../MenuFiles/InstructionsTabs/Color';
 import Brightness from '../MenuFiles/InstructionsTabs/Brightness';
 import Sizing from '../MenuFiles/InstructionsTabs/Sizing';
 import Rotation from '../MenuFiles/InstructionsTabs/Rotation';
-import reportWebVitals from '../reportWebVitals';
-import App from '../App';
-import * as THREE from "three";
-import { Component } from 'react';
 import ErrorPage from '../MenuFiles/ErrorPage';
 import{
   createBrowserRouter, 
-  RouterProvider,
 } from "react-router-dom";
+
+import App from '../App'
 
 export default createBrowserRouter([
   {
@@ -28,7 +25,7 @@ export default createBrowserRouter([
   },
   {
     path: "/EnvironmentCreationPage",
-    element: <App/>,
+    element: <App />
   },
  
   {
