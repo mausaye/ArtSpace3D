@@ -11,8 +11,8 @@
     position: relative;
     top: 7vh;
     margin: 0;
-    width: 65vw;
-    height: 23vh;
+    min-width: 65vw;
+    min-height: 23vh;
     display: flex;
     justify-content: center;
     color: #db3eb1;
