@@ -38,6 +38,22 @@ const DropdownLink = styled.div`
   }
 `;
 
+function selectShape(shape, renderer){
+
+  switch(shape){
+    case "Cube":
+      renderer.addCube(1,1,1);
+      break;
+    case "Cone":
+      renderer.addCone(1,2,32);
+      break;
+    
+  }
+
+ // renderer.renderObjects();
+
+}
+
 const SubMenu = ({ item, renderer }) => {
   const [subnav, setSubnav] = useState(false);
 
@@ -70,7 +86,10 @@ const SubMenu = ({ item, renderer }) => {
                 console.log("THE CUBE HAD LANDED");
                 }}>
               {item.icon}
-              <SidebarLabel>{item.title}</SidebarLabel>
+              <SidebarLabel onClick={()=>{
+                 selectShape(item.title, renderer)
+                console.log(item.title);
+              }}>{item.title}</SidebarLabel>
             </DropdownLink>
           );
         })}

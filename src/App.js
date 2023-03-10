@@ -52,18 +52,15 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-
+var counter = 0;
 
 
   function App() {
-    var render = new ShapeRenderer();
-  
-   // render.addCube(1, 1, 1, (0,0,0));
-    //render.addCone(1,2,32, (0,0,0));
-  
-    //render.renderObjects();
    
+    var render = new ShapeRenderer();
+ 
     console.log("hi");
+    
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
@@ -92,6 +89,7 @@ const SidebarWrap = styled.div`
     )
 
 
+          
 
 }
 
