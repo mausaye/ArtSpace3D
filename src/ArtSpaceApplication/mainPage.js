@@ -14,6 +14,7 @@ import reportWebVitals from '../reportWebVitals';
 import App from '../App';
 import * as THREE from "three";
 import { Component } from 'react';
+import ErrorPage from '../MenuFiles/ErrorPage';
 import{
   createBrowserRouter, 
   RouterProvider,
@@ -23,6 +24,7 @@ export default createBrowserRouter([
   {
     path: "/",
     element: <MainMenuRoot />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/EnvironmentCreationPage",

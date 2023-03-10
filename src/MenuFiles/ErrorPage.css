@@ -1,10 +1,10 @@
 @font-face{
     font-family: bernierShade;
-    src: url('../berniershade-regular.otf');
+    src: url('../../assets/Fonts/berniershade-regular.otf');
 }
 @font-face{
     font-family: architectsDaughter;
-    src: url('../ArchitectsDaughter-Regular.ttf');
+    src: url('../../assets/Fonts/ArchitectsDaughter-Regular.ttf');
 }
 
 .error-page{
