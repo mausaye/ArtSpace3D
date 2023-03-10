@@ -11,6 +11,9 @@ import Brightness from '../MenuFiles/InstructionsTabs/Brightness';
 import Sizing from '../MenuFiles/InstructionsTabs/Sizing';
 import Rotation from '../MenuFiles/InstructionsTabs/Rotation';
 import ErrorPage from '../MenuFiles/ErrorPage';
+import LogIn from '../MenuFiles/Login';
+import SignUp from '../MenuFiles/SignUp';
+import StartPage from '../MenuFiles/StartPage.js'
 import{
   createBrowserRouter, 
 } from "react-router-dom";
@@ -28,6 +31,20 @@ export default createBrowserRouter([
 
     element: <App/>,
 
+  },
+  {
+    path: "/LogIn",
+    element: <LogIn/>,
+  },
+
+  {
+    path: "/SignUp",
+    element: <SignUp/>,
+  },
+
+  {
+    path: "/StartPage",
+    element: <StartPage/>,
   },
  
   {

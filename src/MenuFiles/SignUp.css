@@ -1,0 +1,28 @@
+@font-face{
+    font-family: brittany;
+    src: url('../../assets/Fonts/BrittanySignature.ttf');
+}
+@font-face{
+    font-family: architectsDaughter;
+    src: url('../../assets/Fonts/ArchitectsDaughter-Regular.ttf');
+}
+
+.signup{
+    background-color: #280034;
+    background-size: cover;
+    height: 100vh;
+}
+
+.heading{
+    position: center;
+    top: 7vh;
+    margin: 0;
+    min-width: 65vw;
+    min-height: 23vh;
+    display: flex;
+    justify-content: center;
+    color: #db3eb1;
+    font-size: 13vh;
+    font-family: brittany;
+    
+}
