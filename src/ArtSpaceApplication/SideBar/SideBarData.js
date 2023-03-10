@@ -36,19 +36,19 @@ export const SideBarData = [
 
     subNav: [
       {
-        title: 'Reports',
+        title: 'Shadow',
         path: '/reports/reports1',
         icon: <IoIcons.IoIosPaper />,
         cName: 'sub-nav'
       },
       {
-        title: 'Reports 2',
+        title: 'Background',
         path: '/reports/reports2',
         icon: <IoIcons.IoIosPaper />,
         cName: 'sub-nav'
       },
       {
-        title: 'Reports 3',
+        title: 'Angle',
         path: '/reports/reports3',
         icon: <IoIcons.IoIosPaper />
       }
