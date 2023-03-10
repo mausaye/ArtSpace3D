@@ -2,19 +2,19 @@
     font-family: brittany;
     src: url('../../assets/Fonts/BrittanySignature.ttf');
 }
+
 @font-face{
-    font-family: architectsDaughter;
-    src: url('../../assets/Fonts/ArchitectsDaughter-Regular.ttf');
+    font-family: bernierShade;
+    src: url('../../assets/Fonts/berniershade-regular.otf');
 }
 
-.signup{
+.login{
     background-color: #280034;
     background-size: cover;
     height: 100vh;
 }
 
 .heading{
-    position: center;
     top: 7vh;
     margin: 0;
     min-width: 65vw;
@@ -22,7 +22,91 @@
     display: flex;
     justify-content: center;
     color: #db3eb1;
-    font-size: 13vh;
+    font-size: 12vh;
     font-family: brittany;
     
 }
+
+.signup-container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 200px;
+    margin-top: -100px;
+    width: 400px;
+    margin-left: -200px;
+}
+
+.signup-form{
+    width: 420px;
+    padding-top: 0px;
+    padding-bottom: 20px;
+    border-radius: 8px;
+}
+
+.signup-content{
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+input[type="text"]{
+    width: 200px;
+    height: 50px;
+    border: 2px solid #11FFEE;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 3vh;
+    font-family: bernierShade;
+    background-color: #280034;
+    color: #11FFEE;
+}
+
+
+input[type=email]{
+    width: 200px;
+    height: 50px;
+    border: 2px solid #11FFEE;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 3vh;
+    font-family: bernierShade;
+    background-color: #280034;
+    color: #11FFEE;
+
+}
+
+input[type=password]{
+    width: 200px;
+    height: 50px;
+    border: 2px solid #11FFEE;
+    border-radius: 10px ;
+    box-sizing: border-box;
+    font-size: 3vh;
+    font-family: bernierShade;
+    background-color: #280034;
+    color: #11FFEE;
+}
+
+::placeholder { 
+    color: #11FFEE;
+    opacity: 1;
+}
+
+.signup-submit {
+    position: absolute;
+    top: 180%;
+    left: 35%;
+    border: 6px solid #11FFEE;
+    color: white;
+    border-radius: 10px;
+    padding: 9px 24px;
+    font-size: 3vh;
+    font-family: bernierShade;
+    cursor: pointer;
+    filter: drop-shadow(0 0 15px #11FFEE) drop-shadow(0 0 50px #11FFEE) contrast(2) brightness(2);
+    color: black;
+    background-color: #11FFEE;
+  }
+  

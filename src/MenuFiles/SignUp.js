@@ -19,12 +19,18 @@ export default function SignUp() {
 
         <div class="login-container">
             <form class="login-form" onSubmit={handleSubmit}>
+                <div class ="signup-content" id="firstname">
+                    <input type="text" placeholder="First Name"/>
+                </div>
+                <div class ="signup-content" id="lastname">
+                    <input type="text" placeholder="Last Name"/>
+                </div>
 
-                <div class ="signup-content">
+                <div class ="signup-content" id="email">
                     <input type="email" placeholder="Enter email"/>
                 </div>
 
-                <div class ="signup-content">
+                <div class ="signup-content" id="password">
                     <input type="password" placeholder="Enter password"/>
                 </div>
 
