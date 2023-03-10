@@ -76,10 +76,15 @@ const SubMenu = ({ item, renderer }) => {
             : null}
         </div>
       </SidebarLink>
+      
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            <DropdownLink to={item.path} key={index}>
+            <DropdownLink to={item.path} key={index} onClick={()=> {
+                renderer.addCube(1,1,1, (0,0,0))
+                renderer.renderObjects();
+                console.log("THE CUBE HAD LANDED");
+                }}>
               {item.icon}
               <SidebarLabel onClick={()=>{
                  selectShape(item.title, renderer)

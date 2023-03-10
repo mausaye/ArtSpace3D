@@ -2,7 +2,7 @@
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import Render from './ArtSpaceApplication/ShapeRenderer'
+//import Render from './ArtSpaceApplication/ShapeRenderer'
 
 import { Route } from 'react-router-dom';
 import { BrowserRouter as Router, Switch
@@ -52,20 +52,13 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-
 var counter = 0;
 
 
-
   function App() {
-    var render;
-    
-      counter++;
-    render = new ShapeRenderer();
-  
-    // render.addCube(1, 1, 1, (0,0,0));
-    // render.addSphere(1,2,32, (0,0,0));
-  
+   
+    var render = new ShapeRenderer();
+ 
     console.log("hi");
     
   const [sidebar, setSidebar] = useState(false);
@@ -91,6 +84,7 @@ var counter = 0;
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
+
     </>
     )
 
