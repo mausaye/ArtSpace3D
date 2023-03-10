@@ -20,6 +20,7 @@ export class ShapeRenderer{
      
       this.sceneObjects = [];
       this.renderer = new WebGLRenderer();
+      this.renderer.setClearColor(0xffffff);
       this.renderer.setSize(window.innerWidth * 2, window.innerHeight, false);
       document.body.append(this.renderer.domElement);
    
@@ -46,16 +47,19 @@ export class ShapeRenderer{
     // const width = 1;
     // const height = 1;
     // const depth = 1;
-    const geometry = new BoxGeometry(width, height, depth);
+    const geometry = new BoxGeometry(1, 1, 1);
     const material = new MeshPhongMaterial({ color: 0xff0000 });
     const cube = new Mesh(geometry, material);
 
     cube.position.z = -10;
+    cube.position.x = -3;
     cube.rotation.x = 10;
     cube.rotation.y = 5;
 
     this.sceneObjects.push(cube);
     
+    this.renderer.render(this.scene, this.camera);
+    console.log("Clicked cube");
   }
   
   renderObjects(){

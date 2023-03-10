@@ -23,7 +23,7 @@ const SidebarLabel = styled.span`
   margin-left: 16px;
 `;
 
-const DropdownLink = styled(Link)`
+const DropdownLink = styled.div`
   background: #414757;
   height: 60px;
   padding-left: 3rem;
@@ -38,10 +38,10 @@ const DropdownLink = styled(Link)`
   }
 `;
 
-const SubMenu = ({ item, render }) => {
+const SubMenu = ({ item, renderer }) => {
   const [subnav, setSubnav] = useState(false);
 
-  console.log(render);
+  console.log(renderer);
   const showSubnav = () => setSubnav(!subnav);
 
   return (
@@ -60,10 +60,15 @@ const SubMenu = ({ item, render }) => {
             : null}
         </div>
       </SidebarLink>
+      
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            <DropdownLink to={item.path} key={index}>
+            <DropdownLink to={item.path} key={index} onClick={()=> {
+                renderer.addCube(1,1,1, (0,0,0))
+                renderer.renderObjects();
+                console.log("THE CUBE HAD LANDED");
+                }}>
               {item.icon}
               <SidebarLabel>{item.title}</SidebarLabel>
             </DropdownLink>

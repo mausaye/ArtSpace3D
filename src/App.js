@@ -2,7 +2,7 @@
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import Render from './ArtSpaceApplication/ShapeRenderer'
+//import Render from './ArtSpaceApplication/ShapeRenderer'
 
 import { Route } from 'react-router-dom';
 import { BrowserRouter as Router, Switch
@@ -58,11 +58,11 @@ const SidebarWrap = styled.div`
   function App() {
     var render = new ShapeRenderer();
   
-    render.addCube(1, 1, 1, (0,0,0));
-    render.addCone(1,2,32, (0,0,0));
+   // render.addCube(1, 1, 1, (0,0,0));
+    //render.addCone(1,2,32, (0,0,0));
   
-  
-    render.renderObjects();
+    //render.renderObjects();
+   
     console.log("hi");
   const [sidebar, setSidebar] = useState(false);
 
@@ -82,15 +82,12 @@ const SidebarWrap = styled.div`
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} render="poop" />;
+              return <SubMenu item={item} key={index} renderer={render} />;
             })}
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
 
-
-
-     <Render/>
     </>
     )
 
