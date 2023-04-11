@@ -1,6 +1,6 @@
 
 import { createRoot } from 'react-dom/client'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 //import Render from './ArtSpaceApplication/ShapeRenderer'
 
@@ -54,12 +54,9 @@ const SidebarWrap = styled.div`
 
 var counter = 0;
 
+var render= new ShapeRenderer();
 
-  function App() {
-   
-    var render = new ShapeRenderer();
- 
-    console.log("hi");
+const App = () => {
     
   const [sidebar, setSidebar] = useState(false);
 

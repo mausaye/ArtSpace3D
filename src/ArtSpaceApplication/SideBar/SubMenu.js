@@ -81,9 +81,9 @@ const SubMenu = ({ item, renderer }) => {
         item.subNav.map((item, index) => {
           return (
             <DropdownLink to={item.path} key={index} onClick={()=> {
-                renderer.addCube(1,1,1, (0,0,0))
+            
                 renderer.renderObjects();
-                console.log("THE CUBE HAD LANDED");
+             
                 }}>
               {item.icon}
               <SidebarLabel onClick={()=>{
