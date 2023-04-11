@@ -7,7 +7,7 @@ import InstructionsPage from '../MenuFiles/InstructionsPage';
 import GettingStartedInst from '../MenuFiles/InstructionsTabs/GettingStartedInst';
 import Shapes from '../MenuFiles/InstructionsTabs/Shapes';
 import Color from '../MenuFiles/InstructionsTabs/Color';
-import Brightness from '../MenuFiles/InstructionsTabs/Brightness';
+import Camera from '../MenuFiles/InstructionsTabs/Camera';
 import Sizing from '../MenuFiles/InstructionsTabs/Sizing';
 import Rotation from '../MenuFiles/InstructionsTabs/Rotation';
 import ErrorPage from '../MenuFiles/ErrorPage';
@@ -64,8 +64,8 @@ export default createBrowserRouter([
         element: <Color />
       },
       {
-        path: "Brightness",
-        element: <Brightness />
+        path: "Camera",
+        element: <Camera />
       },
       {
         path: "Sizing",
