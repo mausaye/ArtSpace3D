@@ -64,14 +64,34 @@ var counter = 0;
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+  
   return (
     <>
+   
       
       <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav>
+        <Nav >
           <NavIcon to='#'>
             <FaIcons.FaBars onClick={showSidebar} />
           </NavIcon>
+          <div className='header'> 
+          <NavIcon > 
+          <div className="message-icon-container">
+            <Link to='/message'> 
+     
+              <AiIcons.AiOutlineContacts />
+            
+            
+            <span className="nav-link-text">Message us here</span>
+
+            </Link>
+            </div>
+            </NavIcon>
+            </div>
+    
+         
+          
+
         </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
@@ -82,8 +102,11 @@ var counter = 0;
               return <SubMenu item={item} key={index} renderer={render} />;
             })}
           </SidebarWrap>
+          
         </SidebarNav>
+       
       </IconContext.Provider>
+      
 
     </>
     )

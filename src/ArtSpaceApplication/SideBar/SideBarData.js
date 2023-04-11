@@ -6,7 +6,9 @@ import * as RiIcons from 'react-icons/ri';
 import * as BiIcons from 'react-icons/bi';
 import * as TbIcons from 'react-icons/tb';
 
-export const SideBarData = [
+
+
+export const SideBarData =  [
   {
     title: 'Shapes',
     path: '/shapes',
@@ -60,16 +62,10 @@ export const SideBarData = [
     icon: <AiIcons.AiOutlineBgColors />
   },
 
-  {
-    title: 'Messages Us',
-    path: '/messages',
-    icon: <FaIcons.FaEnvelopeOpenText />,
-
-    
-  },
+ 
   {
     title: 'Support',
-    path: '/support',
+    path: '/InstructionsPage/',
     icon: <IoIcons.IoMdHelpCircle />
   }
 ];

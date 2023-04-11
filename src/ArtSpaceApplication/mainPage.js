@@ -14,6 +14,7 @@ import ErrorPage from '../MenuFiles/ErrorPage';
 import LogIn from '../MenuFiles/Login';
 import SignUp from '../MenuFiles/SignUp';
 import StartPage from '../MenuFiles/StartPage.js'
+import MessageUs from './SideBar/MessageUs/MessageUs'
 import{
   createBrowserRouter, 
 } from "react-router-dom";
@@ -31,7 +32,17 @@ export default createBrowserRouter([
 
     element: <App/>,
 
+   
+  
+
   },
+  {
+   
+        path: "/message", 
+      element: <MessageUs /> 
+    
+
+  }, 
   {
     path: "/LogIn",
     element: <LogIn/>,

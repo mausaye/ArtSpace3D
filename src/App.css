@@ -63,3 +63,42 @@
 span{
     margin-left: 16px;
 }
+.message-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .message-button button {
+    border-radius: 50px; /* make the button round */
+    background-color: #F2F2F2; /* set the background color */
+    color: #333; /* set the text color */
+    font-size: 20px; /* set the font size */
+    padding: 10px 20px; /* add some padding to the button */
+    display: flex; /* use flexbox to center the emoji */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .message-button button span {
+    margin-right: 5px; /* add some space between the emoji and text */
+  }
+  .nav-link-text {
+    font-size: 1rem; /* adjust the font size as desired */
+    font-weight: bold;
+    color: white;
+  }
+  .header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .message-icon-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* adjust the margin as needed */
+  }
+  
+  .message-icon-container svg {
+    margin-right: 5px; /* adjust the margin as needed */
+  }
