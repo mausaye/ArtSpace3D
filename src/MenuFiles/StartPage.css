@@ -29,10 +29,10 @@
   position: fixed;
   top: 37%;
   left: 60%;
-  animation: neonFlicker 30s forwards infinite;
+  animation: neonFlickerStart 30s forwards infinite;
 
 }
-@keyframes neonFlicker{
+@keyframes neonFlickerStart{
   5%, 5.2%, 11%, 11.2%, 21%, 22%, 25%, 35%, 36.5%, 40%, 41%, 53%, 53.2%, 57%, 57.8%, 63%, 65.5%, 73%, 74%{
     text-shadow:
       0 0 7px #fff,

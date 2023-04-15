@@ -104,7 +104,7 @@ export class ShapeRenderer{
     cube.position.z = -10;
 
     cube.position.x = -3;
-  cube.rotation.x = 10;
+    cube.rotation.x = 10;
     cube.rotation.y = 5;
    
     this.scene.add(cube);

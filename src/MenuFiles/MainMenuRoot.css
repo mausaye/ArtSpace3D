@@ -25,7 +25,7 @@
   left: 40%;
   transform: translate(-50%, -50%);
 }
-#three-d{
+#three-d-main{
   font-family: explodeOutline;
   font-size: 11em;
   color:#11FFEE;
@@ -33,7 +33,7 @@
   position: fixed;
   top: 37%;
   left: 60%;
-  animation: neonFlicker 30s forwards infinite, rotate 30s forwards infinite;
+  animation: neonFlickerMain 30s forwards infinite, rotate 30s forwards infinite;
   
 }
 
@@ -102,7 +102,7 @@
     stroke-dashoffset: 917;
   }
 }
-@keyframes neonFlicker{
+@keyframes neonFlickerMain{
   14%{
     text-shadow:
       0 0 7px #fff,

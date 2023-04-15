@@ -66,24 +66,23 @@ var counter = 0;
   const showSidebar = () => setSidebar(!sidebar);
   return (
     <>
-      
-      <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav>
-          <NavIcon to='#'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </NavIcon>
-        </Nav>
-        <SidebarNav sidebar={sidebar}>
-          <SidebarWrap>
+        <IconContext.Provider value={{ color: '#fff' }}>
+          <Nav>
             <NavIcon to='#'>
-              <AiIcons.AiOutlineClose onClick={showSidebar} />
+              <FaIcons.FaBars onClick={showSidebar} />
             </NavIcon>
-            {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} renderer={render} />;
-            })}
-          </SidebarWrap>
-        </SidebarNav>
-      </IconContext.Provider>
+          </Nav>
+          <SidebarNav sidebar={sidebar}>
+            <SidebarWrap>
+              <NavIcon to='#'>
+                <AiIcons.AiOutlineClose onClick={showSidebar} />
+              </NavIcon>
+              {SideBarData.map((item, index) => {
+                return <SubMenu item={item} key={index} renderer={render} />;
+              })}
+            </SidebarWrap>
+          </SidebarNav>
+        </IconContext.Provider>
 
     </>
     )
