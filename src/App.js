@@ -2,7 +2,6 @@
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-//import Render from './ArtSpaceApplication/ShapeRenderer'
 
 import { Route } from 'react-router-dom';
 import { BrowserRouter as Router, Switch
@@ -18,6 +17,7 @@ import './App.css';
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
 const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
+
 const Nav = styled.div`
   background: #15171c;
   height: 80px;
@@ -52,9 +52,24 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-var counter = 0;
-
 var render= new ShapeRenderer();
+
+function createSlider(){
+//  <div class="slidecontainer">
+//<input type="range" min = "1" max = "100" class="slider" id="myRange"></input>
+// </div>
+}
+
+function createEditMenu(mousePosition) {
+ // <ContextMenu top={mousePosition.y} left={mousePosition.x}>
+
+   // <li> <input type="range" min = "1" max = "100" class="slider" id="myRange"></input></li>
+  //</ContextMenu> <div top={1150} left={150}>
+
+//<li> <input type="range" min = "1" max = "100" class="slider" id="myRange"></input></li>
+//</div>
+   // {render.getRenderer}
+}
 
 const App = () => {
     
@@ -63,8 +78,7 @@ const App = () => {
   const showSidebar = () => setSidebar(!sidebar);
   return (
     <>
-      
-      <IconContext.Provider value={{ color: '#fff' }}>
+     <IconContext.Provider value={{ color: '#fff' }}>
         <Nav>
           <NavIcon to='#'>
             <FaIcons.FaBars onClick={showSidebar} />
@@ -81,12 +95,8 @@ const App = () => {
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
-
     </>
     )
-
-
-          
 
 }
 
