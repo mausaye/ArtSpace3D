@@ -20,74 +20,171 @@
 }
 
 #AST{
-  position: relative;
-  left: -25%;
+  position: fixed;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
 }
 #three-d{
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  padding-left: 0px;
   font-family: explodeOutline;
-  left: 62.5%;
-  top: 35%;
-  font-size: 10em;
+  font-size: 11em;
   color:#11FFEE;
   font-weight: bold;
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 92px #11FFEE,
-    0 0 102px #11FFEE,
-    0 0 151px #11FFEE;
+  position: fixed;
+  top: 37%;
+  left: 60%;
+  animation: neonFlicker 30s forwards infinite, rotate 30s forwards infinite;
+  
 }
 
 #AST :nth-child(1){
   stroke-dasharray: 917;
   stroke-dashoffset: 917;
-  animation: draw 2s ease forwards;
+  animation: draw 30s ease forwards infinite;
 }
 #AST :nth-child(2){
   stroke-dasharray: 917;
   stroke-dashoffset: 917;
-  animation: draw 2s ease forwards 0.5s;
+  animation: draw 30s ease forwards 0.5s infinite;
 }
 #AST :nth-child(3){
   stroke-dasharray: 917;
   stroke-dashoffset: 917;
-  animation: draw 2s ease forwards 1s;
+  animation: draw 30s ease forwards 1s infinite;
 }
 #AST :nth-child(4){
   stroke-dasharray: 917;
   stroke-dashoffset: 917;
-  animation: draw 2s ease forwards 1.5s;
+  animation: draw 30s ease forwards 1.5s infinite;
 }
 #AST :nth-child(5){
   stroke-dasharray: 917;
   stroke-dashoffset: 917;
-  animation: draw 2s ease forwards 2s;
+  animation: draw 30s ease forwards 2s infinite;
 }
 #AST :nth-child(6){
   stroke-dasharray: 917;
   stroke-dashoffset: 917;
-  animation: draw 2s ease forwards 2.5s;
+  animation: draw 30s ease forwards 2.5s infinite;
+}
+
+
+@keyframes rotate{
+  0% { 
+    transform: rotate(0deg); 
+    font-size: 0em;
+  }
+  15%{
+    transform: rotate(5400deg);
+    font-size: 11em;
+  }
+  15.01%{
+    transform: rotate(0deg);
+    font-size: 11em;
+  }
+  100%{
+    font-size: 11em;
+  }
+
 }
 
 @keyframes draw{
-to{
-  stroke-dashoffset: 0;
-}
-  
-}
-
-@keyframes fillColor{
-  from{
-      fill: transparent;
+  12.5%{
+    stroke-dasharray: 917;
+    stroke-dashoffset: 0;
   }
-  to{
-    fill: #db3eb1;
+  70%{
+    stroke-dasharray: 917;
+    stroke-dashoffset: 0;
   }
-    
+  80%{
+    stroke-dasharray: 917;
+    stroke-dashoffset: 917;
+  }
+}
+@keyframes neonFlicker{
+  14%{
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 50px #11FFEE,
+      0 0 100px #11FFEE;
+    color:#11FFEE;
+  }
+  16%{
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 60px #fff,
+      0 0 90px #fff,
+      0 0 100px #fff,
+      0 0 130px #fff,
+      0 0 180px #fff,
+      0 0 200px #11FFEE,
+      0 0 250px #11FFEE,
+      0 0 300px #11FFEE,
+      0 0 350px #11FFEE,
+      0 0 400px #11FFEE,
+      0 0 450px #11FFEE,
+      0 0 500px #11FFEE,
+      0 0 550px #11FFEE,
+      0 0 600px #11FFEE;
+    color:#11FFEE;
+  }
+  20%{
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 60px #fff,
+      0 0 90px #fff,
+      0 0 100px #fff,
+      0 0 130px #fff,
+      0 0 180px #fff,
+      0 0 200px #11FFEE,
+      0 0 250px #11FFEE,
+      0 0 300px #11FFEE,
+      0 0 350px #11FFEE,
+      0 0 400px #11FFEE,
+      0 0 450px #11FFEE,
+      0 0 500px #11FFEE,
+      0 0 550px #11FFEE,
+      0 0 600px #11FFEE;
+    color:#11FFEE;
+  }
+  21%, 22%, 25%, 35%, 36.5%, 40%, 41%, 53%, 57%, 57.8%, 63%, 65.5%, 73%, 74%{
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 60px #11FFEE,
+      0 0 90px #11FFEE,
+      0 0 100px #11FFEE,
+      0 0 130px #11FFEE,
+      0 0 180px #11FFEE,
+      0 0 200px #11FFEE;
+    color:#11FFEE;
+  }
+  24%, 36%, 40.2%, 55%, 57.5%, 64%, 73.2% {       
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 50px #11FFEE,
+      0 0 100px #11FFEE;
+    color:#11FFEE;
+  }
+  85%{
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #11FFEE;
+    color:#11FFEE;
+  }
+  90%{
+    text-shadow: none;
+    color:#280034;
+  }
+  100%{
+    text-shadow: none;
+    color:#280034;
+  }
 }
 
 .buttonOne {
