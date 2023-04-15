@@ -5,11 +5,12 @@ import * as IoIcons from 'react-icons/io';
 import * as RiIcons from 'react-icons/ri';
 import * as BiIcons from 'react-icons/bi';
 import * as TbIcons from 'react-icons/tb';
+import { SketchPicker } from 'react-color';
 
 export const SideBarData = [
   {
     title: 'Shapes',
-    path: '/shapes',
+    
     icon: <FaIcons.FaShapes />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -17,19 +18,19 @@ export const SideBarData = [
     subNav: [
       {
         title: 'Cube',
-        path: '/shapes/users',
+       
         icon: <BiIcons.BiCube />
       },
       {
         title: 'Cone',
-        path: '/shapes/revenue',
+        
         icon: <TbIcons.TbCone />
       }
     ]
   },
   {
     title: 'Camera',
-    path: '/camera',
+    
     icon: <AiIcons.AiFillCamera />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -37,32 +38,28 @@ export const SideBarData = [
     subNav: [
       {
         title: 'Shadow',
-        path: '/reports/reports1',
+        
         icon: <IoIcons.IoIosPaper />,
         cName: 'sub-nav'
       },
       {
         title: 'Background',
-        path: '/reports/reports2',
+        
         icon: <IoIcons.IoIosPaper />,
         cName: 'sub-nav'
       },
       {
         title: 'Angle',
-        path: '/reports/reports3',
+        
         icon: <IoIcons.IoIosPaper />
       }
     ]
   },
-  {
-    title: 'Colors',
-    path: '/colors',
-    icon: <AiIcons.AiOutlineBgColors />
-  },
+ 
 
   {
     title: 'Messages Us',
-    path: '/messages',
+    path: '/message',
     icon: <FaIcons.FaEnvelopeOpenText />,
 
     

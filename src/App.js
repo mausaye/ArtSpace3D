@@ -17,6 +17,11 @@ import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
+import { SketchPicker } from 'react-color';
+import { Slider } from 'react-color/lib/components/slider/Slider';
+import { PhotoshopPicker } from 'react-color';
+import { ChromePicker } from 'react-color';
+
 const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
 const Nav = styled.div`
   background: #15171c;
@@ -24,6 +29,12 @@ const Nav = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+`;
+const ColorPickerContainer = styled.div`
+  position: absolute;
+  top: 100px;
+  right: 40px;
+  z-index: 999;
 `;
 
 const NavIcon = styled(Link)`
@@ -57,10 +68,23 @@ var counter = 0;
 var render= new ShapeRenderer();
 
 const App = () => {
+  
     
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+  const [colorPickerOpen, setColorPickerOpen] = useState(false); 
+
+  const [color, setColor] = useState('#fff');
+  const handleColorClick = () => {
+    setColorPickerOpen(!colorPickerOpen);
+  };
+
+  const handleColorChange = (newcolor) => {
+    setColor( newcolor.hex);
+    
+    
+  };
   return (
     <>
       
@@ -76,11 +100,19 @@ const App = () => {
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} renderer={render} />;
+              return <SubMenu item={item} key={index} renderer={render} color={color}/>;
             })}
           </SidebarWrap>
         </SidebarNav>
+        <ColorPickerContainer>
+        <ChromePicker
+  color={color}
+  onChange={handleColorChange}
+  className=''
+/>
+        </ColorPickerContainer>
       </IconContext.Provider>
+      
 
     </>
     )

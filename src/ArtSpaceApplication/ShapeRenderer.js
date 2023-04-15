@@ -1,15 +1,21 @@
 
 import {DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
+import React from 'react'; 
+import { SketchPicker } from 'react-color';
 
-export class ShapeRenderer{
+
+
+export class ShapeRenderer extends React.Component {
+ 
     scene;
     sceneObjects;
     renderer;
     camera;
     controls;
 
-  constructor(){
+  constructor(props){
+      super(props);
       this.scene = new Scene();
 
       const light = new AmbientLight( 0x404040 );
@@ -23,7 +29,7 @@ export class ShapeRenderer{
       this.sceneObjects = [];
       this.renderer = new WebGLRenderer();
       this.renderer.setClearColor(0xffffff);
-      this.renderer.setSize(window.innerWidth * 2, window.innerHeight, false);
+      this.renderer.setSize(window.innerWidth , window.innerHeight, false);
 
 
       this.renderer.setClearColor(0xf0f0f0);
@@ -58,7 +64,9 @@ export class ShapeRenderer{
       this.animate();
       document.body.append(this.renderer.domElement);
    
-  };
+   
+  }
+ 
 
 
   addSphere(radius, position, color){
@@ -77,11 +85,12 @@ export class ShapeRenderer{
     this.sceneObjects.push(cone);
     
   }
+  
 
   addCone(radius, height, radialSegments, position, color){
   
     const geometry = new ConeGeometry(radius, height, radialSegments);
-    const material = new MeshPhongMaterial({ color: 0xff0000 });
+    const material = new MeshPhongMaterial({color: color });
     const cone = new Mesh(geometry, material);
 
     cone.position.z = -10;
@@ -96,9 +105,8 @@ export class ShapeRenderer{
 
   addCube(width, height, depth, position, color){
 
-    const geometry = new BoxGeometry(1, 1, 1);
-
-    const material = new MeshPhongMaterial({ color: 0xff0000 });
+    const geometry = new BoxGeometry(width, height, depth);
+    const material = new MeshPhongMaterial({ color: color });
     const cube = new Mesh(geometry, material);
 
     cube.position.z = -10;
@@ -111,8 +119,10 @@ export class ShapeRenderer{
     this.sceneObjects.push(cube);
     
     this.renderer.render(this.scene, this.camera);
+    
     console.log("Clicked cube");
   }
+ 
   
   renderObjects(){
     
