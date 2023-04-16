@@ -1,8 +1,9 @@
 
-import {Raycaster, AxesHelper, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2} from 'three';
+import {Raycaster, AxesHelper, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, Shape} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import * as THREE from 'three';
 
 export class ShapeRenderer{
     scene;
@@ -13,11 +14,19 @@ export class ShapeRenderer{
     orbitControls;
     raycaster;
     mouse;
+    //screenshot stuff 
+    strDownloadMime;
+    //shotRenderer;
   
 
   constructor(){
     this.raycaster = new Raycaster();
     this.mouse = new Vector2();
+
+    //screenshot stuff 
+    this.strDownloadMime = "image/octet-stream";
+    //this.shotRenderer;
+    //this.saveFile;
 
     var divisions = 20;
     var gridSize = 400;
@@ -43,7 +52,9 @@ export class ShapeRenderer{
       this.camera.position.set( 0, 200, 300 );
 
       this.sceneObjects = [];
-      this.renderer = new WebGLRenderer();
+      this.renderer = new WebGLRenderer({
+        preserveDrawingBuffer: true
+      });
       this.renderer.setClearColor(0xffffff);
       this.renderer.setSize(window.innerWidth, window.innerHeight, false);
       this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -79,11 +90,73 @@ export class ShapeRenderer{
 
       this.animate = this.animate.bind(this);
 
+      
       this.animate();
       document.body.append(this.renderer.domElement);
+      //screenshot stuff 
+      this.screenshotStarter();
+      
+
    
   }
+  //screenshot stuff 
+  screenshotStarter() {
+    var saveLink = document.createElement('div');
+    saveLink.style.position = 'absolute';
+    saveLink.style.top = '500px';
+    saveLink.style.width = '100%';
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<button id="saveLink">Save Frame</button>';
+    document.body.appendChild(saveLink);
+    document.getElementById("saveLink").addEventListener('click', this.saveAsImage);
+    
+    console.log("end");
+    /*
+    this.renderer = new THREE.WebGLRenderer({
+        preserveDrawingBuffer: true
+    });
+    document.getElementById("saveLink").addEventListener('click', this.saveAsImage());
+    console.log("preserve");
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    console.log("bruh");
+    document.body.appendChild(this.renderer.domElement);
+    */
+  }
 
+  saveAsImage = () =>  {
+    console.log("saveAsImage function");
+    var imgData, imgNode;
+
+    try {
+        console.log("almost1");
+        var strMime = "image/jpeg";
+        console.log("almost2");
+        imgData = this.renderer.domElement.toDataURL(strMime);
+        console.log("almost3");
+        this.saveFile(imgData.replace(strMime, this.strDownloadMime), "test.jpg");
+
+    } catch (e) {
+        console.log("almost4");
+        console.log(e);
+        return;
+    }
+  }
+
+  saveFile(strData, filename){
+    console.log("saveFile function");
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        document.body.appendChild(link); //Firefox requires the link to be in the body
+        link.download = filename;
+        link.href = strData;
+        link.click();
+        document.body.removeChild(link); //remove the link when done
+    } 
+}
+
+//
   onWindowResize() {
 
     this.camera.aspect = window.innerWidth / window.innerHeight;

@@ -1,12 +1,14 @@
 
-import { createRoot } from 'react-dom/client'
-import React, { useRef, useState, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { createRoot } from 'react-dom/client';
+import React, { useRef, useState, useEffect, createRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import {createFileName, useScreenshot} from 'use-react-screenshot';
 
 import { Route } from 'react-router-dom';
 import { BrowserRouter as Router, Switch
  } from 'react-router-dom';
  
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as FaIcons from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 import './ArtSpaceApplication/SideBar/SideBar.css'
@@ -17,6 +19,7 @@ import './App.css';
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
 const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
+
 
 const Nav = styled.div`
   background: #15171c;
@@ -76,6 +79,27 @@ const App = () => {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+
+  /*
+  const ref = createRef(null);
+  const [image, takeScreenshot] = useScreenshot({
+    type: 'image/jpeg',
+    quality: 1.0
+  })
+
+  const download = (image, {name="test", extension="jpg"}={}) => {
+    const a = document.createElement('a');
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  }
+
+  const downloadScreenshot = () => {
+    takeScreenshot(ref.current).then(download);
+  }
+
+  */
+
   return (
     <>
      <IconContext.Provider value={{ color: '#fff' }}>
@@ -96,8 +120,29 @@ const App = () => {
         </SidebarNav>
       </IconContext.Provider>
     </>
+    
     )
 
 }
 
 export default App;
+
+/*
+<IconContext.Provider value={{ color: '#fff' }}>
+        <Nav>
+          <NavIcon to='#'>
+            <FaIcons.FaBars onClick={showSidebar} />
+          </NavIcon>
+        </Nav>
+        <SidebarNav sidebar={sidebar}>
+          <SidebarWrap>
+            <NavIcon to='#'>
+              <AiIcons.AiOutlineClose onClick={showSidebar} />
+            </NavIcon>
+            {SideBarData.map((item, index) => {
+              return <SubMenu item={item} key={index} renderer={render} />;
+            })}
+          </SidebarWrap>
+        </SidebarNav>
+      </IconContext.Provider>
+*/
