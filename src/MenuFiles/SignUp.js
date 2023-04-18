@@ -1,9 +1,9 @@
+
 import React,{ useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import './SignUp.css';
 import StartPage from './StartPage'
 import validator from "validator";
-import PasswordChecklist from "react-password-checklist"
 
 export default function SignUp() {
     const [message, setMessage] = useState('');
@@ -28,8 +28,6 @@ export default function SignUp() {
         var lowerCase = /[a-z]/g;
         var upperCase = /[A-Z]/g;
         var numbers = /[0-9]/g;
-
-
         if (!password.match(lowerCase)) {
             setErrorPassword("Password should contain a lowercase letters");
         } else if (!password.match(upperCase)) {
