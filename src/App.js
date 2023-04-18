@@ -2,6 +2,7 @@
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
+//import Render from './ArtSpaceApplication/ShapeRenderer'
 
 import { Route } from 'react-router-dom';
 import { BrowserRouter as Router, Switch
@@ -16,8 +17,7 @@ import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
-const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
-
+import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 const Nav = styled.div`
   background: #15171c;
   height: 80px;
@@ -52,12 +52,13 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-var render= new ShapeRenderer();
+//var render= new ShapeRenderer();
 
 function createSlider(){
+  
 //  <div class="slidecontainer">
-//<input type="range" min = "1" max = "100" class="slider" id="myRange"></input>
-// </div>
+  //<input type="range" min = "1" max = "100" class="slider" id="myRange"></input>
+ // </div>
 }
 
 function createEditMenu(mousePosition) {
@@ -78,6 +79,8 @@ const App = () => {
   const showSidebar = () => setSidebar(!sidebar);
   return (
     <>
+  
+    
      <IconContext.Provider value={{ color: '#fff' }}>
         <Nav>
           <NavIcon to='#'>
@@ -90,11 +93,15 @@ const App = () => {
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} renderer={render} />;
+              return <SubMenu item={item} key={index} />;
             })}
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
+      
+      <ShapeRenderer/>
+    
+
     </>
     )
 

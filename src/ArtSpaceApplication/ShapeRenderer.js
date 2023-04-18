@@ -1,100 +1,106 @@
 
-import {Raycaster, AxesHelper, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2} from 'three';
+import { createRef, Component } from 'react';
+import {Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 
-export class ShapeRenderer{
+class ShapeRenderer extends Component{
     scene;
     sceneObjects;
     renderer;
     camera;
     controls;
     orbitControls;
-    raycaster;
+    raycaster = new Raycaster();;
     mouse;
-  
 
-  constructor(){
-    this.raycaster = new Raycaster();
-    this.mouse = new Vector2();
-
-    var divisions = 20;
-    var gridSize = 400;
+  constructor(props){
+    super(props);
+    this.canvasRef = createRef();
+  }
+  componentDidMount(){
+    const canvas = this.s
     // Scene setup
-      this.scene = new Scene();
-      this.scene.add( new GridHelper(gridSize, divisions) );
-      const plane = new Mesh(
-        new PlaneGeometry(gridSize, gridSize),
-        new MeshBasicMaterial({
-          side: DoubleSide
-        })
-      )
-      plane.rotateX(-Math.PI/2);
+    this.scene = new Scene();
+    this.setUpGrid(this.scene, 20,400);
 
-      this.scene.add(plane);
-      const light = new AmbientLight( 0x404040 );
-      this.scene.add(light);
+    // Setup lighting sources
+    var lights = []
+    lights[0] = new DirectionalLight(0xffffff, 1);
+    this.scene.add(lights[0])
 
-      const fieldOfView = 60;
-      const aspect = window.innerWidth / window.innerHeight;
-  
-      this.camera = new PerspectiveCamera(fieldOfView, aspect);
-      this.camera.position.set( 0, 200, 300 );
+    // Add camera  
+    const fieldOfView = 60;
+    const aspect = window.innerWidth / window.innerHeight;
+    this.camera = new PerspectiveCamera(fieldOfView, aspect);
+    this.camera.position.set( 0, 200, 300 );
 
-      this.sceneObjects = [];
-      this.renderer = new WebGLRenderer();
-      this.renderer.setClearColor(0xffffff);
-      this.renderer.setSize(window.innerWidth, window.innerHeight, false);
-      this.renderer.setPixelRatio( window.devicePixelRatio );
-      this.renderer.setClearColor(0xf0f0f0);
+    // Add renderer
+    this.sceneObjects = [];
+    this.renderer = new WebGLRenderer();
+    this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight, false);
+    this.renderer.setPixelRatio( window.devicePixelRatio );
+    this.renderer.setClearColor(0xf0f0f0);
+    this.mount.appendChild(this.renderer.domElement);
 
-      const dirLight = new DirectionalLight(0xffffff, 0.6);
-      dirLight.position.set(10, 20, 0); // x, y, z
-      this.scene.add(dirLight);
-
-      this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
-			this.orbitControls.minDistance = 100;
-			this.orbitControls.maxDistance = 700;
-      this.orbitControls.update();
-
-     // this.orbitControls.addEventListener('change', this.render());
-
-			window.addEventListener( 'resize', this.onWindowResize() );
-      
-      window.addEventListener( 'click', this.onMouseClick);
-      
+    // Set orbit controls
+    this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
+		//this.orbitControls.minDistance = 100;
+		//this.orbitControls.maxDistance = 700;
     
-     //this.scene.add(new AxesHelper(50));
-     // const geometry = new BoxGeometry(50, 50, 50);
+    this.orbitControls.update();
 
-     // const material = new MeshPhongMaterial({ color: 0x000000 });
-     // const cube = new Mesh(geometry, material);
-     // this.transformControls.attach(cube);
-    //  console.log(this.transformControls.getMode());
-     // this.scene.add(cube);
-     // this.sceneObjects.push(cube);
+     
+		window.addEventListener( 'resize', this.onWindowResize() );
+  //  window.addEventListener( 'click', this.addTransform() );
+      
+    this.testAdd();
+    
+ //   this.renderObjects();
+    this.renderer.setAnimationLoop(this.renderObjects());
 
-      //this.scene.add(this.transformControls);
+  
 
-      this.animate = this.animate.bind(this);
+   
+  }
+    
+  setUpGrid(scene, divisions, gridSize){
+    scene.add( new GridHelper(gridSize, divisions) );
 
-      this.animate();
-      document.body.append(this.renderer.domElement);
+    const plane = new Mesh(
+      new PlaneGeometry(gridSize, gridSize),
+      new MeshBasicMaterial({
+        side: DoubleSide
+      })
+    )
+
+    plane.rotateX(-Math.PI/2);
+
+    scene.add(plane);
+  }
+
+  testAdd(){
+    const geometry = new BoxGeometry(50, 100, 50);
+    const material = new MeshPhongMaterial({ color: 808080 });
+    this.cube = new Mesh(geometry, material);
+    this.sceneObjects[0] = this.cube;
+ 
+    this.scene.add(this.cube);
    
   }
 
   onWindowResize() {
-
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-
   }
  
-  onMouseClick(orbit){
-    console.log("clicked!");
+  
+  addTransform(){
+    console.log('click');
     this.raycaster.setFromCamera(this.mouse, this.camera);
+
     for(var i = 0; i < this.sceneObjects.length; i++){
       var clickedOnObject = this.raycaster.intersectObject(this.sceneObjects[i]);
 
@@ -113,7 +119,6 @@ export class ShapeRenderer{
       } 
     }
   }
-  
 
   addSphere(radius, position, color){
   
@@ -168,38 +173,37 @@ export class ShapeRenderer{
     
   }
   
-  modifyShapeSize(shapeType, shapeObj, resizeVector){
-    switch(shapeType){
-      case "Cone":
-        shapeObj.scale(resizeVector.x, resizeVector.y)
-        break;
-    }
 
-  }
-
-  renderObjects(){
-    
-    for(var element of this.sceneObjects){
-      this.scene.add(element);
-    }
-
+  renderObjects = () => {
+    console.log("jhi")
     this.renderer.render(this.scene, this.camera);
     
   }
 
-  render() {
 
-    this.renderer.render( this.scene, this.camera );
-
-  }
-
-  animate() {
-    var self = this;
-
-    requestAnimationFrame(self.animate)
-
+  animate = () => {
+    this.frameId = requestAnimationFrame(this.animate)
+    console.log("Hi")
     this.renderer.render(this.scene, this.camera);
+   
 
   }
+  
+  componentWillUnmount() {
+    console.log("cancel")
+  
+    this.mount.removeChild(this.renderer.domElement);
+  }
 
+  render(){
+    return (
+      <div
+       
+        ref={mount => {
+          this.mount = mount;
+        }}
+      />
+    )
+  }
 }
+export default ShapeRenderer;

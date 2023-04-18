@@ -56,7 +56,7 @@ function selectShape(shape, renderer){
 
 }
 
-const SubMenu = ({ item, renderer }) => {
+const SubMenu = ({ item}) => {
   const [subnav, setSubnav] = useState(false);
 
 
@@ -81,11 +81,10 @@ const SubMenu = ({ item, renderer }) => {
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            <DropdownLink to={item.path} key={index} onClick={()=> {renderer.renderObjects();}}>
+            <DropdownLink to={item.path} key={index}>
               {item.icon}
               <SidebarLabel onClick={()=>{
-                 selectShape(item.title, renderer)
-                 console.log(item.title);
+                
               }}>{item.title}</SidebarLabel>
             </DropdownLink>
           );
