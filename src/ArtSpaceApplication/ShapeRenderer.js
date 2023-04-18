@@ -1,9 +1,9 @@
-
 import { createRef, Component } from 'react';
 import {Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import * as THREE from 'three';
 
 class ShapeRenderer extends Component{
     scene;
@@ -15,10 +15,6 @@ class ShapeRenderer extends Component{
     raycaster = new Raycaster();;
     mouse;
 
-  constructor(props){
-    super(props);
-    this.canvasRef = createRef();
-  }
   componentDidMount(){
     const canvas = this.s
     // Scene setup
@@ -50,19 +46,15 @@ class ShapeRenderer extends Component{
 		//this.orbitControls.maxDistance = 700;
     
     this.orbitControls.update();
-
      
 		window.addEventListener( 'resize', this.onWindowResize() );
   //  window.addEventListener( 'click', this.addTransform() );
       
     this.testAdd();
     
- //   this.renderObjects();
-    this.renderer.setAnimationLoop(this.renderObjects());
+   this.renderObjects();
+   // this.renderer.setAnimationLoop(this.renderObjects());
 
-  
-
-   
   }
     
   setUpGrid(scene, divisions, gridSize){
@@ -87,9 +79,8 @@ class ShapeRenderer extends Component{
     this.sceneObjects[0] = this.cube;
  
     this.scene.add(this.cube);
-   
-  }
 
+  }
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();

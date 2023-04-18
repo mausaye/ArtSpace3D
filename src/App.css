@@ -63,3 +63,17 @@
 span{
     margin-left: 16px;
 }
+
+#camera{
+    position: absolute;
+    z-index: 100;
+    
+    font-size: 11em;
+}
+
+.cameraButton{
+    position: absolute;
+    z-index: 200;
+    height: 100px;
+    width: 100px;
+}
