@@ -16,7 +16,7 @@ class ShapeRenderer extends Component{
     mouse;
 
   componentDidMount(){
-    const canvas = this.s
+    
     // Scene setup
     this.scene = new Scene();
     this.setUpGrid(this.scene, 20,400);
@@ -51,6 +51,7 @@ class ShapeRenderer extends Component{
   //  window.addEventListener( 'click', this.addTransform() );
       
     this.testAdd();
+    this.start();
     
    this.renderObjects();
    // this.renderer.setAnimationLoop(this.renderObjects());
@@ -174,15 +175,25 @@ class ShapeRenderer extends Component{
 
   animate = () => {
     this.frameId = requestAnimationFrame(this.animate)
-    console.log("Hi")
+    
     this.renderer.render(this.scene, this.camera);
    
 
   }
   
+  start = () => {
+    if (!this.frameId) {
+      this.frameId = requestAnimationFrame(this.animate);
+    }
+  };
+
+  stop = () => {
+    cancelAnimationFrame(this.frameId);
+  };
+
   componentWillUnmount() {
     console.log("cancel")
-  
+    //this.stop()
     this.mount.removeChild(this.renderer.domElement);
   }
 
