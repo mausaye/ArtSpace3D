@@ -2,8 +2,6 @@
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-//import Render from './ArtSpaceApplication/ShapeRenderer'
-
 import { Route } from 'react-router-dom';
 import { BrowserRouter as Router, Switch
  } from 'react-router-dom';
