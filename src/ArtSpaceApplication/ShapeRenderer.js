@@ -3,7 +3,7 @@ import {Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,Ambient
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
-import * as THREE from 'three';
+import './ShapeRenderer.css'; 
 
 class ShapeRenderer extends Component{
     scene;
@@ -15,8 +15,13 @@ class ShapeRenderer extends Component{
     raycaster = new Raycaster();;
     mouse;
 
+    /*screenshot stuff*/
+    strDownloadMime;
+
   componentDidMount(){
-    
+    //screenshot stuff 
+    this.strDownloadMime = "image/octet-stream";
+
     // Scene setup
     this.scene = new Scene();
     this.setUpGrid(this.scene, 20,400);
@@ -34,7 +39,9 @@ class ShapeRenderer extends Component{
 
     // Add renderer
     this.sceneObjects = [];
-    this.renderer = new WebGLRenderer();
+    this.renderer = new WebGLRenderer({
+      preserveDrawingBuffer: true
+    });
     this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight, false);
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setClearColor(0xf0f0f0);
@@ -53,7 +60,8 @@ class ShapeRenderer extends Component{
     this.testAdd();
     this.start();
     
-   this.renderObjects();
+    this.renderObjects();
+    this.screenshotAbility();
    // this.renderer.setAnimationLoop(this.renderObjects());
 
   }
@@ -183,6 +191,7 @@ class ShapeRenderer extends Component{
   
   start = () => {
     if (!this.frameId) {
+      console.log("start");
       this.frameId = requestAnimationFrame(this.animate);
     }
   };
@@ -193,8 +202,50 @@ class ShapeRenderer extends Component{
 
   componentWillUnmount() {
     console.log("cancel")
-    //this.stop()
+    
     this.mount.removeChild(this.renderer.domElement);
+  }
+
+  /*screenshot stuff*/
+  screenshotAbility() {
+    console.log("scAbility");
+    
+    var saveLink = document.createElement('div');
+    
+    saveLink.style.position = 'absolute';
+    saveLink.style.top = '500px';
+    saveLink.style.width = '100%';
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<i class="fa fa-camera-retro" id="saveLink"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        var imgData;
+
+        try {
+            var strMime = "image/jpeg";
+            imgData = this.renderer.domElement.toDataURL(strMime);
+            this.saveFile(imgData.replace(strMime, this.strDownloadMime), "MyArtSpace.jpg");
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }
+    });
+  }
+
+
+  saveFile(strData, filename){
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        document.body.appendChild(link); 
+        link.download = filename;
+        link.href = strData;
+        link.click();
+        document.body.removeChild(link); 
+    } 
   }
 
   render(){
@@ -204,8 +255,11 @@ class ShapeRenderer extends Component{
         ref={mount => {
           this.mount = mount;
         }}
-      />
+      >
+        
+      </div>
     )
   }
 }
+
 export default ShapeRenderer;

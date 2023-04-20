@@ -1,5 +1,3 @@
-
-
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
@@ -19,6 +17,7 @@ import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
+//const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
 
 import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 
