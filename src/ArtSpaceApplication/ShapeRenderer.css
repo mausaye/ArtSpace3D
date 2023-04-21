@@ -1,0 +1,64 @@
+
+#saveLink{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(13vh, 100px);
+    right:4vh;
+}
+
+#saveCube{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(10vh, 100px);
+    left:5vh;
+}
+
+#saveSphere{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(21vh, 100px);
+    left:5vh;
+}
+
+#saveCone{
+    font-size: 6rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(26vh, 100px);
+    left:4vh;
+}
+
+#savePretzel{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(40vh, 100px);
+    left:3vh;
+}
+
+#saveRing{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(50vh, 100px);
+    left:4vh;
+}
+
+#savePlan{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(60vh, 100px);
+    left:4vh;
+}
+#saveCylinder{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(70vh, 100px);
+    left:4vh;
+}
+

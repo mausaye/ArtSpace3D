@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Vector3 } from 'three';
+import ShapeRenderer from '../ShapeRenderer';
 
 const SidebarLink = styled.div`
   display: flex;
@@ -42,10 +44,11 @@ function selectShape(shape, renderer){
 
   switch(shape){
     case "Cube":
-      renderer.addCube(1,1,1);
+      renderer.addCube(50, 50, 50, new Vector3(0,0,0), 0x111111);
       break;
     case "Cone":
       renderer.addCone(1,2,32);
+      console.log("cone pressed and added");
       break;
     
   }
@@ -54,15 +57,14 @@ function selectShape(shape, renderer){
 
 }
 
-const SubMenu = ({ item, renderer }) => {
+const SubMenu = ({item}) => {
   const [subnav, setSubnav] = useState(false);
 
-  console.log(renderer);
-  const showSubnav = () => setSubnav(!subnav);
+  //const showSubnav = () => setSubnav(!subnav);
 
   return (
     <>
-    
+      
       <SidebarLink to={item.path} onClick={()=> setSubnav(true)}>
         <div>
           {item.icon}
@@ -80,17 +82,13 @@ const SubMenu = ({ item, renderer }) => {
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            <DropdownLink to={item.path} key={index} onClick={()=> {
-                renderer.addCube(1,1,1, (0,0,0))
-                renderer.renderObjects();
-                console.log("THE CUBE HAD LANDED");
-                }}>
+            <DropdownLink to={item.path} key={index}>
               {item.icon}
               <SidebarLabel onClick={()=>{
-                 selectShape(item.title, renderer)
-                console.log(item.title);
+               
               }}>{item.title}</SidebarLabel>
             </DropdownLink>
+        
           );
         })}
         
