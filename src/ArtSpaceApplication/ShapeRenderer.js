@@ -1,5 +1,5 @@
 import { createRef, Component } from 'react';
-import {Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry} from 'three';
+import {Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
@@ -12,62 +12,94 @@ class ShapeRenderer extends Component{
     camera;
     controls;
     orbitControls;
-    raycaster = new Raycaster();;
+    raycaster;
     mouse;
-    cube; 
+    dragControls;
 
     /*screenshot stuff*/
-    strDownloadMime;
+    strDownloadMime;  
 
-  componentDidMount(){
+init(){
+  this.raycaster = new Raycaster();
+  this.sceneObjects = [];
+  //console.log(this.raycaster);
+  //console.log(this.sceneObjects)
+  //this.scene.add(this.sceneObjects);
+}
+componentDidMount(){
+
     //screenshot stuff 
-    this.strDownloadMime = "image/octet-stream";
+  this.strDownloadMime = "image/octet-stream";
 
     // Scene setup
-    this.scene = new Scene();
-    this.setUpGrid(this.scene, 20,400);
+  this.scene = new Scene();
+  this.setUpGrid(this.scene, 20,400);
 
     // Setup lighting sources
-    var lights = []
-    lights[0] = new DirectionalLight(0xffffff, 1);
-    this.scene.add(lights[0])
+  var lights = []
+  lights[0] = new DirectionalLight(0xffffff, 1);
+  this.scene.add(lights[0])
 
     // Add camera  
-    const fieldOfView = 60;
-    const aspect = window.innerWidth / window.innerHeight;
-    this.camera = new PerspectiveCamera(fieldOfView, aspect);
-    this.camera.position.set( 0, 200, 300 );
+  const fieldOfView = 60;
+  const aspect = window.innerWidth / window.innerHeight;
+  this.camera = new PerspectiveCamera(fieldOfView, aspect);
+  this.camera.position.set( 0, 200, 300 );
 
     // Add renderer
-    this.sceneObjects = [];
-    this.renderer = new WebGLRenderer({
-      preserveDrawingBuffer: true
-    });
-    this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight, false);
-    this.renderer.setPixelRatio( window.devicePixelRatio );
-    this.renderer.setClearColor(0xf0f0f0);
-    this.mount.appendChild(this.renderer.domElement);
+  this.renderer = new WebGLRenderer({
+    preserveDrawingBuffer: true
+  });
+  this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight, false);
+  this.renderer.setPixelRatio( window.devicePixelRatio );
+  this.renderer.setClearColor(0xf0f0f0);
+  this.mount.appendChild(this.renderer.domElement);
 
-    // Set orbit controls
-    this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
-		//this.orbitControls.minDistance = 100;
-		//this.orbitControls.maxDistance = 700;
-    
-    this.orbitControls.update();
-     
-		window.addEventListener( 'resize', this.onWindowResize() );
-  //  window.addEventListener( 'click', this.addTransform() );
-      
    
-    this.start();
-    
-    this.renderObjects();
-    this.addCubeForMe(); 
-    this.addSphereForMe(); 
-    this.addConeForMe(); 
-    this.screenshotAbility();
-    
-   // this.renderer.setAnimationLoop(this.renderObjects());
+  
+  window.addEventListener( 'resize', this.onWindowResize() );
+  //  window.addEventListener( 'click', this.addTransform() );
+
+  this.renderer.domElement.addEventListener( 'mousedown', this.add_remove_transform );
+
+  this.init();
+
+  //this.testAdd();
+  this.start();
+
+  const geometry = new BoxGeometry(50, 100, 50);
+  const material = new MeshPhongMaterial({ color: 808080 });
+  this.cube = new Mesh(geometry, material);
+  this.sceneObjects.push(this.cube); 
+  this.scene.add(this.cube);
+  
+   // Set orbit controls
+  var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
+   //this.orbitControls.minDistance = 100;
+   //this.orbitControls.maxDistance = 700;
+   
+ orbitControls.update();
+ this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
+ console.log("this drag" + this.sceneObjects)
+ this.dragControls.addEventListener("dragstart", function(event){
+  console.log("drag started");
+   orbitControls.enabled = false;
+ })
+
+ this.dragControls.addEventListener("dragend", function(event){
+  orbitControls.enabled = true;
+ })
+
+ 
+  this.screenshotAbility();
+  this.renderObjects();
+  this.addCubeForMe(); 
+  this.addSphereForMe(); 
+  this.addConeForMe(); 
+  this.screenshotAbility();
+  //  this.testCube();
+
+  // this.renderer.setAnimationLoop(this.renderObjects());
 
   }
     
@@ -86,24 +118,14 @@ class ShapeRenderer extends Component{
     scene.add(plane);
   }
 
-  testAdd(){
-    const geometry = new BoxGeometry(50, 100, 50);
-    const material = new MeshPhongMaterial({ color: 808080 });
-    this.cube = new Mesh(geometry, material);
-    this.sceneObjects[0] = this.cube;
- 
-    this.scene.add(this.cube);
-
-  }
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
  
-  
   addTransform(){
-    console.log('click');
+
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
     for(var i = 0; i < this.sceneObjects.length; i++){
@@ -158,29 +180,43 @@ class ShapeRenderer extends Component{
     
   }
 
-  addCube(width, height, depth, position, color){
 
+  testAdd(){
+    const geometry = new BoxGeometry(50, 100, 50);
+    const material = new MeshPhongMaterial({ color: 808080 });
+    this.cube = new Mesh(geometry, material);
+    this.sceneObjects[0] = this.cube;
+ 
+    this.scene.add(this.cube);
+
+  }
+
+  addCube(width, height, depth, position, color){
+    console.log("creating cube")
     const geometry = new BoxGeometry(width, height, depth);
 
     const material = new MeshPhongMaterial({ color: color });
     const cube = new Mesh(geometry, material);
 
-    cube.position.z = position.z;
-
     cube.position.x = position.x;
     cube.position.y = position.y;
+    cube.position.z = position.z;
    
     this.scene.add(cube);
     this.sceneObjects.push(cube);
+  
     //this.scene.add(this.transformControls);
     
-   // this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.camera);
     
   }
   
 
   renderObjects = () => {
-    console.log("jhi")
+
+    //for(var i = 0; i < this.sceneObjects.length; i++){
+      //this.scene.add(this.sceneObjects[i])
+    //}
     this.renderer.render(this.scene, this.camera);
     
   }
@@ -190,7 +226,7 @@ class ShapeRenderer extends Component{
     this.frameId = requestAnimationFrame(this.animate)
     
     this.renderer.render(this.scene, this.camera);
-   
+   //this.renderObjects();
 
   }
   
@@ -211,9 +247,24 @@ class ShapeRenderer extends Component{
     this.mount.removeChild(this.renderer.domElement);
   }
 
+  add_remove_transform(){
+    
+   /* var intersects = this.raycaster.intersectObject(this.sceneObjects, true);
+   
+    if(intersects.length > 0){
+      let object = intersects[0].object;
+
+      this.transformControls.attach(object);
+      this.scene.add(this.sceneObjects);
+      this.renderObjects();
+      
+    }*/
+  }
+
+
+
   /*screenshot stuff*/
   screenshotAbility() {
-    console.log("scAbility");
     
     var saveLink = document.createElement('div');
     
@@ -227,7 +278,15 @@ class ShapeRenderer extends Component{
     this.mount.appendChild(saveLink);
     
     saveLink.addEventListener('click', () =>{
-        var imgData;
+      console.log("screen shot clicked")
+      const geometry = new BoxGeometry(50, 100, 50);
+    const material = new MeshPhongMaterial({ color: 808080 });
+    this.cube = new Mesh(geometry, material);
+    this.sceneObjects[0] = this.cube;
+ 
+    this.scene.add(this.cube);
+      // this.addCube(100,100,100, (0,0,0), 0xffffff)
+       /*   var imgData;
 
         try {
             var strMime = "image/jpeg";
@@ -238,6 +297,7 @@ class ShapeRenderer extends Component{
             console.log(e);
             return;
         }
+        */
     });
   }
 
@@ -355,12 +415,10 @@ class ShapeRenderer extends Component{
   render(){
     return (
       <div
-       
         ref={mount => {
           this.mount = mount;
         }}
       >
-        
       </div>
     )
   }
