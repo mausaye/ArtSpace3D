@@ -15,6 +15,7 @@ class ShapeRenderer extends Component{
     raycaster;
     mouse;
     dragControls;
+    color; 
 
     /*screenshot stuff*/
     strDownloadMime;  
@@ -97,6 +98,9 @@ componentDidMount(){
   this.addSphereForMe(); 
   this.addConeForMe(); 
   this.screenshotAbility();
+  this.addPretzelForMe(); 
+  this.addRingForMe(); 
+  this.addPlaneForMe(); 
   //  this.testCube();
 
   // this.renderer.setAnimationLoop(this.renderObjects());
@@ -150,7 +154,7 @@ componentDidMount(){
   addSphere(radius, position, color){
   
     const geometry = new SphereGeometry(radius);
-    const material = new MeshBasicMaterial({ color: 0xff0000 });
+    const material = new MeshBasicMaterial({ color: color });
     const cone = new Mesh(geometry, material);
 
     cone.position.z = -10;
@@ -166,7 +170,7 @@ componentDidMount(){
   addCone(radius, height, radialSegments, position, color){
   
     const geometry = new ConeGeometry(radius, height, radialSegments);
-    const material = new MeshPhongMaterial({ color: 0xff0000 });
+    const material = new MeshPhongMaterial({ color: color });
     const cone = new Mesh(geometry, material);
 
     cone.position.z = -10;
@@ -179,6 +183,7 @@ componentDidMount(){
     this.sceneObjects.push(cone);
     
   }
+
 
 
   testAdd(){
@@ -334,6 +339,40 @@ componentDidMount(){
     });
   }
 
+  addPretzelForMe() {
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<i class="fa fa-ravelry" id="savePretzel"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new BoxGeometry(50, 100, 50); 
+      const material = new MeshBasicMaterial({color: 808080}); 
+      this.cube = new Mesh(geometry, material); 
+      this.sceneObjects[0] = this.cube; 
+      this.scene.add(this.cube); 
+      /*
+        try {
+            this.addCube(); 
+            this.render()
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }*/ 
+    });
+  }
+
+
+
   addSphereForMe() {
     console.log("scAbility");
     
@@ -373,12 +412,78 @@ componentDidMount(){
     var saveLink = document.createElement('div');
     
     //saveLink.style.position = 'absolute';
+    
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-caret-up" id="saveCone"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new ConeGeometry(50, 100, 50);
+      const material = new MeshPhongMaterial({ color: 808080 });
+      const cone = new Mesh(geometry, material);
+      this.sceneObjects[0] = cone; 
+      this.scene.add(cone); 
+      /*
+        try {
+            this.addCube(); 
+            this.render()
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }*/ 
+    });
+  }
+
+  addPlaneForMe() {
+    console.log("scAbility");
+    
+    var saveLink = document.createElement('div');
+    
+    saveLink.style.position = 'absolute';
     saveLink.style.left = '100%';
    
     saveLink.style.color = 'white !important';
     saveLink.style.textAlign = 'center';
     saveLink.innerHTML =
-      '<i class="fa fa-caret-up" aria-hidden="true" id="saveCone"></i>';
+      '<i class="fa fa-stop" id="savePlan"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new ConeGeometry(50, 100, 50);
+      const material = new MeshPhongMaterial({ color: 808080 });
+      const cone = new Mesh(geometry, material);
+      this.sceneObjects[0] = cone; 
+      this.scene.add(cone); 
+      /*
+        try {
+            this.addCube(); 
+            this.render()
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }*/ 
+    });
+  }
+
+  addRingForMe() {
+    console.log("scAbility");
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-circle-o-notch" id="saveRing"></i>';
     this.mount.appendChild(saveLink);
     
     saveLink.addEventListener('click', () =>{

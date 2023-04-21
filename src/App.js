@@ -22,6 +22,7 @@ import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
 //import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 import { Shape } from 'three';
 import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
+import { ChromePicker } from 'react-color';
 import addCube from '../src/ArtSpaceApplication/ShapeRenderer.js';
 const Nav = styled.div`
   background: #15171c;
@@ -38,6 +39,12 @@ const NavIcon = styled(Link)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+`;
+const ColorPickerContainer = styled.div`
+  position: absolute;
+  top: 100px;
+  right: 40px;
+  z-index: 999;
 `;
 
 const SidebarNav = styled.nav`
@@ -64,6 +71,18 @@ const App = () => {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+  const [colorPickerOpen, setColorPickerOpen] = useState(false); 
+
+  const [color, setColor] = useState('#fff');
+  const handleColorClick = () => {
+    setColorPickerOpen(!colorPickerOpen);
+  };
+
+  const handleColorChange = (newcolor) => {
+    setColor( newcolor.hex);
+    
+    
+  };
 
  return (
     <>
@@ -78,10 +97,17 @@ const App = () => {
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} props = {<ShapeRenderer/>}></SubMenu>;
+              return <SubMenu item={item} key={index} props = {<ShapeRenderer props= {color} />}></SubMenu>;
             })}
           </SidebarWrap>
         </SidebarNav>
+        <ColorPickerContainer>
+        <ChromePicker
+    color={color}
+   onChange={handleColorChange}
+    className=''
+/>
+        </ColorPickerContainer> 
       </IconContext.Provider>
       
     <ShapeRenderer/>

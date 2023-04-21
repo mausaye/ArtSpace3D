@@ -11,7 +11,7 @@
     font-size: 3rem;
     color: #db3eb1;
     position: fixed;
-    top: max(13vh, 100px);
+    top: max(10vh, 100px);
     left:4vh;
 }
 
@@ -19,7 +19,7 @@
     font-size: 3rem;
     color: #db3eb1;
     position: fixed;
-    top: max(26vh, 100px);
+    top: max(20vh, 100px);
     left:4vh;
 }
 
@@ -27,7 +27,31 @@
     font-size: 3rem;
     color: #db3eb1;
     position: fixed;
-    top: max(39vh, 100px);
+    top: max(30vh, 100px);
+    left:4vh;
+}
+
+#savePretzel{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(40vh, 100px);
+    left:3vh;
+}
+
+#saveRing{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(50vh, 100px);
+    left:4vh;
+}
+
+#savePlan{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(60vh, 100px);
     left:4vh;
 }
 
