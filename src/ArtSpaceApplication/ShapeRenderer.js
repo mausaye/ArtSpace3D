@@ -1,5 +1,5 @@
 import { createRef, Component } from 'react';
-import {Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry} from 'three';
+import {Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
@@ -23,6 +23,25 @@ class ShapeRenderer extends Component{
 init(){
   this.raycaster = new Raycaster();
   this.sceneObjects = [];
+
+   
+   // Set orbit controls
+   var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
+   //this.orbitControls.minDistance = 100;
+   //this.orbitControls.maxDistance = 700;
+   
+  orbitControls.update();
+  this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
+
+  this.dragControls.addEventListener("dragstart", function(event){
+    console.log(this.sceneObjects);
+    orbitControls.enabled = false;
+  })
+
+  this.dragControls.addEventListener("dragend", function(event){
+    orbitControls.enabled = true;
+  })
+
   //console.log(this.raycaster);
   //console.log(this.sceneObjects)
   //this.scene.add(this.sceneObjects);
@@ -56,8 +75,6 @@ componentDidMount(){
   this.renderer.setClearColor(0xf0f0f0);
   this.mount.appendChild(this.renderer.domElement);
 
-   
-  
   window.addEventListener( 'resize', this.onWindowResize() );
   //  window.addEventListener( 'click', this.addTransform() );
 
@@ -73,24 +90,7 @@ componentDidMount(){
   this.cube = new Mesh(geometry, material);
   this.sceneObjects.push(this.cube); 
   this.scene.add(this.cube);
-  
-   // Set orbit controls
-  var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
-   //this.orbitControls.minDistance = 100;
-   //this.orbitControls.maxDistance = 700;
-   
- orbitControls.update();
- this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
- console.log("this drag" + this.sceneObjects)
- this.dragControls.addEventListener("dragstart", function(event){
-  console.log("drag started");
-   orbitControls.enabled = false;
- })
-
- this.dragControls.addEventListener("dragend", function(event){
-  orbitControls.enabled = true;
- })
-
+ 
  
   this.screenshotAbility();
   this.renderObjects();
@@ -287,7 +287,7 @@ componentDidMount(){
       const geometry = new BoxGeometry(50, 100, 50);
     const material = new MeshPhongMaterial({ color: 808080 });
     this.cube = new Mesh(geometry, material);
-    this.sceneObjects[0] = this.cube;
+    this.sceneObjects.push(this.cube);
  
     this.scene.add(this.cube);
       // this.addCube(100,100,100, (0,0,0), 0xffffff)
@@ -306,8 +306,69 @@ componentDidMount(){
     });
   }
 
+  addCylinder(){
+    var cylinder = document.createElement('div');
+
+    cylinder.addEventListener('click', () =>{ 
+      const geometry = new PlaneGeometry(50, 100); 
+      const material = new MeshBasicMaterial({color: 808080}); 
+      var cylinderObj = new Mesh(geometry, material); 
+      this.sceneObjects.push(cylinderObj); 
+      this.scene.add(cylinderObj); 
+    });
+  }
+
+  addRing(){
+    var ring = document.createElement('div');
+
+    ring.addEventListener('click', () =>{ 
+      const geometry = new PlaneGeometry(50, 100); 
+      const material = new MeshBasicMaterial({color: 808080}); 
+      var ringObj = new Mesh(geometry, material); 
+      this.sceneObjects.push(ringObj); 
+      this.scene.add(ringObj); 
+    });
+  }
+
+  addPlane(){
+    var plane = document.createElement('div');
+
+    plane.addEventListener('click', () =>{ 
+      const geometry = new PlaneGeometry(50, 100); 
+      const material = new MeshBasicMaterial({color: 808080}); 
+      var planeObj = new Mesh(geometry, material); 
+      this.sceneObjects.push(planeObj); 
+      this.scene.add(planeObj); 
+    });
+  }
+
+  addCircle(){
+    var circle = document.createElement('div');
+
+    circle.addEventListener('click', () =>{ 
+      const geometry = new CircleGeometry(50, 100, 50); 
+      const material = new MeshBasicMaterial({color: 808080}); 
+      var circleObj = new Mesh(geometry, material); 
+      this.sceneObjects.push(circleObj); 
+      this.scene.add(circleObj); 
+    });
+  }
+
+  addTorusKnot(){
+    var torus = document.createElement('div');
+
+    torus.addEventListener('click', () =>{ 
+      const geometry = new TorusKnotGeometry(10,3,100,16); 
+      const material = new MeshBasicMaterial({color: 808080}); 
+      var torusKnot = new Mesh(geometry, material); 
+      this.sceneObjects.push(torusKnot); 
+      this.scene.add(torusKnot); 
+    });
+  }
+
+  
+
   addCubeForMe() {
-    console.log("scAbility");
     
     var saveLink = document.createElement('div');
     
@@ -325,7 +386,7 @@ componentDidMount(){
       const geometry = new BoxGeometry(50, 100, 50); 
       const material = new MeshBasicMaterial({color: 808080}); 
       this.cube = new Mesh(geometry, material); 
-      this.sceneObjects[0] = this.cube; 
+      this.sceneObjects.push(this.cube); 
       this.scene.add(this.cube); 
       /*
         try {
@@ -392,7 +453,7 @@ componentDidMount(){
       const geometry = new SphereGeometry(50);
       const material = new MeshBasicMaterial({ color: 808080 });
       this.cone = new Mesh(geometry, material);
-      this.sceneObjects[0] = this.cone; 
+      this.sceneObjects.push(this.cone); 
       this.scene.add(this.cone); 
       /*
         try {
@@ -491,7 +552,7 @@ componentDidMount(){
       const geometry = new ConeGeometry(50, 100, 50);
       const material = new MeshPhongMaterial({ color: 808080 });
       const cone = new Mesh(geometry, material);
-      this.sceneObjects[0] = cone; 
+      this.sceneObjects.push(cone); 
       this.scene.add(cone); 
       /*
         try {
