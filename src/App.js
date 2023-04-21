@@ -40,10 +40,13 @@ const NavIcon = styled(Link)`
   justify-content: flex-start;
   align-items: center;
 `;
+
+
 const ColorPickerContainer = styled.div`
   position: absolute;
-  top: 100px;
-  right: 40px;
+  top: 180px;
+  right: 25px;
+  
   z-index: 999;
 `;
 
@@ -97,11 +100,11 @@ const App = () => {
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} props = {<ShapeRenderer props= {color} />}></SubMenu>;
+              return <SubMenu item={item} key={index} props = {<ShapeRenderer color={color} />}></SubMenu>;
             })}
           </SidebarWrap>
         </SidebarNav>
-        <ColorPickerContainer>
+        <ColorPickerContainer className="moveSize">
         <ChromePicker
     color={color}
    onChange={handleColorChange}

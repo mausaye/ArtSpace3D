@@ -15,7 +15,7 @@ class ShapeRenderer extends Component{
     raycaster;
     mouse;
     dragControls;
-    color; 
+  
 
     /*screenshot stuff*/
     strDownloadMime;  
@@ -155,7 +155,7 @@ componentDidMount(){
   addSphere(radius, position, color){
   
     const geometry = new SphereGeometry(radius);
-    const material = new MeshBasicMaterial({ color: color });
+    const material = new MeshBasicMaterial( {color: this.props.color});
     const cone = new Mesh(geometry, material);
 
     cone.position.z = -10;
