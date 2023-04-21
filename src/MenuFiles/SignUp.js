@@ -9,7 +9,12 @@ export default function SignUp() {
     const [message, setMessage] = useState('');
     const [errorEmail, setErrorEmail] = useState(null);
     const [password, setPassword] = useState('');
-    const [errorPassword, setErrorPassword] = useState(null);
+    const [showConstraints, setShowConstraints] = useState(false);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/@#]/.test(password);
+    const isLongEnough = password.length >= 8;
 
     const validateEmail = (e) => {
         var email = e.target.value;
@@ -17,30 +22,29 @@ export default function SignUp() {
         if (validator.isEmail(email)) {
           setErrorEmail(null)
         } else {
-          setErrorEmail("Please, enter valid Email!");
+          setErrorEmail("This is not a valid email");
         }
     };
 
     const validatePassword = (e) => {
-        var password = e.target.value;
-        setPassword(password);
+        setPassword(e.target.value);
 
-        var lowerCase = /[a-z]/g;
-        var upperCase = /[A-Z]/g;
-        var numbers = /[0-9]/g;
-        if (!password.match(lowerCase)) {
-            setErrorPassword("Password should contain a lowercase letters");
-        } else if (!password.match(upperCase)) {
-            setErrorPassword("Password should contain an uppercase letter");
-        } else if (!password.match(numbers)) {
-            setErrorPassword("Password should contain a number");
-        } else if (password.length < 8){
-            setErrorPassword("Password should be longer than 8")
-        } else {
-            setMessage('');
-            setErrorPassword(null);
-        }
     };
+
+    const handleFocus = () => {
+        setShowConstraints(true);
+    };
+    
+    const handleBlur = () => {
+        setShowConstraints(false);
+    };
+    const constraints = [
+        { label: 'At least one uppercase letter', satisfied: hasUppercase },
+        { label: 'At least one lowercase letter', satisfied: hasLowercase },
+        { label: 'At least one number', satisfied: hasNumber },
+        { label: 'At least one special character', satisfied: hasSpecialChar },
+        { label: 'At least 8 characters long', satisfied: isLongEnough },
+    ];
 
 
     const navigate = useNavigate();
@@ -73,15 +77,17 @@ export default function SignUp() {
                 </div>
 
                 <div class ="signup-content" id="password">
-                    <input type="password" placeholder="Enter password" onChange={(e) => validatePassword(e)} />
-                    {errorPassword &&
-                        <div style={{color: 'red'}} class = "errorEmail">
-                            {errorPassword}
-                        </div>}
+                    <input type="password" placeholder="Enter password" onChange={validatePassword} onFocus={handleFocus} onBlur={handleBlur} />
+                    {showConstraints && (
+                        <div class ="constraint">
+                        {constraints.map((constraint, index) => (
+                            <div key={index} style={{ color: constraint.satisfied ? 'green' : 'red' }}>
+                            {constraint.satisfied ? '✔' : '❌'} {constraint.label}
+                            </div>
+                        ))}
+                        </div>
+                    )}
                 </div>
-
-    
-
                 <div class="signup-submit" type="button" > SIGN UP </div>
             </form>
         </div>
