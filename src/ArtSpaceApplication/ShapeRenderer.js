@@ -1,5 +1,5 @@
 import { createRef, Component } from 'react';
-import {Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry} from 'three';
+import {RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
@@ -101,6 +101,7 @@ componentDidMount(){
   this.addPretzelForMe(); 
   this.addRingForMe(); 
   this.addPlaneForMe(); 
+  this.addCylinerForMe(); 
   //  this.testCube();
 
   // this.renderer.setAnimationLoop(this.renderObjects());
@@ -415,7 +416,7 @@ componentDidMount(){
     
     saveLink.addEventListener('click', () =>{
         
-      const geometry = new BoxGeometry(50, 100, 50); 
+      const geometry = new TorusKnotGeometry(10,3,100,16); 
       const material = new MeshBasicMaterial({color: 808080}); 
       this.cube = new Mesh(geometry, material); 
       this.sceneObjects[0] = this.cube; 
@@ -500,6 +501,39 @@ componentDidMount(){
     });
   }
 
+  addCylinerForMe() {
+    console.log("scAbility");
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-database" id="saveCylinder"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new CylinderGeometry(50, 50, 200, 330);
+      const material = new MeshPhongMaterial({ color: 808080 });
+      const cone = new Mesh(geometry, material);
+      this.sceneObjects[0] = cone; 
+      this.scene.add(cone); 
+      /*
+        try {
+            this.addCube(); 
+            this.render()
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }*/ 
+    });
+  }
+
   addPlaneForMe() {
     console.log("scAbility");
     
@@ -516,7 +550,7 @@ componentDidMount(){
     
     saveLink.addEventListener('click', () =>{
         
-      const geometry = new ConeGeometry(50, 100, 50);
+      const geometry = new PlaneGeometry(100, 100);
       const material = new MeshPhongMaterial({ color: 808080 });
       const cone = new Mesh(geometry, material);
       this.sceneObjects[0] = cone; 
@@ -549,7 +583,7 @@ componentDidMount(){
     
     saveLink.addEventListener('click', () =>{
         
-      const geometry = new ConeGeometry(50, 100, 50);
+      const geometry = new RingGeometry(10, 50, 320);
       const material = new MeshPhongMaterial({ color: 808080 });
       const cone = new Mesh(geometry, material);
       this.sceneObjects.push(cone); 

@@ -54,4 +54,11 @@
     top: max(60vh, 100px);
     left:4vh;
 }
+#saveCylinder{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(70vh, 100px);
+    left:4vh;
+}
 
