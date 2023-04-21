@@ -51,3 +51,36 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
         throw new Error("Invalid user data");
     }
 });
+
+/* 
+@description Authenticate user and get token
+@route POST /api/users/login
+@access public
+*/
+export const authenticateUser = expressAsyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }) // find the one user with the matching email
+
+    if (user && (await user.matchPassword(password))) {
+        const accessToken = generateAccessToken(user._id)
+
+        // add refreshToken to db
+        const refreshToken = generateRefreshToken(user._id)
+        user.refreshToken = refreshToken
+        // pass refresh token as a response cookie
+        setRefreshTokenCookie(res, refreshToken)
+        // res.cookie("refreshToken", refreshToken, {secure: true, httpOnly: true})
+        await user.save()
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            accessToken: accessToken
+        });
+    } else {
+        res.status(401);
+        throw new Error('Invalid email or password');
+    }
+});

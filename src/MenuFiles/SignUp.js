@@ -63,14 +63,29 @@ export default function SignUp() {
         }
 
         try {
-            await fetch("http://localhost:5001/api/users/", {
+            const response = await fetch("http://localhost:5001/api/users/", {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
                 },
                 body: JSON.stringify(newUser),
             })
+            
+            const { status, statusText } = response;
+
+            if (status === 201) {
+                const loginUserData = await response.json();
+                localStorage.setItem('userInfo', JSON.stringify(loginUserData));
+                navigate('/StartPage');
+            } else if (status === 400) {
+                // api error
+                window.alert('Invalid user data');
+            } else {
+                // other api error
+                window.alert(statusText);
+            }
         } catch (error) {
+            // network error
             window.alert(error);
             return;
         };
