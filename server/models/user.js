@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const userSchema = mongoose.Schema({
-    firstname: { type: String, required: true },
-    lastname: {type: String, required: true},
+    firstName: { type: String, required: true },
+    lastName: {type: String, required: true}, 
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    refreshToken: {type: String, required: true, default: ""}
+    refreshToken: {type: String, required: true, default: "defaultValToBeReplaced"}
 }, {
     timestamps: true
 });
@@ -28,6 +28,6 @@ userSchema.pre('save', async function(next) {
     this.password = await bcrypt.hash(this.password, salt);
 })
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema, 'Accounts');
 
 export default User; 

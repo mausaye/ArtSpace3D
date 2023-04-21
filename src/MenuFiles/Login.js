@@ -32,12 +32,11 @@ export default function LogIn() {
         e.preventDefault();
       
         const newPerson = {
-            name: 'test name',
-            position: 'test position',
-            level: 'test level',
+            email: 'test@gmail.com',
+            password: '1234'
           };
         // This will send a post request to update the data in the database.
-        await fetch("http://localhost:5001/record/add", {
+        await fetch("http://localhost:5001/api/users/", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",

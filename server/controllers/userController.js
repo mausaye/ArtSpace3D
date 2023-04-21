@@ -9,7 +9,7 @@ import { setRefreshTokenCookie } from '../utils/helper.js';
 @access public
 */
 export const registerUser = expressAsyncHandler(async (req, res) => {
-    const { firstname, lastname,email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     const existingUser = await User.findOne({ email }) // find the one user with the matching email
 
@@ -19,10 +19,10 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
-        password
+        password,
     });
 
     if (user) { // if user is created successfully
@@ -31,6 +31,9 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
         // add refreshToken to db
         const refreshToken = generateRefreshToken(user._id)
         user.refreshToken = refreshToken
+        
+        console.log("checkpoint")
+        
         // pass refresh token as a response cookie
         setRefreshTokenCookie(res, refreshToken)
         // res.cookie("refreshToken", refreshToken, {secure: true, httpOnly: true})

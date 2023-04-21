@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -13,6 +14,7 @@ const app = express();
 // middleware to parse json (from req.body)
 app.use(express.json());
 app.use(cookieParser())
+app.use(cors());
 
 app.use((req, res, next) => {
     console.log(req.originalUrl);
