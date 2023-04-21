@@ -14,6 +14,7 @@ class ShapeRenderer extends Component{
     orbitControls;
     raycaster = new Raycaster();;
     mouse;
+    cube; 
 
     /*screenshot stuff*/
     strDownloadMime;
@@ -57,11 +58,15 @@ class ShapeRenderer extends Component{
 		window.addEventListener( 'resize', this.onWindowResize() );
   //  window.addEventListener( 'click', this.addTransform() );
       
-    this.testAdd();
+   
     this.start();
     
     this.renderObjects();
+    this.addCubeForMe(); 
+    this.addSphereForMe(); 
+    this.addConeForMe(); 
     this.screenshotAbility();
+    
    // this.renderer.setAnimationLoop(this.renderObjects());
 
   }
@@ -218,7 +223,7 @@ class ShapeRenderer extends Component{
     saveLink.style.color = 'white !important';
     saveLink.style.textAlign = 'center';
     saveLink.innerHTML =
-        '<i class="fa fa-camera-retro" id="saveLink"></i>';
+    '<i class="fa fa-camera-retro" id="saveLink"></i>';
     this.mount.appendChild(saveLink);
     
     saveLink.addEventListener('click', () =>{
@@ -233,6 +238,105 @@ class ShapeRenderer extends Component{
             console.log(e);
             return;
         }
+    });
+  }
+
+  addCubeForMe() {
+    console.log("scAbility");
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<i class="fa fa-cube" id="saveCube"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new BoxGeometry(50, 100, 50); 
+      const material = new MeshBasicMaterial({color: 808080}); 
+      this.cube = new Mesh(geometry, material); 
+      this.sceneObjects[0] = this.cube; 
+      this.scene.add(this.cube); 
+      /*
+        try {
+            this.addCube(); 
+            this.render()
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }*/ 
+    });
+  }
+
+  addSphereForMe() {
+    console.log("scAbility");
+    
+    var saveLink = document.createElement('div');
+    
+    saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<i class="fa fa-circle"  id="saveSphere"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new SphereGeometry(50);
+      const material = new MeshBasicMaterial({ color: 808080 });
+      this.cone = new Mesh(geometry, material);
+      this.sceneObjects[0] = this.cone; 
+      this.scene.add(this.cone); 
+      /*
+        try {
+            this.addCube(); 
+            this.render()
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }*/ 
+    });
+  }
+
+  addConeForMe() {
+    console.log("scAbility");
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-caret-up" aria-hidden="true" id="saveCone"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new ConeGeometry(50, 100, 50);
+      const material = new MeshPhongMaterial({ color: 808080 });
+      const cone = new Mesh(geometry, material);
+      this.sceneObjects[0] = cone; 
+      this.scene.add(cone); 
+      /*
+        try {
+            this.addCube(); 
+            this.render()
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }*/ 
     });
   }
 

@@ -100,16 +100,15 @@ const App = () => {
   }
 
   */
+ 
 
   return (
     <>
   
     
      <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav>
-          <NavIcon to='#'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </NavIcon>
+        <Nav style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <h1 style={{ color: 'white'}}> Art Space 3D </h1>
         </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>

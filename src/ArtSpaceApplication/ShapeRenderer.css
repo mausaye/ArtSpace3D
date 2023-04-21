@@ -6,3 +6,28 @@
     top: max(13vh, 100px);
     right:4vh;
 }
+
+#saveCube{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(13vh, 100px);
+    left:4vh;
+}
+
+#saveSphere{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(26vh, 100px);
+    left:4vh;
+}
+
+#saveCone{
+    font-size: 3rem;
+    color: #db3eb1;
+    position: fixed;
+    top: max(39vh, 100px);
+    left:4vh;
+}
+
