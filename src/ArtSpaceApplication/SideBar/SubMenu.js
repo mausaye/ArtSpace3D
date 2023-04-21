@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Vector3 } from 'three';
+import ShapeRenderer from '../ShapeRenderer';
 
 const SidebarLink = styled.div`
   display: flex;
@@ -56,14 +57,14 @@ function selectShape(shape, renderer){
 
 }
 
-const SubMenu = ({ item}) => {
+const SubMenu = ({item}) => {
   const [subnav, setSubnav] = useState(false);
-
 
   //const showSubnav = () => setSubnav(!subnav);
 
   return (
     <>
+      
       <SidebarLink to={item.path} onClick={()=> setSubnav(true)}>
         <div>
           {item.icon}
@@ -84,9 +85,10 @@ const SubMenu = ({ item}) => {
             <DropdownLink to={item.path} key={index}>
               {item.icon}
               <SidebarLabel onClick={()=>{
-                
+               
               }}>{item.title}</SidebarLabel>
             </DropdownLink>
+        
           );
         })}
         
