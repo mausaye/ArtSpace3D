@@ -13,6 +13,7 @@ import Rotation from '../MenuFiles/InstructionsTabs/Rotation';
 import ErrorPage from '../MenuFiles/ErrorPage';
 import LogIn from '../MenuFiles/Login';
 import SignUp from '../MenuFiles/SignUp';
+import MessageUs from './SideBar/MessageUs/MessageUs';
 import StartPage from '../MenuFiles/StartPage.js'
 import{
   createBrowserRouter, 
@@ -40,6 +41,11 @@ export default createBrowserRouter([
   {
     path: "/SignUp",
     element: <SignUp/>,
+  },
+  {
+    path: "/message", 
+    element: <MessageUs /> 
+
   },
 
   {
