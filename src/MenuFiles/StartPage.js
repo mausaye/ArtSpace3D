@@ -1,9 +1,18 @@
 import './StartPage.css';
 import {useNavigate} from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 export default function MainMenuRoot() {
     const navigate = useNavigate();
+    const loginUser = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo'));
+
+    useEffect(() => {
+        if (!loginUser) {
+            navigate('/Login');
+        }
+    }, [loginUser, navigate]);
+
 
     function clickStartButton(event){
        navigate('/EnvironmentCreationPage');

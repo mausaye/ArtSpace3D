@@ -1,19 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import createBrowserRouter from './ArtSpaceApplication/mainPage'
-import reportWebVitals from './reportWebVitals';
-
-
+import createBrowserRouter from './ArtSpaceApplication/mainPage.js'
+import reportWebVitals from './reportWebVitals.js';
 import{
     RouterProvider,
   } from "react-router-dom";
 
-
-
-
 import './index.css';
-
-
 
 const router = createBrowserRouter;
 const root = ReactDOM.createRoot(document.getElementById('root'));
