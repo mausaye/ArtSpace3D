@@ -3,7 +3,7 @@ import React from 'react';
 import '../index.css';
 import MainMenuRoot from '../MenuFiles/MainMenuRoot.js';
 //import render from './routes/DummyEnvCreationPage';
-<<<<<<< HEAD
+
 import InstructionsPage from '../MenuFiles/InstructionsPage';
 import GettingStartedInst from '../MenuFiles/InstructionsTabs/GettingStartedInst';
 import Shapes from '../MenuFiles/InstructionsTabs/Shapes';
@@ -16,18 +16,7 @@ import LogIn from '../MenuFiles/Login';
 import SignUp from '../MenuFiles/SignUp';
 import MessageUs from './SideBar/MessageUs/MessageUs';
 import { SketchPicker } from 'react-color';
-=======
-import InstructionsPage from '../MenuFiles/InstructionsPage.js';
-import GettingStartedInst from '../MenuFiles/InstructionsTabs/GettingStartedInst.js';
-import Shapes from '../MenuFiles/InstructionsTabs/Shapes.js';
-import Color from '../MenuFiles/InstructionsTabs/Color.js';
-import Camera from '../MenuFiles/InstructionsTabs/Camera.js';
-import Sizing from '../MenuFiles/InstructionsTabs/Sizing.js';
-import Rotation from '../MenuFiles/InstructionsTabs/Rotation.js';
-import ErrorPage from '../MenuFiles/ErrorPage.js';
-import LogIn from '../MenuFiles/Login.js';
-import SignUp from '../MenuFiles/SignUp.js';
->>>>>>> quynh
+
 import StartPage from '../MenuFiles/StartPage.js'
 import{
   createBrowserRouter, 
