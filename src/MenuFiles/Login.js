@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './LogIn.css';
 import StartPage from './StartPage'
+import SignUp from './SignUp'
 import { useState } from "react";
 import validator from "validator";
 
@@ -67,6 +68,10 @@ export default function LogIn() {
             window.alert(error);
 
         }
+    }
+
+    const backToSignUp = (e) => {
+        navigate('/SignUp'); 
     }
 
     return (
