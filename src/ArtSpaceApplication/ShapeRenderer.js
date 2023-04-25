@@ -85,13 +85,6 @@ componentDidMount(){
   //this.testAdd();
   this.start();
 
-  const geometry = new BoxGeometry(50, 100, 50);
-  const material = new MeshPhongMaterial({ color: 808080 });
-  this.cube = new Mesh(geometry, material);
-  this.sceneObjects.push(this.cube); 
-  this.scene.add(this.cube);
- 
- 
   this.screenshotAbility();
   this.renderObjects();
   this.addCubeForMe(); 
@@ -286,15 +279,9 @@ componentDidMount(){
     this.mount.appendChild(saveLink);
     
     saveLink.addEventListener('click', () =>{
-      console.log("screen shot clicked")
-      const geometry = new BoxGeometry(50, 100, 50);
-    const material = new MeshPhongMaterial({ color: 808080 });
-    this.cube = new Mesh(geometry, material);
-    this.sceneObjects.push(this.cube);
- 
-    this.scene.add(this.cube);
-      // this.addCube(100,100,100, (0,0,0), 0xffffff)
-       /*   var imgData;
+    
+       
+      var imgData;
 
         try {
             var strMime = "image/jpeg";
@@ -305,7 +292,7 @@ componentDidMount(){
             console.log(e);
             return;
         }
-        */
+        
     });
   }
 
