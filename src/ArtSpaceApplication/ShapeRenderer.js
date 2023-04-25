@@ -4,6 +4,7 @@ import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import './ShapeRenderer.css'; 
+import { ChromePicker } from 'react-color';
 
 class ShapeRenderer extends Component{
     scene;
@@ -19,6 +20,18 @@ class ShapeRenderer extends Component{
 
     /*screenshot stuff*/
     strDownloadMime;  
+
+   /* state={
+      color: '#ffffff'
+    }
+    handleColorChange = (color) => {
+      this.setState({ color: color.hex });
+    };*/ 
+
+    constructor(props){
+      super(props);
+    }
+   
 
 init(){
   this.raycaster = new Raycaster();
@@ -84,12 +97,13 @@ componentDidMount(){
 
   //this.testAdd();
   this.start();
-
+  //this is to start the user with a cube 
+/*
   const geometry = new BoxGeometry(50, 100, 50);
-  const material = new MeshPhongMaterial({ color: 808080 });
+  const material = new MeshPhongMaterial({ color:  808080 });
   this.cube = new Mesh(geometry, material);
   this.sceneObjects.push(this.cube); 
-  this.scene.add(this.cube);
+  this.scene.add(this.cube);*/
  
  
   this.screenshotAbility();
@@ -189,14 +203,14 @@ componentDidMount(){
 
   testAdd(){
     const geometry = new BoxGeometry(50, 100, 50);
-    const material = new MeshPhongMaterial({ color: 808080 });
+    const material = new MeshPhongMaterial({ color: this.props.color });
     this.cube = new Mesh(geometry, material);
     this.sceneObjects[0] = this.cube;
  
     this.scene.add(this.cube);
 
   }
-
+/*
   addCube(width, height, depth, position, color){
     console.log("creating cube")
     const geometry = new BoxGeometry(width, height, depth);
@@ -215,7 +229,7 @@ componentDidMount(){
     
     this.renderer.render(this.scene, this.camera);
     
-  }
+  }*/
   
 
   renderObjects = () => {
@@ -284,15 +298,8 @@ componentDidMount(){
     this.mount.appendChild(saveLink);
     
     saveLink.addEventListener('click', () =>{
-      console.log("screen shot clicked")
-      const geometry = new BoxGeometry(50, 100, 50);
-    const material = new MeshPhongMaterial({ color: 808080 });
-    this.cube = new Mesh(geometry, material);
-    this.sceneObjects.push(this.cube);
- 
-    this.scene.add(this.cube);
-      // this.addCube(100,100,100, (0,0,0), 0xffffff)
-       /*   var imgData;
+     
+        var imgData;
 
         try {
             var strMime = "image/jpeg";
@@ -303,7 +310,7 @@ componentDidMount(){
             console.log(e);
             return;
         }
-        */
+        
     });
   }
 
@@ -312,7 +319,7 @@ componentDidMount(){
 
     cylinder.addEventListener('click', () =>{ 
       const geometry = new PlaneGeometry(50, 100); 
-      const material = new MeshBasicMaterial({color: 808080}); 
+      const material = new MeshBasicMaterial({color: this.props.color}); 
       var cylinderObj = new Mesh(geometry, material); 
       this.sceneObjects.push(cylinderObj); 
       this.scene.add(cylinderObj); 
@@ -385,7 +392,7 @@ componentDidMount(){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new BoxGeometry(50, 100, 50); 
-      const material = new MeshBasicMaterial({color: 808080}); 
+      const material = new MeshBasicMaterial({color: this.props.color }); 
       this.cube = new Mesh(geometry, material); 
       this.sceneObjects.push(this.cube); 
       this.scene.add(this.cube); 
@@ -417,7 +424,7 @@ componentDidMount(){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new TorusKnotGeometry(10,3,100,16); 
-      const material = new MeshBasicMaterial({color: 808080}); 
+      const material = new MeshBasicMaterial({color: this.props.color}); 
       this.cube = new Mesh(geometry, material); 
       this.sceneObjects[0] = this.cube; 
       this.scene.add(this.cube); 
@@ -452,7 +459,7 @@ componentDidMount(){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new SphereGeometry(50);
-      const material = new MeshBasicMaterial({ color: 808080 });
+      const material = new MeshBasicMaterial({ color: this.props.color });
       this.cone = new Mesh(geometry, material);
       this.sceneObjects.push(this.cone); 
       this.scene.add(this.cone); 
@@ -485,7 +492,7 @@ componentDidMount(){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new ConeGeometry(50, 100, 50);
-      const material = new MeshPhongMaterial({ color: 808080 });
+      const material = new MeshPhongMaterial({ color: this.props.color });
       const cone = new Mesh(geometry, material);
       this.sceneObjects[0] = cone; 
       this.scene.add(cone); 
@@ -518,7 +525,8 @@ componentDidMount(){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new CylinderGeometry(50, 50, 200, 330);
-      const material = new MeshPhongMaterial({ color: 808080 });
+      const material = new MeshPhongMaterial({ color: this.props.color });
+      console.log("add cylinder"); 
       const cone = new Mesh(geometry, material);
       this.sceneObjects[0] = cone; 
       this.scene.add(cone); 
@@ -551,10 +559,10 @@ componentDidMount(){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new PlaneGeometry(100, 100);
-      const material = new MeshPhongMaterial({ color: 808080 });
-      const cone = new Mesh(geometry, material);
-      this.sceneObjects[0] = cone; 
-      this.scene.add(cone); 
+      const material = new MeshPhongMaterial({ color: this.props.color });
+      const plane = new Mesh(geometry, material);
+      this.sceneObjects[0] = plane; 
+      this.scene.add(plane); 
       /*
         try {
             this.addCube(); 
@@ -584,7 +592,7 @@ componentDidMount(){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new RingGeometry(10, 50, 320);
-      const material = new MeshPhongMaterial({ color: 808080 });
+      const material = new MeshPhongMaterial({ color: this.props.color });
       const cone = new Mesh(geometry, material);
       this.sceneObjects.push(cone); 
       this.scene.add(cone); 
@@ -614,11 +622,15 @@ componentDidMount(){
 
   render(){
     return (
+      <div> 
+     
       <div
         ref={mount => {
           this.mount = mount;
         }}
       >
+        
+      </div>
       </div>
     )
   }
