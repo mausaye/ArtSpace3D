@@ -79,7 +79,9 @@ export default function SignUp() {
                 navigate('/StartPage');
             } else if (status === 400) {
                 // api error
-                window.alert('Invalid user data');
+                window.alert('Email is already used');
+                navigate('/SignUp');
+
             } else {
                 // other api error
                 window.alert(statusText);
@@ -89,8 +91,6 @@ export default function SignUp() {
             window.alert(error);
             return;
         };
-
-        navigate('/StartPage');
     };
     return (
         <div class="login">
