@@ -15,12 +15,14 @@ class ShapeRenderer extends Component{
     raycaster;
     mouse;
     dragControls;
+    mySidebar;
   
 
     /*screenshot stuff*/
     strDownloadMime;  
 
 init(){
+  this.mySidebar = document.createElement('div');
   this.raycaster = new Raycaster();
   this.sceneObjects = [];
 
@@ -86,15 +88,19 @@ componentDidMount(){
   this.start();
 
   this.screenshotAbility();
+  this.sidemenuAbility();
+  
   this.renderObjects();
-  this.addCubeForMe(); 
-  this.addSphereForMe(); 
-  this.addConeForMe(); 
-  this.screenshotAbility();
+  
+  //this.addCubeForMe(); 
+  //this.addSphereForMe(); 
+  //this.addConeForMe(); 
+  /*
   this.addPretzelForMe(); 
   this.addRingForMe(); 
   this.addPlaneForMe(); 
   this.addCylinerForMe(); 
+  */
   //  this.testCube();
 
   // this.renderer.setAnimationLoop(this.renderObjects());
@@ -263,6 +269,104 @@ componentDidMount(){
   }
 
 
+  sidemenuAbility(){
+    this.mySidebar.innerHTML = 
+    '<div id="mySidebar"><a href="javascript:void(0)" id="closebtn" >×</a><a href="#" id="3dShapes">3D Shapes</a><div id="dropdown-container-3d"><a href="#" id="cube">Cube</a><a href="#" id="sphere">Sphere</a><a href="#" id="cone">Cone</a><a href="#" id="cylinder">Cylinder</a><a href="#" id="knot">Knot</a></div><a href="#" id="2dShapes">2D Shapes</a><div id=dropdown-container-2d><a href="#" id="2dRing">Ring</a><a href="#" id="2dSquare">Square</a></div><a href="#" id="Support">Support</a></div>';
+    this.mount.appendChild(this.mySidebar);
+    
+    var sidemenuOpen = document.createElement('div');
+    sidemenuOpen.style.position = 'absolute';
+    sidemenuOpen.style.top = '100px';
+    sidemenuOpen.style.left = '50px';
+    sidemenuOpen.style.fontSize = '3rem';
+    sidemenuOpen.innerHTML =
+    '<i class="fa fa-bars" aria-hidden="true" id="menuIcon"></i>';
+    this.mount.appendChild(sidemenuOpen);
+    sidemenuOpen.addEventListener('click', () =>{
+      document.getElementById('mySidebar').style.width = "20vw";
+      document.getElementById('closebtn').addEventListener('click', () => {
+        document.getElementById('mySidebar').style.width = "0vw";
+      });
+      var threeDropdownShown = false;
+      document.getElementById('3dShapes').addEventListener('click', () => {
+        console.log("3d clicked");
+        if(threeDropdownShown==false){
+          threeDropdownShown=true;
+          document.getElementById('dropdown-container-3d').style.display = "block";
+          document.getElementById('cube').addEventListener('click', () =>{
+            const geometry = new BoxGeometry(50, 100, 50); 
+            const material = new MeshBasicMaterial({color: 808080}); 
+            this.cube = new Mesh(geometry, material); 
+            this.sceneObjects.push(this.cube); 
+            this.scene.add(this.cube); 
+          });
+          document.getElementById('sphere').addEventListener('click', () =>{
+            const geometry = new SphereGeometry(50);
+            const material = new MeshBasicMaterial({ color: 808080 });
+            this.cone = new Mesh(geometry, material);
+            this.sceneObjects.push(this.cone); 
+            this.scene.add(this.cone); //why is this a cone and not a sphere word
+          });
+          document.getElementById('cone').addEventListener('click', () =>{
+            const geometry = new ConeGeometry(50, 100, 50);
+            const material = new MeshPhongMaterial({ color: 808080 });
+            const cone = new Mesh(geometry, material);
+            this.sceneObjects[0] = cone; 
+            this.scene.add(cone); 
+          });
+          document.getElementById('cylinder').addEventListener('click', () =>{
+            const geometry = new CylinderGeometry(50, 50, 200, 330);
+            const material = new MeshPhongMaterial({ color: 808080 });
+            const cone = new Mesh(geometry, material);
+            this.sceneObjects[0] = cone; 
+            this.scene.add(cone); 
+          });
+          document.getElementById('knot').addEventListener('click', () =>{
+            const geometry = new TorusKnotGeometry(10,3,100,16); 
+            const material = new MeshBasicMaterial({color: 808080}); 
+            this.cube = new Mesh(geometry, material); 
+            this.sceneObjects[0] = this.cube; 
+            this.scene.add(this.cube); 
+          });
+        }
+        else{
+          threeDropdownShown=false;
+          document.getElementById('dropdown-container-3d').style.display = "none";
+        }
+      });
+      var twoDropdownShown = false;
+      document.getElementById('2dShapes').addEventListener('click', () => {
+        console.log("2d clicked");
+        if(twoDropdownShown==false){
+          twoDropdownShown=true;
+          document.getElementById('dropdown-container-2d').style.display = "block";
+        
+          document.getElementById('2dRing').addEventListener('click', () =>{
+            const geometry = new RingGeometry(10, 50, 320);
+            const material = new MeshPhongMaterial({ color: 808080 });
+            const cone = new Mesh(geometry, material);
+            this.sceneObjects.push(cone); 
+            this.scene.add(cone); 
+          });
+          document.getElementById('2dSquare').addEventListener('click', () =>{
+            const geometry = new PlaneGeometry(100, 100);
+            const material = new MeshPhongMaterial({ color: 808080 });
+            const cone = new Mesh(geometry, material);
+            this.sceneObjects[0] = cone; 
+            this.scene.add(cone); 
+          });
+          
+        }
+        else{
+          twoDropdownShown=false;
+          document.getElementById('dropdown-container-2d').style.display = "none";
+        }
+      });
+      document.getElementById('Support').addEventListener('click', () => {
+        console.log("Support");
+      });
+    });
+  }
 
   /*screenshot stuff*/
   screenshotAbility() {
@@ -279,11 +383,9 @@ componentDidMount(){
     this.mount.appendChild(saveLink);
     
     saveLink.addEventListener('click', () =>{
-    
-       
+      console.log("screen shot clicked")
       var imgData;
-
-        try {
+        try{
             var strMime = "image/jpeg";
             imgData = this.renderer.domElement.toDataURL(strMime);
             this.saveFile(imgData.replace(strMime, this.strDownloadMime), "MyArtSpace.jpg");
@@ -357,9 +459,9 @@ componentDidMount(){
   }
 
   
-
+/*
   addCubeForMe() {
-    
+  
     var saveLink = document.createElement('div');
     
     //saveLink.style.position = 'absolute';
@@ -378,17 +480,8 @@ componentDidMount(){
       this.cube = new Mesh(geometry, material); 
       this.sceneObjects.push(this.cube); 
       this.scene.add(this.cube); 
-      /*
-        try {
-            this.addCube(); 
-            this.render()
-
-        } catch (e) {
-            console.log(e);
-            return;
-        }*/ 
     });
-  }
+  }*/
 
   addPretzelForMe() {
     
@@ -396,7 +489,6 @@ componentDidMount(){
     
     //saveLink.style.position = 'absolute';
     saveLink.style.left = '100%';
-   
     saveLink.style.color = 'white !important';
     saveLink.style.textAlign = 'center';
     saveLink.innerHTML =
@@ -410,20 +502,10 @@ componentDidMount(){
       this.cube = new Mesh(geometry, material); 
       this.sceneObjects[0] = this.cube; 
       this.scene.add(this.cube); 
-      /*
-        try {
-            this.addCube(); 
-            this.render()
-
-        } catch (e) {
-            console.log(e);
-            return;
-        }*/ 
     });
   }
 
-
-
+  /*
   addSphereForMe() {
     console.log("scAbility");
     
@@ -453,18 +535,12 @@ componentDidMount(){
         } catch (e) {
             console.log(e);
             return;
-        }*/ 
+        }
     });
-  }
+  }*/ 
 
   addConeForMe() {
-    console.log("scAbility");
-    
     var saveLink = document.createElement('div');
-    
-    //saveLink.style.position = 'absolute';
-    
-   
     saveLink.style.color = 'white !important';
     saveLink.style.textAlign = 'center';
     saveLink.innerHTML =
