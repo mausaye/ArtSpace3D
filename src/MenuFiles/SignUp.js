@@ -93,7 +93,7 @@ export default function SignUp() {
         navigate('/StartPage');
     };
     return (
-        <div class="login">
+        <div class="signup">
             <div class="heading">
                 Sign Up
             </div>

@@ -8,17 +8,18 @@
     src: url('../../assets/Fonts/berniershade-regular.otf');
 }
 
-.login{
+.signup{
     background-color: #280034;
     background-size: cover;
     height: 100vh;
+    width: 100%;
+    display: flex;
 }
 
 .heading{
     top: 7vh;
     margin: 0;
-    min-width: 65vw;
-    min-height: 23vh;
+    left: 33%;
     display: flex;
     justify-content: center;
     color: #db3eb1;

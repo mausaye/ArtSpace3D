@@ -12,13 +12,16 @@
     background-color: #280034;
     background-size: cover;
     height: 100vh;
+    width: 100%;
+    display: flex;
+    
 }
 
 .heading{
     top: 7vh;
     margin: 0;
-    min-width: 65vw;
-    min-height: 23vh;
+    min-width: 65vh;
+    left: 33%;
     display: flex;
     justify-content: center;
     color: #db3eb1;
