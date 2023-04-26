@@ -9,10 +9,10 @@ export default function Shapes() {
             <div class="body">
                 Our application has the following shapes:
                 <ul>
-                    <li>3D shapes (cube, sphere, etc.)</li>
-                    <li>2D shaoes (square, circle, etc.)</li>
+                    <li>3D shapes (cube, sphere, cones, knots, and cylinders.)</li>
+                    <li>2D shaoes (square, circle, and rings.)</li>
                 </ul>
-                In order to make shapes materialize in the free space, drag and drop your desired shape from the toolbar into the location of your choice.
+                In order to make shapes materialize in the free space, click your desired shape from the toolbar and the shape will appear at the origin of the grid.
             </div>
             
         </div>
