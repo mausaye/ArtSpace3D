@@ -15,7 +15,7 @@ import ErrorPage from '../MenuFiles/ErrorPage';
 import LogIn from '../MenuFiles/Login';
 import SignUp from '../MenuFiles/SignUp';
 import MessageUs from './SideBar/MessageUs/MessageUs';
-import { SketchPicker } from 'react-color';
+
 
 import StartPage from '../MenuFiles/StartPage.js'
 import{
@@ -49,6 +49,11 @@ export default createBrowserRouter([
   {
     path: "/SignUp",
     element: <SignUp/>,
+  },
+  {
+    path: "/message", 
+    element: <MessageUs /> 
+
   },
 
   {

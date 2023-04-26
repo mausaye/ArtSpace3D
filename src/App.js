@@ -1,12 +1,5 @@
-
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Route } from 'react-router-dom';
-import { BrowserRouter as Router, Switch
- } from 'react-router-dom';
- 
-import * as FaIcons from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 import './ArtSpaceApplication/SideBar/SideBar.css'
 import {SideBarData}  from './ArtSpaceApplication/SideBar/SideBarData';
@@ -15,12 +8,11 @@ import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
-import { SketchPicker } from 'react-color';
-import { Slider } from 'react-color/lib/components/slider/Slider';
-import { PhotoshopPicker } from 'react-color';
+
+import {useNavigate} from 'react-router-dom';
+import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 import { ChromePicker } from 'react-color';
 
-const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
 const Nav = styled.div`
   background: #15171c;
   height: 80px;
@@ -44,6 +36,8 @@ const NavIcon = styled(Link)`
   align-items: center;
 `;
 
+
+
 const SidebarNav = styled.nav`
   background: #15171c;
   width: 250px;
@@ -61,12 +55,16 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-var counter = 0;
 
-var render= new ShapeRenderer();
+
 
 const App = () => {
-  
+
+  const navigate = useNavigate();
+  function clickMessageButton(event){
+    navigate('/message');
+  }
+
     
   const [sidebar, setSidebar] = useState(false);
 
@@ -83,41 +81,47 @@ const App = () => {
     
     
   };
-  return (
+
+
+ return (
+
     <>
-      
-      <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav>
-          <NavIcon to='#'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </NavIcon>
-        </Nav>
+    
+     <IconContext.Provider value={{ color: '#fff' }}>
+     <Nav style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h1 style={{ color: 'white', textAlign: 'center', flexGrow: 3 }}> Art Space 3D </h1>
+           <div style={{ display: 'flex', alignItems: 'center' }} type="button" onClick={clickMessageButton}>
+             <span style={{ marginRight: 10, color: 'white' }}>Message Us</span>
+                 <i className="fa fa-envelope" style={{ color: 'white' }}></i>
+            </div>
+      </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
             <NavIcon to='#'>
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} renderer={render} color={color}/>;
+              return <SubMenu item={item} key={index}  props={{ color }} ></SubMenu>;
             })}
           </SidebarWrap>
         </SidebarNav>
-        <ColorPickerContainer>
+        <ColorPickerContainer className="moveSize">
         <ChromePicker
-  color={color}
-  onChange={handleColorChange}
-  className=''
+    color={color}
+   onChange={handleColorChange}
+    className=''
 />
-        </ColorPickerContainer>
+        </ColorPickerContainer> 
       </IconContext.Provider>
       
+    <ShapeRenderer color={color}/>
+          
 
     </>
+    
     )
-
-
-          
 
 }
 
 export default App;
+

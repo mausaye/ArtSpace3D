@@ -1,153 +1,451 @@
-
-import {DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry} from 'three';
+import { createRef, Component } from 'react';
+import { RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
-import React from 'react'; 
-import { SketchPicker } from 'react-color';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import './ShapeRenderer.css'; 
+import { ChromePicker } from 'react-color';
 
-
-
-export class ShapeRenderer extends React.Component {
- 
+class ShapeRenderer extends Component{
     scene;
     sceneObjects;
     renderer;
     camera;
     controls;
+    orbitControls;
+    raycaster;
+    mouse;
+    dragControls;
+  
+    /*screenshot stuff*/
+    strDownloadMime;  
 
-  constructor(props){
+    constructor(props){
       super(props);
-      this.scene = new Scene();
-
-      const light = new AmbientLight( 0x404040 );
-      this.scene.add(light);
-
-      const fieldOfView = 75;
-      const aspect = window.innerWidth / window.innerHeight;
-  
-      this.camera = new PerspectiveCamera(fieldOfView, aspect);
-     
-      this.sceneObjects = [];
-      this.renderer = new WebGLRenderer();
-      this.renderer.setClearColor(0xffffff);
-      this.renderer.setSize(window.innerWidth , window.innerHeight, false);
-
-
-      this.renderer.setClearColor(0xf0f0f0);
-
-      const dirLight = new DirectionalLight(0xffffff, 0.6);
-      dirLight.position.set(10, 20, 0); // x, y, z
-      this.scene.add(dirLight);
-
-      this.controls = new DragControls( this.sceneObjects, this.camera, this.renderer.domElement );
-      this.controls.activate();
-      this.controls.addEventListener("dragstart", function (event){
-        event.object.material.transparent = true;
-        event.object.material.opacity = 0.5;
-
-      })
-
-      this.controls.addEventListener("dragend", function (event){
-       
-        event.object.material.opacity = 1;
-        
-      })
-
-      this.controls.addEventListener("hoveron", function (event){
-        event.object.material.wireframe = true;
-      })
-
-      this.controls.addEventListener("hoveroff", function (event){
-        event.object.material.wireframe = false;
-      })
-
-      this.animate = this.animate.bind(this);
-      this.animate();
-      document.body.append(this.renderer.domElement);
-   
-   
-  }
- 
-
-
-  addSphere(radius, position, color){
-  
-    const geometry = new SphereGeometry(radius);
-    const material = new MeshBasicMaterial({ color: 0xff0000 });
-    const cone = new Mesh(geometry, material);
-
-    cone.position.z = -10;
-    cone.position.x = 3;
-    cone.rotation.x = 0;
-    cone.rotation.y = 5;
-
-  
-    this.scene.add(cone);
-    this.sceneObjects.push(cone);
-    
-  }
-  
-
-  addCone(radius, height, radialSegments, position, color){
-  
-    const geometry = new ConeGeometry(radius, height, radialSegments);
-    const material = new MeshPhongMaterial({color: color });
-    const cone = new Mesh(geometry, material);
-
-    cone.position.z = -10;
-    cone.position.x = 3;
-    cone.rotation.x = 0;
-    cone.rotation.y = 5;
-    this.scene.add(cone);
-  
-    this.sceneObjects.push(cone);
-    
-  }
-
-  addCube(width, height, depth, position, color){
-
-    const geometry = new BoxGeometry(width, height, depth);
-    const material = new MeshPhongMaterial({ color: color });
-    const cube = new Mesh(geometry, material);
-
-    cube.position.z = -10;
-
-    cube.position.x = -3;
-  cube.rotation.x = 10;
-    cube.rotation.y = 5;
-   
-    this.scene.add(cube);
-    this.sceneObjects.push(cube);
-    
-    this.renderer.render(this.scene, this.camera);
-    
-    console.log("Clicked cube");
-  }
- 
-  
-  renderObjects(){
-    
-    for(var element of this.sceneObjects){
-      this.scene.add(element);
+      this.add_remove_transform = this.add_remove_transform.bind(this);
       
-    }
+     }
+ 
+componentDidMount(){
+   //screenshot stuff 
+   this.strDownloadMime = "image/octet-stream";
 
-    this.renderer.render(this.scene, this.camera);
-    
-    //requestAnimationFrame(renderer);
-  }
+   // Scene setup
+   this.scene = new Scene();
+   this.setUpGrid(this.scene, 20,400);
 
-  animate() {
-    var self = this;
+   // Setup lighting sources
+   var lights = []
+   lights[0] = new DirectionalLight(0xffffff, 1);
+   this.scene.add(lights[0])
 
-    requestAnimationFrame(self.animate)
+   // Add camera  
+   const fieldOfView = 60;
+   const aspect = window.innerWidth / window.innerHeight;
+   this.camera = new PerspectiveCamera(fieldOfView, aspect);
+ 
+   this.camera.position.set( 0, 200, 300 );
 
-    this.renderer.render(this.scene, this.camera);
+   // Add renderer
+   this.renderer = new WebGLRenderer({
+     preserveDrawingBuffer: true
+   });
+  
+   // this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight, false);
+   this.renderer.setPixelRatio( window.devicePixelRatio );
+   this.renderer.setClearColor(0xf0f0f0);
+   this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight)
+   //this.mount.appendChild(this.renderer.domElement);
 
-    
-  }
+   // this.raycaster.setFromCamera(this.mouse, this.camera)
+   this.sceneObjects = [];
+   
+   // Set orbit controls
+   var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
+   //this.orbitControls.minDistance = 100;
+   //this.orbitControls.maxDistance = 700;
+   
+   orbitControls.update();
+   //this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
 
+//   this.dragControls.addEventListener("dragstart", function(event){
+     
+  //   orbitControls.enabled = false;
+  // })
+
+  // this.dragControls.addEventListener("dragend", function(event){
+    // orbitControls.enabled = true;
+  // })
+
+  this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
+  this.scene.add(this.transformControls)
+  //this.transformControls.addEventListener('change');
+  
+  this.transformControls.addEventListener('mouseDown', function () {
+     orbitControls.enabled = false;
+  });
+  this.transformControls.addEventListener('mouseUp', function () {
+      orbitControls.enabled = true;
+  });
+
+  this.raycaster = new Raycaster();
+   //this.raycaster = this.raycaster.bind(this);
+   //this.camera = this.camera.bind(this);
+   //this.scene = this.scene.bind(this);
+
+ 
+   console.log(this.raycaster)
+   this.renderer.domElement.addEventListener( 'click', this.add_remove_transform, false);
+   //this.renderer.domElement.addEventListener( 'pointerdown', this.onclick(), false);
+   //window.addEventListener( 'pointerdown', this.onclick(), false);
+   
+
+   window.addEventListener( 'resize', this.onWindowResize());
+   this.start();
+
+  this.mount.appendChild(this.renderer.domElement);
+  
+  this.screenshotAbility();
+  this.renderObjects();
+  this.addCubeForMe(); 
+  this.addSphereForMe(); 
+  this.addConeForMe(); 
+  this.screenshotAbility();
+  this.addPretzelForMe(); 
+  this.addRingForMe(); 
+  this.addPlaneForMe(); 
+  this.addCylinerForMe(); 
 }
 
 
+add_remove_transform(event){
+  console.log(this.scene.children)
+   if(this.raycaster != undefined && this.scene != undefined){
+    var mouse = new Vector2();
+    mouse.x = (event.clientX / this.mount.clientWidth) * 2 - 1
+    mouse.y = -(event.clientY / this.mount.clientHeight) * 2 + 1
+    //mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+    //mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+   
+    this.raycaster.setFromCamera(mouse, this.camera);
+     var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+     
+     console.log(intersects);
+     console.log(mouse.x);
+     console.log(mouse.y);
+     //console.log(intersects[intersects.length-1].x)
+     //console.log(intersects[intersects.length-1].y)
+
+     if(intersects.length > 0){
+      var object;
+      /*  for(var i = 0; i < intersects.length; i++){
+          if(intersects[i].type != "TransformControlsPlane"){
+            object = intersects[i];
+            break;
+          }
+        }
+      
+        if(object != undefined){
+            console.log(object)
+            this.transformControls.attach(object)
+            this.scene.add(this.transformControls)
+        }*/
+      
+      } else {
+
+      }
+  }
+}
+    
+  setUpGrid(scene, divisions, gridSize){
+    var gridGrouping = new Group();
+
+    gridGrouping.add( new GridHelper(gridSize, divisions) );
+
+    const plane = new Mesh(
+      new PlaneGeometry(gridSize, gridSize),
+      new MeshBasicMaterial({
+        side: DoubleSide
+      })
+    )
+
+    plane.rotateX(-Math.PI/2);
+
+    gridGrouping.add(plane);
+    scene.add(gridGrouping);
+
+  }
+
+  onWindowResize() {
+    if(this.camera!=undefined){
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+    }
+  }
+ 
+  
+  renderObjects = () => {
+
+    this.renderer.render(this.scene, this.camera);
+    
+  }
 
 
+  animate = () => {
+    this.frameId = requestAnimationFrame(this.animate)
+    
+    this.renderer.render(this.scene, this.camera);
+   //this.renderObjects();
+
+  }
+  
+  start = () => {
+    if (!this.frameId) {
+      
+      this.frameId = requestAnimationFrame(this.animate);
+    }
+  };
+
+  stop = () => {
+    cancelAnimationFrame(this.frameId);
+  };
+
+  componentWillUnmount() {
+  
+    this.mount.removeChild(this.renderer.domElement);
+  }
+
+  /*screenshot stuff*/
+  screenshotAbility() {
+    
+    var saveLink = document.createElement('div');
+    
+    saveLink.style.position = 'absolute';
+    saveLink.style.top = '500px';
+    saveLink.style.width = '100%';
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+    '<i class="fa fa-camera-retro" id="saveLink"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+     
+        var imgData;
+
+        try {
+            var strMime = "image/jpeg";
+            imgData = this.renderer.domElement.toDataURL(strMime);
+            this.saveFile(imgData.replace(strMime, this.strDownloadMime), "MyArtSpace.jpg");
+
+        } catch (e) {
+            console.log(e);
+            return;
+        }
+        
+    });
+  }
+
+  addCubeForMe() {
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<i class="fa fa-cube" id="saveCube"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new BoxGeometry(50, 100, 50); 
+      const material = new MeshBasicMaterial({color: this.props.color }); 
+      var cube = new Mesh(geometry, material); 
+      this.sceneObjects.push(cube); 
+      this.scene.add(cube); 
+      
+    });
+  }
+
+  addPretzelForMe() {
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<i class="fa fa-ravelry" id="savePretzel"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new TorusKnotGeometry(10,3,100,16); 
+      const material = new MeshBasicMaterial({color: this.props.color}); 
+      var pret = new Mesh(geometry, material); 
+      this.sceneObjects.push(pret);
+      this.scene.add(pret); 
+      
+    });
+  }
+
+
+  addSphereForMe() {
+    
+    var saveLink = document.createElement('div');
+    
+    saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+        '<i class="fa fa-circle"  id="saveSphere"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new SphereGeometry(50);
+      const material = new MeshBasicMaterial({ color: this.props.color });
+      var sphere = new Mesh(geometry, material);
+      this.sceneObjects.push(sphere); 
+      this.scene.add(sphere); 
+     
+    });
+  }
+
+  addConeForMe() {
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-caret-up" id="saveCone"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new ConeGeometry(50, 100, 50);
+      const material = new MeshPhongMaterial({ color: this.props.color });
+      const cone = new Mesh(geometry, material);
+      this.sceneObjects.push(cone); 
+      this.scene.add(cone); 
+      
+    });
+  }
+
+  addCylinerForMe() {
+    
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-database" id="saveCylinder"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new CylinderGeometry(50, 50, 200, 330);
+      const material = new MeshPhongMaterial({ color: this.props.color });
+
+      const cylinder = new Mesh(geometry, material);
+      this.sceneObjects.push(cylinder); 
+      this.scene.add(cylinder); 
+      
+    });
+  }
+
+
+
+  addPlaneForMe() {
+   
+    var saveLink = document.createElement('div');
+    
+    saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-stop" id="savePlan"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new PlaneGeometry(100, 100);
+      const material = new MeshPhongMaterial({ color: this.props.color });
+      const plane = new Mesh(geometry, material);
+      this.sceneObjects.push(plane); 
+      this.scene.add(plane); 
+      
+    });
+  }
+
+  addRingForMe() {
+   
+    var saveLink = document.createElement('div');
+    
+    //saveLink.style.position = 'absolute';
+    saveLink.style.left = '100%';
+   
+    saveLink.style.color = 'white !important';
+    saveLink.style.textAlign = 'center';
+    saveLink.innerHTML =
+      '<i class="fa fa-circle-o-notch" id="saveRing"></i>';
+    this.mount.appendChild(saveLink);
+    
+    saveLink.addEventListener('click', () =>{
+        
+      const geometry = new RingGeometry(10, 50, 320);
+      const material = new MeshPhongMaterial({ color: this.props.color });
+      const ring = new Mesh(geometry, material);
+      this.sceneObjects.push(ring); 
+      this.scene.add(ring); 
+      console.log("in ring" + this.sceneObjects)
+      
+    });
+  }
+
+
+  saveFile(strData, filename){
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        document.body.appendChild(link); 
+        link.download = filename;
+        link.href = strData;
+        link.click();
+        document.body.removeChild(link); 
+    } 
+  }
+
+  render(){
+    return (
+      <div> 
+     
+      <div
+        ref={mount => {
+          this.mount = mount;
+        }}
+      >
+        
+      </div>
+      </div>
+    )
+  }
+}
+
+export default ShapeRenderer;

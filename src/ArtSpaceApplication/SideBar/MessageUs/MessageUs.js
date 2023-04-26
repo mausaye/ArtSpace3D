@@ -19,20 +19,23 @@ const MessageUs = () => {
       };
   return (
     <section>
-        <div className="main-menu"> 
-        <div > 
-            <h1 class='headingquyen'>
-                Message Us 
-            </h1>
+
+        <div className="message-us-page"> 
+            <div> 
+                <h1 class='headingquyen'>
+                  Message Us 
+                 </h1>
+
             </div>
             
             
             
             <form ref={form} onSubmit={sendEmail} className='--form-control --card --flex-center --dir-column'> 
-            <input type='text' placeholder='Full name' name='user_name' required /> 
-            <input type='email' placeholder='Email' name='user_email' required /> 
-            <input type='text' placeholder='Subject' name='subject' required /> 
-            <textarea name='message' cols='30' rows='10' > </textarea>
+
+            <input className="inputBoxes" type='text' placeholder='Full name' name='user_name' required /> 
+            <input className="inputBoxes" type='email' placeholder='Email' name='user_email' required /> 
+            <input className="inputBoxes" type='text' placeholder='Subject' name='subject' required /> 
+            <textarea className="inputBoxes messageContainer" name='message' cols='30' rows='10' > </textarea>
             <button type='submit' className='--btn --btn-primary '> Send Message </button>
            
 

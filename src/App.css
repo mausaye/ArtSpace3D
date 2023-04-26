@@ -63,14 +63,38 @@
 span{
     margin-left: 16px;
 }
-.fixed-color-picker {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999;
+
+#camera{
+    position: absolute;
+    z-index: 100;
+    
+    font-size: 11em;
+}
+
+.cameraButton{
+    position: absolute;
+    z-index: 200;
+    height: 100px;
+    width: 100px;
+}
+.dev{
+    text-align: center;
+    text-decoration-color: aliceblue;
+}
+.Nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  h1 {
+    color: white;
+    margin: 0;
+  }
+  
+  .message-btn {
+    color: white;
+    cursor: pointer;
   }
 
-.size-color-picker{
-    
-}

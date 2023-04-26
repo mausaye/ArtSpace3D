@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { SketchPicker } from 'react-color';
+
+import { Vector3 } from 'three';
+import ShapeRenderer from '../ShapeRenderer';
+
 
 const SidebarLink = styled.div`
   display: flex;
@@ -39,56 +42,28 @@ const DropdownLink = styled.div`
   }
 `;
 
-function selectShape(shape, renderer, colorx){
-
-  switch(shape){
-    case "Cube":
-      
-      renderer.addCube(1,1,1,1,colorx);
-      break;
-    case "Cone":
-      renderer.addCone(1,2,32,1,colorx);
-      break;
-    
-  }
- 
-
- // renderer.renderObjects();
-
-}
 
 
-const SubMenu = ({ item, renderer,color }) => {
+
+const SubMenu = ({item}) => {
+
   const [subnav, setSubnav] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState(false); 
   const [selectedColor, setSelectedColor] = useState('#008000'); 
 
 
-  //console.log(renderer);
-  const showSubnav = () => {
-    setSubnav(!subnav)
-  };
-  const handleColorClick = () => {
-    setColorPickerOpen(!colorPickerOpen);
-  };
 
-  const handleColorChange = (newcolor) => {
-    setSelectedColor( newcolor.hex);
-    
-    
-  };
-  
-  
+  //const showSubnav = () => setSubnav(!subnav);
 
   return (
     <>
-    
-      <SidebarLink  onClick={showSubnav }>
-        <Link to={item.path} > 
+      
+      <SidebarLink to={item.path} onClick={()=> setSubnav(true)}>
+
         <div>
           {item.icon}
           
-          <SidebarLabel onClick={handleColorClick}>{item.title}</SidebarLabel>
+          
         </div>
         <div>
           {item.subNav && subnav
@@ -97,7 +72,7 @@ const SubMenu = ({ item, renderer,color }) => {
             ? item.iconClosed
             : null}
         </div>
-        </Link>
+
       </SidebarLink>
      
 
@@ -106,22 +81,14 @@ const SubMenu = ({ item, renderer,color }) => {
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            
-            <DropdownLink to={item.path} key={index} onClick={()=> {
-            
-                renderer.renderObjects();
-             
-                }}>
+
+            <DropdownLink to={item.path} key={index}>
               {item.icon}
               <SidebarLabel onClick={()=>{
-                
-                console.log(color)
-                 selectShape(item.title, renderer, color)// rught now color.hex is undefined
-                console.log(item.title);
-              }}>{item.title}
-              </SidebarLabel>
+               
+              }}>{item.title}</SidebarLabel>
             </DropdownLink>
-           
+        
 
           );
         })}
