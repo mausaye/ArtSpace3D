@@ -1,10 +1,9 @@
-import { createRef, Component } from 'react';
+import { Component } from 'react';
 import { MeshLambertMaterial,RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import './ShapeRenderer.css'; 
-import { ChromePicker } from 'react-color';
 
 class ShapeRenderer extends Component{
     scene;
@@ -16,19 +15,22 @@ class ShapeRenderer extends Component{
     raycaster;
     mouse;
     dragControls;
-  
     activeObject;
-    /*screenshot stuff*/
     strDownloadMime;  
 
+    /**
+     * props: retrieves the color from the color picker to bind to shapes
+     */
     constructor(props){
       super(props);
+
+      // This is needed for the add_remove_transform functions so it knows which "this" to refer to
       this.add_remove_transform = this.add_remove_transform.bind(this);
-      
+      this.onWindowResize = this.onWindowResize.bind(this);
      }
  
 componentDidMount(){
-   //screenshot stuff 
+   // Screenshot setup
    this.strDownloadMime = "image/octet-stream";
 
    // Scene setup
@@ -46,7 +48,6 @@ componentDidMount(){
    const fieldOfView = 60;
    const aspect = window.innerWidth / window.innerHeight;
    this.camera = new PerspectiveCamera(fieldOfView, aspect);
- 
    this.camera.position.set( 0, 200, 300 );
 
    // Add renderer
@@ -54,68 +55,24 @@ componentDidMount(){
      preserveDrawingBuffer: true
    });
   
-   // this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight, false);
    this.renderer.setPixelRatio( window.devicePixelRatio );
    this.renderer.setClearColor(0xf0f0f0);
    this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight)
-   //this.mount.appendChild(this.renderer.domElement);
-
-   // this.raycaster.setFromCamera(this.mouse, this.camera)
+   
+   // Objects placed on the screen
    this.sceneObjects = [];
    
-   // Set orbit controls
-   var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
-   //this.orbitControls.minDistance = 100;
-   //this.orbitControls.maxDistance = 700;
-   
-   orbitControls.update();
-   this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
-
-   this.dragControls.addEventListener("dragstart", function(event){
-     
-     orbitControls.enabled = false;
-     
-   })
-
-   this.dragControls.addEventListener("dragend", function(event){
-     orbitControls.enabled = true;
-    
-   })
-
-  this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
-  
-  this.transformControls.addEventListener('change', this.renderObjects);
-  
-  this.transformControls.addEventListener('mouseDown', function () {
-     orbitControls.enabled = false;
-  });
-  this.transformControls.addEventListener('mouseUp', function () {
-      orbitControls.enabled = true;
-  });
-
+  // Raycaster used to detect what objects have been clicked
   this.raycaster = new Raycaster();
  
-   console.log(this.raycaster)
-   this.renderer.domElement.addEventListener( 'click', this.add_remove_transform, false);
+  // Generates window based on screen size
+  this.onWindowResize();
 
-  window.addEventListener("keydown", (event)=> {
-    if(event.code == "KeyR"){
-      this.transformControls.setMode('rotate');
-    } else if (event.code == "KeyT"){
+  // Events
+  this.addShapeEvents();
 
-      this.transformControls.setMode('translate');
-    } else if (event.code == "KeyS"){
-      this.transformControls.setMode('scale');
-    } else if(event.code == "KeyC"){
-      if(this.activeObject!=undefined){
-        this.changeColor(this.activeObject);
-      }
-    } else if(event.code == "KeyD"){
-      this.deleteObject(this.activeObject);
-    }
-  })
-   window.addEventListener( 'resize', this.onWindowResize());
-   this.start();
+  // Starts frame by frame animations
+  this.start();
 
   this.mount.appendChild(this.renderer.domElement);
   
@@ -131,13 +88,85 @@ componentDidMount(){
   this.addCylinerForMe(); 
 }
 
+/*
+ * Event handlers
+ */
+addShapeEvents(){
+   // Set orbit controls
+   var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
+   
+   orbitControls.update();
+
+   // Drag control event listeners
+   this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
+
+   this.dragControls.addEventListener("dragstart", function(event){
+     
+     orbitControls.enabled = false;
+     
+   })
+
+   this.dragControls.addEventListener("dragend", function(event){
+     orbitControls.enabled = true;
+    
+   })
+
+    // Transform control event listeners
+    this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
+    
+    this.transformControls.addEventListener('change', this.renderObjects);
+    
+    this.transformControls.addEventListener('mouseDown', function () {
+      orbitControls.enabled = false;
+    });
+    this.transformControls.addEventListener('mouseUp', function () {
+        orbitControls.enabled = true;
+    });
+
+    // Checks for clicks on objects
+    this.renderer.domElement.addEventListener( 'click', this.add_remove_transform, false);
+
+    // Window event listeners for object color change, transform, and deletion
+    window.addEventListener("keydown", (event)=> {
+    if(event.code == "KeyR"){
+      this.transformControls.setMode('rotate');
+    } else if (event.code == "KeyT"){
+
+      this.transformControls.setMode('translate');
+    } else if (event.code == "KeyS"){
+      this.transformControls.setMode('scale');
+    } else if(event.code == "KeyC"){
+      if(this.activeObject!=undefined){
+        this.changeColor(this.activeObject);
+      }
+    } else if(event.code == "KeyD"){
+      this.deleteObject(this.activeObject);
+    }
+
+    // Window resize
+    window.addEventListener( 'resize', this.onWindowResize);
+  })
+}
+
+/*
+ * Event helper functions
+ */
 deleteObject(object){
   this.scene.remove(object);
   this.transformControls.detach();
 
 }
+
+onWindowResize() {
+  if(this.camera!=undefined){
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+}
+
 changeColor(object){
-  console.log(object);
+  // converts the hex into rgb
   var hex = this.props.color;
 
   const r = parseInt(hex.slice(1, 3), 16)/255.0;
@@ -145,38 +174,40 @@ changeColor(object){
   const b = parseInt(hex.slice(5, 7), 16)/255.0;
 
   object.material.color.setRGB(r,g,b);
-  console.log(object.material.color)
-  console.log(hex)
 
 }
+
 add_remove_transform(event){
   
+  // Object collision detection can only occur when raycast is defined
    if(this.raycaster != undefined && this.scene != undefined){
+
+    // Retrieve mouse coordinates
     var mouse = new Vector2();
     mouse.x = (event.clientX / this.mount.clientWidth) * 2 - 1
     mouse.y = -(event.clientY / this.mount.clientHeight) * 2 + 1
-    //mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-    //mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-   
+ 
     this.raycaster.setFromCamera(mouse, this.camera);
-     var intersects = this.raycaster.intersectObjects(this.scene.children, true);
-     //console.log(this.scene.children);
-    // console.log(this.sceneObjects);
 
-     //console.log(intersects[intersects.length-1].x)
-     //console.log(intersects[intersects.length-1].y)
+    // Finds all the objects intesecting with the mouse position
+    var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
+    // Valid clicks are defined as ones that are of a shape we expect
     var validClicks = false;
     
+    // Checks to see if something was clicked
      if(intersects.length > 0){
       
         for(var i = 0; i < intersects.length; i++){
           var type = intersects[i].object.geometry.type;
+
+          // Check to see if what we clicked is something we can move
           if(this.acceptableType(type)){
             var object = intersects[i].object;
             validClicks = true;
-            console.log("valid clikc");
+  
             this.transformControls.attach(object);
-           this.activeObject=object;
+            this.activeObject=object;
             this.scene.add(this.transformControls);
             break;
           }
@@ -185,6 +216,7 @@ add_remove_transform(event){
       
       } 
 
+      // If not something valid, no transform controls needed
       if(!validClicks){
           this.transformControls.detach();
           this.activeObject = undefined;
@@ -193,9 +225,13 @@ add_remove_transform(event){
   }
 }
     
+/**
+ * General Helper functions
+ */
   acceptableType(type){
     return type == RingGeometry || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "CylinderGeometry" || type == "ConeGeometry";
   }
+
   setUpGrid(scene, divisions, gridSize){
     var gridGrouping = new Group();
 
@@ -215,21 +251,12 @@ add_remove_transform(event){
 
   }
 
-  onWindowResize() {
-    if(this.camera!=undefined){
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
-    }
-  }
- 
-  
+ /**
+  * Render functions
+  */
   renderObjects = () => {
-
     this.renderer.render(this.scene, this.camera);
-    
   }
-
 
   animate = () => {
     this.frameId = requestAnimationFrame(this.animate)
@@ -237,7 +264,12 @@ add_remove_transform(event){
     this.renderer.render(this.scene, this.camera);
 
   }
+
+  componentWillUnmount() {
   
+    this.mount.removeChild(this.renderer.domElement);
+  }
+
   start = () => {
     if (!this.frameId) {
       
@@ -249,12 +281,18 @@ add_remove_transform(event){
     cancelAnimationFrame(this.frameId);
   };
 
-  componentWillUnmount() {
-  
-    this.mount.removeChild(this.renderer.domElement);
+  render(){
+    return (
+      <div> 
+        <div ref={mount => {this.mount = mount;}} >
+        </div>
+      </div>
+    )
   }
 
-  /*screenshot stuff*/
+  /**
+   * Screen shot functions
+   */
   screenshotAbility() {
     
     var saveLink = document.createElement('div');
@@ -285,20 +323,33 @@ add_remove_transform(event){
     });
   }
 
+  saveFile(strData, filename){
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        document.body.appendChild(link); 
+        link.download = filename;
+        link.href = strData;
+        link.click();
+        document.body.removeChild(link); 
+    } 
+  }
+  
+  /**
+   * Shape Functions
+   */
   addCubeForMe() {
     
-    var saveLink = document.createElement('div');
+    var cubeDiv = document.createElement('div');
     
-    //saveLink.style.position = 'absolute';
-    saveLink.style.left = '100%';
    
-    saveLink.style.color = 'white !important';
-    saveLink.style.textAlign = 'center';
-    saveLink.innerHTML =
+    cubeDiv.style.left = '100%';
+    cubeDiv.style.color = 'white !important';
+    cubeDiv.style.textAlign = 'center';
+    cubeDiv.innerHTML =
         '<i class="fa fa-cube" id="saveCube"></i>';
-    this.mount.appendChild(saveLink);
+    this.mount.appendChild(cubeDiv);
     
-    saveLink.addEventListener('click', () =>{
+    cubeDiv.addEventListener('click', () =>{
         
       const geometry = new BoxGeometry(50, 100, 50); 
       const material = new MeshBasicMaterial({color: this.props.color }); 
@@ -407,8 +458,6 @@ add_remove_transform(event){
     });
   }
 
-
-
   addPlaneForMe() {
    
     var saveLink = document.createElement('div');
@@ -455,33 +504,6 @@ add_remove_transform(event){
       this.scene.add(ring); 
       
     });
-  }
-
-
-  saveFile(strData, filename){
-    var link = document.createElement('a');
-    if (typeof link.download === 'string') {
-        document.body.appendChild(link); 
-        link.download = filename;
-        link.href = strData;
-        link.click();
-        document.body.removeChild(link); 
-    } 
-  }
-
-  render(){
-    return (
-      <div> 
-     
-      <div
-        ref={mount => {
-          this.mount = mount;
-        }}
-      >
-        
-      </div>
-      </div>
-    )
   }
 }
 
