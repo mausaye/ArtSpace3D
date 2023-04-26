@@ -17,13 +17,14 @@ import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
+import {useNavigate} from 'react-router-dom';
 //const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
 
 //import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 import { Shape } from 'three';
+import { HiOutlineMail } from 'react-icons/hi';
 import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 import { ChromePicker } from 'react-color';
-import addCube from '../src/ArtSpaceApplication/ShapeRenderer.js';
 const Nav = styled.div`
   background: #15171c;
   height: 80px;
@@ -69,7 +70,12 @@ const SidebarWrap = styled.div`
 
 
 
+
 const App = () => {
+  const navigate = useNavigate();
+  function clickMessageButton(event){
+    navigate('/message');
+  }
     
   const [sidebar, setSidebar] = useState(false);
 
@@ -92,9 +98,13 @@ const App = () => {
 
     
      <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <h1 style={{ color: 'white'}}> Art Space 3D </h1>
-        </Nav>
+     <Nav style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h1 style={{ color: 'white', textAlign: 'center', flexGrow: 3 }}> Art Space 3D </h1>
+           <div style={{ display: 'flex', alignItems: 'center' }} type="button" onClick={clickMessageButton}>
+             <span style={{ marginRight: 10, color: 'white' }}>Message Us</span>
+                 <i className="fa fa-envelope" style={{ color: 'white' }}></i>
+            </div>
+      </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
 
@@ -103,7 +113,7 @@ const App = () => {
             </NavIcon>
 
             {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} props = {<ShapeRenderer color={color} />}></SubMenu>;
+              return <SubMenu item={item} key={index}  props={{ color }} ></SubMenu>;
             })}
           </SidebarWrap>
         </SidebarNav>
@@ -116,7 +126,7 @@ const App = () => {
         </ColorPickerContainer> 
       </IconContext.Provider>
       
-    <ShapeRenderer/>
+    <ShapeRenderer color={color}/>
            
 
 
