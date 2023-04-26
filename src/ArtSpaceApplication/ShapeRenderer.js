@@ -1,5 +1,5 @@
 import { createRef, Component } from 'react';
-import { RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3} from 'three';
+import { MeshLambertMaterial,RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
@@ -38,7 +38,9 @@ componentDidMount(){
    // Setup lighting sources
    var lights = []
    lights[0] = new DirectionalLight(0xffffff, 1);
+   lights[1] = new AmbientLight( 0x404040 ,1); // soft white light
    this.scene.add(lights[0])
+   this.scene.add(lights[1])
 
    // Add camera  
    const fieldOfView = 60;
@@ -104,6 +106,12 @@ componentDidMount(){
       this.transformControls.setMode('translate');
     } else if (event.code == "KeyS"){
       this.transformControls.setMode('scale');
+    } else if(event.code == "KeyC"){
+      if(this.activeObject!=undefined){
+        this.changeColor(this.activeObject);
+      }
+    } else if(event.code == "KeyD"){
+      this.deleteObject(this.activeObject);
     }
   })
    window.addEventListener( 'resize', this.onWindowResize());
@@ -123,7 +131,24 @@ componentDidMount(){
   this.addCylinerForMe(); 
 }
 
+deleteObject(object){
+  this.scene.remove(object);
+  this.transformControls.detach();
 
+}
+changeColor(object){
+  console.log(object);
+  var hex = this.props.color;
+
+  const r = parseInt(hex.slice(1, 3), 16)/255.0;
+  const g = parseInt(hex.slice(3, 5), 16)/255.0;
+  const b = parseInt(hex.slice(5, 7), 16)/255.0;
+
+  object.material.color.setRGB(r,g,b);
+  console.log(object.material.color)
+  console.log(hex)
+
+}
 add_remove_transform(event){
   
    if(this.raycaster != undefined && this.scene != undefined){
@@ -151,7 +176,7 @@ add_remove_transform(event){
             validClicks = true;
             console.log("valid clikc");
             this.transformControls.attach(object);
-           
+           this.activeObject=object;
             this.scene.add(this.transformControls);
             break;
           }
@@ -349,7 +374,7 @@ add_remove_transform(event){
     saveLink.addEventListener('click', () =>{
         
       const geometry = new ConeGeometry(50, 100, 50);
-      const material = new MeshPhongMaterial({ color: this.props.color });
+      const material = new MeshLambertMaterial({ color: this.props.color,shininess: 200 });
       const cone = new Mesh(geometry, material);
       this.sceneObjects.push(cone); 
       this.scene.add(cone); 
