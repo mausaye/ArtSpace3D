@@ -79,7 +79,7 @@ componentDidMount(){
 
   this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
   this.scene.add(this.transformControls)
-  this.transformControls.addEventListener('change', this.renderObjects);
+  //this.transformControls.addEventListener('change');
   
   this.transformControls.addEventListener('mouseDown', function () {
      orbitControls.enabled = false;
@@ -138,7 +138,7 @@ add_remove_transform(event){
 
      if(intersects.length > 0){
       var object;
-        for(var i = 0; i < intersects.length; i++){
+      /*  for(var i = 0; i < intersects.length; i++){
           if(intersects[i].type != "TransformControlsPlane"){
             object = intersects[i];
             break;
@@ -150,7 +150,7 @@ add_remove_transform(event){
             console.log(object)
             this.transformControls.attach(object)
             this.scene.add(this.transformControls)
-        }
+        }*/
       
       } else {
 
