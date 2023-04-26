@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { MeshLambertMaterial,RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3} from 'three';
+import { TorusGeometry, CapsuleGeometry, TetrahedronGeometry, RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3, Triangle} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
@@ -105,15 +105,15 @@ addShapeEvents(){
    orbitControls.update();
 
    // Drag control event listeners
-   this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
+   var dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
 
-   this.dragControls.addEventListener("dragstart", function(event){
+   dragControls.addEventListener("dragstart", function(event){
      
      orbitControls.enabled = false;
      
    })
 
-   this.dragControls.addEventListener("dragend", function(event){
+   dragControls.addEventListener("dragend", function(event){
      orbitControls.enabled = true;
     
    })
@@ -125,9 +125,12 @@ addShapeEvents(){
     
     this.transformControls.addEventListener('mouseDown', function () {
       orbitControls.enabled = false;
+     // dragControls.enabled=false;
     });
     this.transformControls.addEventListener('mouseUp', function () {
         orbitControls.enabled = true;
+      //  dragControls.enabled = true;
+        
     });
 
     // Checks for clicks on objects
@@ -160,8 +163,17 @@ addShapeEvents(){
  */
 deleteObject(object){
   this.scene.remove(object);
+
   this.transformControls.detach();
 
+  for(var i = 0; i < this.sceneObjects.length; i++){
+    if(this.sceneObjects[i] == object){
+      this.sceneObjects.splice(i,1);
+      console.log(this.sceneObjects);
+      break;
+    }
+  
+  }  
 }
 
 onWindowResize() {
@@ -204,7 +216,7 @@ add_remove_transform(event){
     
     // Checks to see if something was clicked
      if(intersects.length > 0){
-      
+
         for(var i = 0; i < intersects.length; i++){
           var type = intersects[i].object.geometry.type;
 
@@ -212,7 +224,7 @@ add_remove_transform(event){
           if(this.acceptableType(type)){
             var object = intersects[i].object;
             validClicks = true;
-  
+   
             this.transformControls.attach(object);
             this.activeObject=object;
             this.scene.add(this.transformControls);
@@ -236,7 +248,7 @@ add_remove_transform(event){
  * General Helper functions
  */
   acceptableType(type){
-    return type == "RingGeometry" || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "CylinderGeometry" || type == "ConeGeometry";
+    return type == "CapsuleGeometry" || type == "TorusGeometry" || type == "TetrahedronGeometry" || type == "CircleGeometry" || type == "RingGeometry" || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "CylinderGeometry" || type == "ConeGeometry";
   }
 
   setUpGrid(scene, divisions, gridSize){
@@ -299,7 +311,11 @@ add_remove_transform(event){
 
   sidemenuAbility(){
     this.mySidebar.innerHTML = 
-    '<div id="mySidebar"><a href="javascript:void(0)" id="closebtn" >×</a><a href="#" id="3dShapes">3D Shapes</a><div id="dropdown-container-3d"><a href="#" id="cube">Cube</a><a href="#" id="sphere">Sphere</a><a href="#" id="cone">Cone</a><a href="#" id="cylinder">Cylinder</a><a href="#" id="knot">Knot</a></div><a href="#" id="2dShapes">2D Shapes</a><div id=dropdown-container-2d><a href="#" id="2dRing">Ring</a><a href="#" id="2dSquare">Square</a></div><a href="#" id="Support">Support</a></div>';
+    '<div id="mySidebar"><a href="javascript:void(0)" id="closebtn" >×</a><a href="#" id="3dShapes">3D Shapes</a><div id="dropdown-container-3d">'+
+      '<a href="#" id="cube">Cube</a><a href="#" id="sphere">Sphere</a><a href="#" id="cone">Cone</a><a href="#" id="cylinder">Cylinder</a><a href="#" id="knot">Knot</a>'+
+      '<a href="#" id="triangluar-prism">Triangular Prism</a><a href="#" id="donut">Donut</a><a href="#" id="capsule">Capsule</a></div>'+
+    '<a href="#" id="2dShapes">2D Shapes</a>'+
+      '<div id=dropdown-container-2d><a href="#" id="2dRing">Ring</a><a href="#" id="2dSquare">Square</a><a href="#" id="circle">Circle</a></div><a href="#" id="Support">Support</a></div>';
     this.mount.appendChild(this.mySidebar);
     
     var sidemenuOpen = document.createElement('div');
@@ -317,7 +333,7 @@ add_remove_transform(event){
       });
       var threeDropdownShown = false;
       document.getElementById('3dShapes').addEventListener('click', () => {
-        console.log("3d clicked");
+
         if(threeDropdownShown==false){
           threeDropdownShown=true;
           document.getElementById('dropdown-container-3d').style.display = "block";
@@ -356,6 +372,27 @@ add_remove_transform(event){
             this.sceneObjects.push(knot); 
             this.scene.add(knot); 
           });
+          document.getElementById('triangluar-prism').addEventListener('click', () =>{
+            const geometry = new TetrahedronGeometry(50,0); 
+            const material = new MeshPhongMaterial({color: this.props.color}); 
+            var tri_prism = new Mesh(geometry, material); 
+            this.sceneObjects.push(tri_prism); 
+            this.scene.add(tri_prism); 
+          });
+          document.getElementById('donut').addEventListener('click', () =>{
+            const geometry = new TorusGeometry(50,15,100,16); 
+            const material = new MeshPhongMaterial({color: this.props.color}); 
+            var donut = new Mesh(geometry, material); 
+            this.sceneObjects.push(donut); 
+            this.scene.add(donut); 
+          });
+          document.getElementById('capsule').addEventListener('click', () =>{
+            const geometry = new CapsuleGeometry(10,3,100,16); 
+            const material = new MeshPhongMaterial({color: this.props.color}); 
+            var capsule = new Mesh(geometry, material); 
+            this.sceneObjects.push(capsule); 
+            this.scene.add(capsule); 
+          });
         }
         else{
           threeDropdownShown=false;
@@ -364,7 +401,7 @@ add_remove_transform(event){
       });
       var twoDropdownShown = false;
       document.getElementById('2dShapes').addEventListener('click', () => {
-        console.log("2d clicked");
+
         if(twoDropdownShown==false){
           twoDropdownShown=true;
           document.getElementById('dropdown-container-2d').style.display = "block";
@@ -383,6 +420,13 @@ add_remove_transform(event){
             this.sceneObjects.push(square); 
             this.scene.add(square); 
           });
+          document.getElementById('circle').addEventListener('click', () =>{
+            const geometry = new CircleGeometry(50, 32);
+            const material = new MeshPhongMaterial({ color: this.props.color });
+            const circle = new Mesh(geometry, material);
+            this.sceneObjects.push(circle); 
+            this.scene.add(circle); 
+          });
           
         }
         else{
@@ -391,11 +435,13 @@ add_remove_transform(event){
         }
       });
       document.getElementById('Support').addEventListener('click', () => {
-        console.log("Support");
+  
       });
     });
-  }
+  
 
+  
+  }
   /**
    * Screen shot functions
    */
