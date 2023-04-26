@@ -17,6 +17,7 @@ class ShapeRenderer extends Component{
     mouse;
     dragControls;
   
+    activeObject;
     /*screenshot stuff*/
     strDownloadMime;  
 
@@ -66,20 +67,22 @@ componentDidMount(){
    //this.orbitControls.maxDistance = 700;
    
    orbitControls.update();
-   //this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
+   this.dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
 
-//   this.dragControls.addEventListener("dragstart", function(event){
+   this.dragControls.addEventListener("dragstart", function(event){
      
-  //   orbitControls.enabled = false;
-  // })
+     orbitControls.enabled = false;
+     
+   })
 
-  // this.dragControls.addEventListener("dragend", function(event){
-    // orbitControls.enabled = true;
-  // })
+   this.dragControls.addEventListener("dragend", function(event){
+     orbitControls.enabled = true;
+    
+   })
 
   this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
-  this.scene.add(this.transformControls)
-  //this.transformControls.addEventListener('change');
+  
+  this.transformControls.addEventListener('change', this.renderObjects);
   
   this.transformControls.addEventListener('mouseDown', function () {
      orbitControls.enabled = false;
@@ -89,17 +92,20 @@ componentDidMount(){
   });
 
   this.raycaster = new Raycaster();
-   //this.raycaster = this.raycaster.bind(this);
-   //this.camera = this.camera.bind(this);
-   //this.scene = this.scene.bind(this);
-
  
    console.log(this.raycaster)
    this.renderer.domElement.addEventListener( 'click', this.add_remove_transform, false);
-   //this.renderer.domElement.addEventListener( 'pointerdown', this.onclick(), false);
-   //window.addEventListener( 'pointerdown', this.onclick(), false);
-   
 
+  window.addEventListener("keydown", (event)=> {
+    if(event.code == "KeyR"){
+      this.transformControls.setMode('rotate');
+    } else if (event.code == "KeyT"){
+
+      this.transformControls.setMode('translate');
+    } else if (event.code == "KeyS"){
+      this.transformControls.setMode('scale');
+    }
+  })
    window.addEventListener( 'resize', this.onWindowResize());
    this.start();
 
@@ -119,7 +125,7 @@ componentDidMount(){
 
 
 add_remove_transform(event){
-  console.log(this.scene.children)
+  
    if(this.raycaster != undefined && this.scene != undefined){
     var mouse = new Vector2();
     mouse.x = (event.clientX / this.mount.clientWidth) * 2 - 1
@@ -129,35 +135,42 @@ add_remove_transform(event){
    
     this.raycaster.setFromCamera(mouse, this.camera);
      var intersects = this.raycaster.intersectObjects(this.scene.children, true);
-     
-     console.log(intersects);
-     console.log(mouse.x);
-     console.log(mouse.y);
+     //console.log(this.scene.children);
+    // console.log(this.sceneObjects);
+
      //console.log(intersects[intersects.length-1].x)
      //console.log(intersects[intersects.length-1].y)
-
+    var validClicks = false;
+    
      if(intersects.length > 0){
-      var object;
-      /*  for(var i = 0; i < intersects.length; i++){
-          if(intersects[i].type != "TransformControlsPlane"){
-            object = intersects[i];
+      
+        for(var i = 0; i < intersects.length; i++){
+          var type = intersects[i].object.geometry.type;
+          if(this.acceptableType(type)){
+            var object = intersects[i].object;
+            validClicks = true;
+            console.log("valid clikc");
+            this.transformControls.attach(object);
+           
+            this.scene.add(this.transformControls);
             break;
           }
         }
       
-
-        if(object != undefined){
-            console.log(object)
-            this.transformControls.attach(object)
-            this.scene.add(this.transformControls)
-        }*/
       
-      } else {
+      } 
 
+      if(!validClicks){
+          this.transformControls.detach();
+          this.activeObject = undefined;
+          
       }
   }
 }
     
+  acceptableType(type){
+    return type == RingGeometry || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "CylinderGeometry" || type == "ConeGeometry";
+  }
   setUpGrid(scene, divisions, gridSize){
     var gridGrouping = new Group();
 
@@ -197,7 +210,6 @@ add_remove_transform(event){
     this.frameId = requestAnimationFrame(this.animate)
     
     this.renderer.render(this.scene, this.camera);
-   //this.renderObjects();
 
   }
   
@@ -416,7 +428,6 @@ add_remove_transform(event){
       const ring = new Mesh(geometry, material);
       this.sceneObjects.push(ring); 
       this.scene.add(ring); 
-      console.log("in ring" + this.sceneObjects)
       
     });
   }
