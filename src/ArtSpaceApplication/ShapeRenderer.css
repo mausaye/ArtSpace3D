@@ -1,3 +1,63 @@
+@font-face{
+    font-family: architectsDaughter;
+    src: url('../../assets/Fonts/ArchitectsDaughter-Regular.ttf');
+}
+#mySidebar{
+    height: 100vh;
+    top: 0;
+    width: 0vw;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    
+}
+
+#closebtn{
+    position: absolute;
+    color: white;
+    text-decoration: none;
+    top: 0;
+    right: 10px;
+    font-size: 3rem;
+    margin-left: 50px;
+    margin-bottom: 2.5%;
+}
+
+a{
+    font-family: architectsDaughter;
+    padding: 2.5% 10%;
+    text-decoration: none;
+    font-size: 25px;
+    color: #db3eb1;
+    display: block;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #f1f1f1;
+}
+
+#closebtn:hover{
+    color: grey;
+}
+
+#dropdown-container-2d {
+    display: none;
+    background-color: #262626;
+    padding-left: 15%;
+}
+
+#dropdown-container-3d {
+    display: none;
+    background-color: #262626;
+    padding-left: 15%;
+}
+
+  
 
 #saveLink{
     font-size: 3rem;
