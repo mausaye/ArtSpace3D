@@ -26,7 +26,7 @@ export default function InstructionsPage() {
         navigate('/InstructionsPage/Color');
     }
     function clickMainMenuButton(event){
-        navigate('/');
+        navigate('/StartPage');
     }
     
 
