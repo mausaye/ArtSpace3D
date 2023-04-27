@@ -3,7 +3,7 @@
     src: url('../../assets/Fonts/ArchitectsDaughter-Regular.ttf');
 }
 #mySidebar{
-    height: 100vh;
+    height: 94vh;
     top: 0;
     width: 0vw;
     position: fixed;
@@ -12,8 +12,7 @@
     background-color: #111;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
-    
+    padding-top: 6vh;
 }
 
 #closebtn{
