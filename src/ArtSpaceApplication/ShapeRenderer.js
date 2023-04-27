@@ -3,6 +3,7 @@ import { MeshLambertMaterial,RingGeometry, Group, Raycaster, DoubleSide, GridHel
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import {useNavigate} from 'react-router-dom';
 import './ShapeRenderer.css'; 
 
 class ShapeRenderer extends Component{
@@ -17,7 +18,7 @@ class ShapeRenderer extends Component{
     dragControls;
     mySidebar;
     activeObject;
-    strDownloadMime;  
+    scDownloadData;  
 
     /**
      * props: retrieves the color from the color picker to bind to shapes
@@ -32,7 +33,7 @@ class ShapeRenderer extends Component{
  
 componentDidMount(){
    // Screenshot setup
-   this.strDownloadMime = "image/octet-stream";
+   this.scDownloadData = "image/octet-stream";
 
    // Scene setup
    this.scene = new Scene();
@@ -299,7 +300,7 @@ add_remove_transform(event){
 
   sidemenuAbility(){
     this.mySidebar.innerHTML = 
-    '<div id="mySidebar"><a href="javascript:void(0)" id="closebtn" >×</a><a href="#" id="3dShapes">3D Shapes</a><div id="dropdown-container-3d"><a href="#" id="cube">Cube</a><a href="#" id="sphere">Sphere</a><a href="#" id="cone">Cone</a><a href="#" id="cylinder">Cylinder</a><a href="#" id="knot">Knot</a></div><a href="#" id="2dShapes">2D Shapes</a><div id=dropdown-container-2d><a href="#" id="2dRing">Ring</a><a href="#" id="2dSquare">Square</a></div><a href="#" id="Support">Support</a></div>';
+    '<div id="mySidebar"><a href="javascript:void(0)" id="closebtn" >×</a><a href="#" id="3dShapes">3D Shapes</a><div id="dropdown-container-3d"><a href="#" id="cube">Cube</a><a href="#" id="sphere">Sphere</a><a href="#" id="cone">Cone</a><a href="#" id="cylinder">Cylinder</a><a href="#" id="knot">Knot</a></div><a href="#" id="2dShapes">2D Shapes</a><div id=dropdown-container-2d><a href="#" id="2dRing">Ring</a><a href="#" id="2dSquare">Square</a></div><a href="#" id="Lighting">Lighting</a><div id=dropdown-container-lighting><a href="#" id="light1">Light 1</a><a href="#" id="light2">Light 2</a><a href="#" id="light3">Light 3</a><a href="#" id="light4">Light 4</a></div><a href="#" id="Support">Support</a></div>';
     this.mount.appendChild(this.mySidebar);
     
     var sidemenuOpen = document.createElement('div');
@@ -317,7 +318,6 @@ add_remove_transform(event){
       });
       var threeDropdownShown = false;
       document.getElementById('3dShapes').addEventListener('click', () => {
-        console.log("3d clicked");
         if(threeDropdownShown==false){
           threeDropdownShown=true;
           document.getElementById('dropdown-container-3d').style.display = "block";
@@ -390,8 +390,34 @@ add_remove_transform(event){
           document.getElementById('dropdown-container-2d').style.display = "none";
         }
       });
+
+      var lightingDropdown = false;
+      document.getElementById('Lighting').addEventListener('click', () => {
+        if(lightingDropdown==false){
+          lightingDropdown=true;
+          document.getElementById('dropdown-container-lighting').style.display = "block";
+        
+          document.getElementById('light1').addEventListener('click', () =>{
+            console.log("1");
+          });
+          document.getElementById('light2').addEventListener('click', () =>{
+            console.log("2");
+          });
+          document.getElementById('light3').addEventListener('click', () =>{
+            console.log("3");
+          });
+          document.getElementById('light4').addEventListener('click', () =>{
+            console.log("4");
+          });
+        }
+        else{
+          lightingDropdown=false;
+          document.getElementById('dropdown-container-lighting').style.display = "none";
+        }
+      });
       document.getElementById('Support').addEventListener('click', () => {
-        console.log("Support");
+        const { navigate } = this.props;
+        navigate('/message');
       });
     });
   }
@@ -401,31 +427,16 @@ add_remove_transform(event){
    */
 
   screenshotAbility() {
+    var screenshotButton = document.createElement('div');
+    screenshotButton.innerHTML =
+      '<i class="fa fa-camera-retro" id="screenshotButton"></i>';
+    this.mount.appendChild(screenshotButton);
     
-    var saveLink = document.createElement('div');
-    
-    saveLink.style.position = 'absolute';
-    saveLink.style.top = '500px';
-    saveLink.style.width = '100%';
-    saveLink.style.color = 'white !important';
-    saveLink.style.textAlign = 'center';
-    saveLink.innerHTML =
-    '<i class="fa fa-camera-retro" id="saveLink"></i>';
-    this.mount.appendChild(saveLink);
-    
-    saveLink.addEventListener('click', () =>{
-     
+    screenshotButton.addEventListener('click', () =>{
         var imgData;
-        try {
-            var strMime = "image/jpeg";
-            imgData = this.renderer.domElement.toDataURL(strMime);
-            this.saveFile(imgData.replace(strMime, this.strDownloadMime), "MyArtSpace.jpg");
-
-        } catch (e) {
-            console.log(e);
-            return;
-        }
-        
+        var screenshotImageType = "image/jpeg";
+        imgData = this.renderer.domElement.toDataURL(screenshotImageType);
+        this.saveFile(imgData.replace(screenshotImageType, this.scDownloadData), "MyArtSpace.jpg");
     });
   }
 
@@ -442,4 +453,8 @@ add_remove_transform(event){
   
 }
 
-export default ShapeRenderer;
+export default function(props) {
+  const navigate = useNavigate();
+
+  return <ShapeRenderer {...props} navigate={navigate} />;
+}

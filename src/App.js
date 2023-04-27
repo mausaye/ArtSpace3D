@@ -25,6 +25,7 @@ import { Shape } from 'three';
 import { HiOutlineMail } from 'react-icons/hi';
 import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 import { ChromePicker } from 'react-color';
+
 const Nav = styled.div`
   background: #15171c;
   height: 80px;
@@ -69,13 +70,7 @@ const SidebarWrap = styled.div`
 `;
 
 
-
-
 const App = () => {
-  const navigate = useNavigate();
-  function clickMessageButton(event){
-    navigate('/message');
-  }
     
   const [sidebar, setSidebar] = useState(false);
 
@@ -100,10 +95,6 @@ const App = () => {
      <IconContext.Provider value={{ color: '#fff' }}>
      <Nav style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1 style={{ color: 'white', textAlign: 'center', flexGrow: 3 }}> Art Space 3D </h1>
-           <div style={{ display: 'flex', alignItems: 'center' }} type="button" onClick={clickMessageButton}>
-             <span style={{ marginRight: 10, color: 'white' }}>Message Us</span>
-                 <i className="fa fa-envelope" style={{ color: 'white' }}></i>
-            </div>
       </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
@@ -119,10 +110,11 @@ const App = () => {
         </SidebarNav>
         <ColorPickerContainer className="moveSize">
         <ChromePicker
-    color={color}
-   onChange={handleColorChange}
-    className=''
-/>
+          color={color}
+          onChange={handleColorChange}
+          className=''
+          disableAlpha={true}
+        />
         </ColorPickerContainer> 
       </IconContext.Provider>
       
@@ -137,23 +129,3 @@ const App = () => {
 }
 
 export default App;
-
-/*
-<IconContext.Provider value={{ color: '#fff' }}>
-        <Nav>
-          <NavIcon to='#'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </NavIcon>
-        </Nav>
-        <SidebarNav sidebar={sidebar}>
-          <SidebarWrap>
-            <NavIcon to='#'>
-              <AiIcons.AiOutlineClose onClick={showSidebar} />
-            </NavIcon>
-            {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index} renderer={render} />;
-            })}
-          </SidebarWrap>
-        </SidebarNav>
-      </IconContext.Provider>
-*/

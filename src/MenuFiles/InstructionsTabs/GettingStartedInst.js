@@ -11,8 +11,9 @@ export default function GettingStartedInst() {
             Before starting, please make sure to read all instructions. 
             Click on the tabs in the left navigation bar to learn more about each feature. 
             Once finished, press to "Main Menu" button to return to Main Menu.
+            
         </div>
-        
-    </div>
+    </div> 
+    
     );
 }

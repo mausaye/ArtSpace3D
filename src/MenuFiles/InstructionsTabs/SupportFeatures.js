@@ -1,10 +1,10 @@
 import './GettingStartedInst.css';
 
-export default function Camera() {
+export default function SupportFeatures() {
     return (
     <div class="parent">
         <div class="heading">
-            Camera
+            Support Features
         </div>
         <div class="body">
             There is a perspective camera used in our application. 

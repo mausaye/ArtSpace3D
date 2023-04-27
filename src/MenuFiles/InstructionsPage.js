@@ -19,14 +19,14 @@ export default function InstructionsPage() {
     function clickRotationButton(event){
         navigate('/InstructionsPage/Rotation');
     }
-    function clickCameraButton(event){
-        navigate('/InstructionsPage/Camera');
+    function clickSupportButton(event){
+        navigate('/InstructionsPage/SupportFeatures');
     }
     function clickColorsButton(event){
         navigate('/InstructionsPage/Color');
     }
     function clickMainMenuButton(event){
-        navigate('/');
+        navigate('/StartPage');
     }
     
 
@@ -41,8 +41,8 @@ export default function InstructionsPage() {
                     <div class="tabButton" type="button" onClick={clickShapeButton}>SHAPES</div>
                     <div class="tabButton" type="button" onClick={clickSizingButton}>SIZING</div>
                     <div class="tabButton" type="button" onClick={clickRotationButton}>ROTATION</div>
-                    <div class="tabButton" type="button" onClick={clickCameraButton}>CAMERA</div>
                     <div class="tabButton" type="button" onClick={clickColorsButton}>COLORS</div>
+                    <div class="tabButton" type="button" onClick={clickSupportButton}>SUPPORT FEATURES</div>
                 </nav>
         
             </div>
