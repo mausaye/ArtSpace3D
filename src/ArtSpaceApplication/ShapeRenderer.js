@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { TorusGeometry, CapsuleGeometry, TetrahedronGeometry, RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3, Triangle} from 'three';
+import { CameraHelper,PCFSoftShadowMap,SpotLight,TorusGeometry, CapsuleGeometry, TetrahedronGeometry, RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3, Triangle, MeshStandardMaterial} from 'three';
 import { DragControls } from 'three/addons/controls/DragControls.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
@@ -18,6 +18,10 @@ class ShapeRenderer extends Component{
     mySidebar;
     activeObject;
     strDownloadMime;  
+    light_1;
+    light_2;
+    light_3;
+    light_4;
 
     /**
      * props: retrieves the color from the color picker to bind to shapes
@@ -28,6 +32,7 @@ class ShapeRenderer extends Component{
       // This is needed for the add_remove_transform functions so it knows which "this" to refer to
       this.add_remove_transform = this.add_remove_transform.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
+
      }
  
 componentDidMount(){
@@ -45,6 +50,9 @@ componentDidMount(){
   this.renderer.setPixelRatio( window.devicePixelRatio );
   this.renderer.setClearColor(0xf0f0f0);
   this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight)
+  this.renderer.shadowMap.enabled = true;
+  this.renderer.shadowMap.type = PCFSoftShadowMap;
+
   this.mount.appendChild(this.renderer.domElement);
 
    // Add camera  
@@ -52,17 +60,81 @@ componentDidMount(){
    const aspect = window.innerWidth / window.innerHeight;
    this.camera = new PerspectiveCamera(fieldOfView, aspect);
    this.camera.position.set( 0, 200, 300 );
+   this.renderer.shadowCameraFar = this.camera.far;
+
+  
 
   // Set up the grid layout / sidebar
   this.setUpGrid(this.scene, 20,400);
   this.mySidebar = document.createElement('div');
 
    // Setup lighting sources
+   this.light_1 = false;
+   this.light_2 = false;
+   this.light_3 = false;
+   this.light_4 = false;
+
    var lights = []
-   lights[0] = new DirectionalLight(0xffffff, 1);
-   lights[1] = new AmbientLight( 0x404040 ,1); // soft white light
-   this.scene.add(lights[0])
-   this.scene.add(lights[1])
+  
+   //lights[1].position.set(new Vector3(0, 1 , 0));
+   //lights[1].target.position.set(new Vector3(0, 30, 0))
+   lights[0] = new DirectionalLight(0xffffff, 0.7);
+   lights[0].position.copy(new Vector3(200,100,200));
+   lights[0].target.position.copy(new Vector3(0, 30, 0))
+   this.addLightShadowEffects(lights[0]);
+
+   lights[1] = new DirectionalLight(0xffffff, 0.7);
+   lights[1].position.copy(new Vector3(-200, 100, 200));
+   lights[1].target.position.copy(new Vector3(0, 30, 0))
+   this.addLightShadowEffects(lights[1]);
+
+   lights[2] = new DirectionalLight(0xffffff, 0.7);
+   lights[2].position.copy(new Vector3(-200, 100, -200));
+   lights[2].target.position.copy(new Vector3(0, 30, 0))
+   this.addLightShadowEffects(lights[2]);
+
+   lights[3] = new DirectionalLight(0xffffff, 0.7);
+   lights[3].position.copy(new Vector3(200, 100, -200));
+   lights[3].target.position.copy(new Vector3(0, 30, 0))
+   this.addLightShadowEffects(lights[3]);
+   
+
+   lights[4] = new AmbientLight( 0x404040 ,1); // soft white light
+  
+   lights[5] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   lights[5].position.x = 200;
+   lights[5].position.y = 0.2;
+   lights[5].position.z = 200;
+
+   lights[6] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   lights[6].position.x = -200;
+   lights[6].position.y = 0.2;
+   lights[6].position.z = 200;
+
+   lights[7] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   lights[7].position.x = -200;
+   lights[7].position.y = 0.2;
+   lights[7].position.z = -200;
+
+   lights[8] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   lights[8].position.x = 200;
+   lights[8].position.y = 0.2;
+   lights[8].position.z = -200;
+
+   this.scene.add(lights[0]);
+   this.scene.add(lights[0].target);
+   this.scene.add(lights[1]);
+   this.scene.add(lights[1].target);
+   this.scene.add(lights[2]);
+   this.scene.add(lights[2].target);
+   this.scene.add(lights[3]);
+   this.scene.add(lights[3].target);
+   this.scene.add(lights[4]);
+   this.scene.add(lights[5]);
+   this.scene.add(lights[6]);
+   this.scene.add(lights[7]);
+   this.scene.add(lights[8]);
+
 
 
    // Objects placed on the screen
@@ -95,6 +167,15 @@ componentDidMount(){
 
 }
 
+addLightShadowEffects(light){
+  light.castShadow = true;
+  light.shadow.camera.top = 100;
+  light.shadow.camera.bottom = -100;
+  light.shadow.camera.left = - 400;
+  light.shadow.camera.right = 400;
+  light.shadow.camera.far = 1000; 
+  light.shadow.camera.fov = 60;
+}
 /*
  * Event handlers
  */
@@ -110,6 +191,7 @@ addShapeEvents(){
    dragControls.addEventListener("dragstart", function(event){
      
      orbitControls.enabled = false;
+     
      
    })
 
@@ -205,7 +287,7 @@ add_remove_transform(event){
     var mouse = new Vector2();
     mouse.x = (event.clientX / this.mount.clientWidth) * 2 - 1
     mouse.y = -(event.clientY / this.mount.clientHeight) * 2 + 1
- 
+
     this.raycaster.setFromCamera(mouse, this.camera);
 
     // Finds all the objects intesecting with the mouse position
@@ -224,7 +306,7 @@ add_remove_transform(event){
           if(this.acceptableType(type)){
             var object = intersects[i].object;
             validClicks = true;
-   
+            console.log(object.position)
             this.transformControls.attach(object);
             this.activeObject=object;
             this.scene.add(this.transformControls);
@@ -258,12 +340,13 @@ add_remove_transform(event){
 
     const plane = new Mesh(
       new PlaneGeometry(gridSize, gridSize),
-      new MeshBasicMaterial({
+      new MeshPhongMaterial({
         side: DoubleSide
       })
     )
 
     plane.rotateX(-Math.PI/2);
+    plane.receiveShadow = true;
 
     gridGrouping.add(plane);
     scene.add(gridGrouping);
@@ -341,6 +424,7 @@ add_remove_transform(event){
             const geometry = new BoxGeometry(50, 50, 50); 
             const material = new MeshPhongMaterial({color: this.props.color}); 
             var cube = new Mesh(geometry, material); 
+            cube.castShadow = true;
             this.sceneObjects.push(cube); 
             this.scene.add(cube); 
           });
@@ -348,6 +432,7 @@ add_remove_transform(event){
             const geometry = new SphereGeometry(50);
             const material = new MeshPhongMaterial({ color: this.props.color });
             var sphere = new Mesh(geometry, material);
+            sphere.castShadow = true;
             this.sceneObjects.push(sphere); 
             this.scene.add(sphere); //why is this a cone and not a sphere word
           });
@@ -355,6 +440,7 @@ add_remove_transform(event){
             const geometry = new ConeGeometry(50, 100, 50);
             const material = new MeshPhongMaterial({ color: this.props.color });
             const cone = new Mesh(geometry, material);
+            cone.castShadow = true;
             this.sceneObjects.push(cone); 
             this.scene.add(cone); 
           });
@@ -362,6 +448,7 @@ add_remove_transform(event){
             const geometry = new CylinderGeometry(50, 50, 200, 330);
             const material = new MeshPhongMaterial({ color: this.props.color });
             const cylinder = new Mesh(geometry, material);
+            cylinder.castShadow = true;
             this.sceneObjects.push(cylinder); 
             this.scene.add(cylinder); 
           });
@@ -369,6 +456,7 @@ add_remove_transform(event){
             const geometry = new TorusKnotGeometry(10,3,100,16); 
             const material = new MeshPhongMaterial({color: this.props.color}); 
             var knot = new Mesh(geometry, material); 
+            knot.castShadow = true;
             this.sceneObjects.push(knot); 
             this.scene.add(knot); 
           });
@@ -376,6 +464,7 @@ add_remove_transform(event){
             const geometry = new TetrahedronGeometry(50,0); 
             const material = new MeshPhongMaterial({color: this.props.color}); 
             var tri_prism = new Mesh(geometry, material); 
+            tri_prism.castShadow = true;
             this.sceneObjects.push(tri_prism); 
             this.scene.add(tri_prism); 
           });
@@ -383,6 +472,7 @@ add_remove_transform(event){
             const geometry = new TorusGeometry(50,15,100,16); 
             const material = new MeshPhongMaterial({color: this.props.color}); 
             var donut = new Mesh(geometry, material); 
+            donut.castShadow = true;
             this.sceneObjects.push(donut); 
             this.scene.add(donut); 
           });
@@ -390,6 +480,7 @@ add_remove_transform(event){
             const geometry = new CapsuleGeometry(10,3,100,16); 
             const material = new MeshPhongMaterial({color: this.props.color}); 
             var capsule = new Mesh(geometry, material); 
+            capsule.castShadow = true;
             this.sceneObjects.push(capsule); 
             this.scene.add(capsule); 
           });
@@ -410,6 +501,7 @@ add_remove_transform(event){
             const geometry = new RingGeometry(10, 50, 320);
             const material = new MeshPhongMaterial({ color: this.props.color });
             const ring = new Mesh(geometry, material);
+            ring.castShadow = true;
             this.sceneObjects.push(ring); 
             this.scene.add(ring); 
           });
@@ -417,6 +509,7 @@ add_remove_transform(event){
             const geometry = new PlaneGeometry(100, 100);
             const material = new MeshPhongMaterial({ color: this.props.color });
             const square = new Mesh(geometry, material);
+            square.castShadow = true;
             this.sceneObjects.push(square); 
             this.scene.add(square); 
           });
@@ -424,6 +517,7 @@ add_remove_transform(event){
             const geometry = new CircleGeometry(50, 32);
             const material = new MeshPhongMaterial({ color: this.props.color });
             const circle = new Mesh(geometry, material);
+            circle.castShadow = true;
             this.sceneObjects.push(circle); 
             this.scene.add(circle); 
           });
@@ -440,7 +534,15 @@ add_remove_transform(event){
     });
   
 
-  
+  /*
+    if(light_1){
+      light_1 = false;
+      light[1].intensity = 0;
+    } else {
+      light_1 = true;
+      light[1].intensity = 1;
+    }
+    */
   }
   /**
    * Screen shot functions
