@@ -63,14 +63,12 @@ a:hover {
     padding-left: 15%;
 }
 
-  
-
 #screenshotButton{
     font-size: 3rem;
     color: #db3eb1;
     position: fixed;
-    top: max(13vh, 100px);
-    right:4vh;
+    top: max(4vh, 50px);
+    right:5vh;
 }
 
 #saveCube{

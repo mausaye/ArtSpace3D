@@ -1,28 +1,13 @@
-import { createRoot } from 'react-dom/client'
-import React, { useRef, useState, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-//import Render from './ArtSpaceApplication/ShapeRenderer'
 
-import { Route } from 'react-router-dom';
-import { BrowserRouter as Router, Switch
- } from 'react-router-dom';
- 
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react'
 import * as FaIcons from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 import './ArtSpaceApplication/SideBar/SideBar.css'
 import {SideBarData}  from './ArtSpaceApplication/SideBar/SideBarData';
-import * as AiIcons from "react-icons/ai";
 import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
 import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
-import {useNavigate} from 'react-router-dom';
-//const {ShapeRenderer} = require('../src/ArtSpaceApplication/ShapeRenderer.js');
-
-//import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
-import { Shape } from 'three';
-import { HiOutlineMail } from 'react-icons/hi';
 import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 import { ChromePicker } from 'react-color';
 
@@ -46,7 +31,7 @@ const NavIcon = styled(Link)`
 
 const ColorPickerContainer = styled.div`
   position: absolute;
-  top: 180px;
+  top: 125px;
   right: 25px;
   
   z-index: 999;
@@ -88,21 +73,20 @@ const App = () => {
     
   };
 
+  //  <Nav style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+ // <h1 style={{ color: 'white', textAlign: 'center', flexGrow: 3 }}> Art Space 3D </h1>
+  //</Nav>
+
  return (
     <>
 
     
      <IconContext.Provider value={{ color: '#fff' }}>
-     <Nav style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 style={{ color: 'white', textAlign: 'center', flexGrow: 3 }}> Art Space 3D </h1>
-      </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
-
             <NavIcon to='#'>
               <FaIcons.FaBars onClick={showSidebar} />
             </NavIcon>
-
             {SideBarData.map((item, index) => {
               return <SubMenu item={item} key={index}  props={{ color }} ></SubMenu>;
             })}
@@ -119,9 +103,6 @@ const App = () => {
       </IconContext.Provider>
       
     <ShapeRenderer color={color}/>
-           
-
-
     </>
     
     )

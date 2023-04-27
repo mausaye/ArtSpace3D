@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { CameraHelper,PCFSoftShadowMap,SpotLight,TorusGeometry, CapsuleGeometry, TetrahedronGeometry, RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,MeshBasicMaterial,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3, Triangle, MeshStandardMaterial} from 'three';
-import { DragControls } from 'three/addons/controls/DragControls.js';
+import { PCFSoftShadowMap,SpotLight,TorusGeometry, CapsuleGeometry, TetrahedronGeometry, RingGeometry, Group, Raycaster, DoubleSide, GridHelper, DirectionalLight,ConeGeometry,AmbientLight,MeshPhongMaterial,Scene,Mesh,WebGLRenderer,BoxGeometry, PerspectiveCamera, SphereGeometry, PlaneGeometry, Vector2, CylinderGeometry, TorusKnotGeometry, CircleGeometry, Vector3} from 'three';
+
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import {useNavigate} from 'react-router-dom';
@@ -35,7 +35,7 @@ class ShapeRenderer extends Component{
       // This is needed for the add_remove_transform functions so it knows which "this" to refer to
       this.add_remove_transform = this.add_remove_transform.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
-
+      this.updateSceneTransform = this.updateSceneTransform.bind(this);
      }
  
 componentDidMount(){
@@ -104,22 +104,22 @@ componentDidMount(){
 
    this.lights[4] = new AmbientLight( 0x404040 ,1); // soft white light
   
-   this.lights[5] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   this.lights[5] = new SpotLight(0xF2E66A, 50, 8, 9.2);
    this.lights[5].position.x = 200;
    this.lights[5].position.y = 0.2;
    this.lights[5].position.z = 200;
 
-   this.lights[6] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   this.lights[6] = new SpotLight(0xF2E66A, 50, 8, 9.2);
    this.lights[6].position.x = -200;
    this.lights[6].position.y = 0.2;
    this.lights[6].position.z = 200;
 
-   this.lights[7] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   this.lights[7] = new SpotLight(0xF2E66A, 50, 8, 9.2);
    this.lights[7].position.x = -200;
    this.lights[7].position.y = 0.2;
    this.lights[7].position.z = -200;
 
-   this.lights[8] = new SpotLight(0xF2E66A, 50, 8, 9.2)//(0xffffff, 1);
+   this.lights[8] = new SpotLight(0xF2E66A, 50, 8, 9.2);
    this.lights[8].position.x = 200;
    this.lights[8].position.y = 0.2;
    this.lights[8].position.z = -200;
@@ -138,8 +138,6 @@ componentDidMount(){
    this.scene.add(this.lights[7]);
    this.scene.add(this.lights[8]);
 
-
-
    // Objects placed on the screen
    this.sceneObjects = [];
    
@@ -155,18 +153,9 @@ componentDidMount(){
   // Starts frame by frame animations
   this.start();
 
-
   this.screenshotAbility();
   this.sidemenuAbility();
   this.renderObjects();
-  /*this.addCubeForMe(); 
-  this.addSphereForMe(); 
-  this.addConeForMe(); 
-  this.addPretzelForMe(); 
-  this.addRingForMe(); 
-  this.addPlaneForMe(); 
-  this.addCylinerForMe(); 
-  */
 
 }
 
@@ -183,46 +172,28 @@ addLightShadowEffects(light){
  * Event handlers
  */
 addShapeEvents(){
-   // Set orbit controls
-   var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
+  // Set orbit controls
+  var orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
    
-   orbitControls.update();
+  orbitControls.update();
 
-   // Drag control event listeners
-   var dragControls = new DragControls(this.sceneObjects, this.camera, this.renderer.domElement)
-
-   dragControls.addEventListener("dragstart", function(event){
-     
-     orbitControls.enabled = false;
-     
-     
-   })
-
-   dragControls.addEventListener("dragend", function(event){
-     orbitControls.enabled = true;
+  // Transform control event listeners
+  this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
     
-   })
+  this.transformControls.addEventListener('change', this.renderObjects);
 
-    // Transform control event listeners
-    this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
-    
-    this.transformControls.addEventListener('change', this.renderObjects);
-    
-    this.transformControls.addEventListener('mouseDown', function () {
-      orbitControls.enabled = false;
-     // dragControls.enabled=false;
-    });
-    this.transformControls.addEventListener('mouseUp', function () {
-        orbitControls.enabled = true;
-      //  dragControls.enabled = true;
-        
-    });
+  this.transformControls.addEventListener('dragging-changed', function (event) {
+    orbitControls.enabled = !event.value
+})
+  
 
+  this.transformControls.addEventListener()
+    
     // Checks for clicks on objects
-    this.renderer.domElement.addEventListener( 'click', this.add_remove_transform, false);
+  this.renderer.domElement.addEventListener( 'click', this.add_remove_transform, false);
 
     // Window event listeners for object color change, transform, and deletion
-    window.addEventListener("keydown", (event)=> {
+  window.addEventListener("keydown", (event)=> {
     if(event.code == "KeyR"){
       this.transformControls.setMode('rotate');
     } else if (event.code == "KeyT"){
@@ -243,6 +214,10 @@ addShapeEvents(){
   })
 }
 
+updateSceneTransform(){
+  this.renderObjects();
+
+}
 /*
  * Event helper functions
  */
@@ -257,7 +232,6 @@ deleteObject(object){
       console.log(this.sceneObjects);
       break;
     }
-  
   }  
 }
 
@@ -306,13 +280,15 @@ add_remove_transform(event){
           var type = intersects[i].object.geometry.type;
 
           // Check to see if what we clicked is something we can move
-          if(this.acceptableType(type)){
+          if(this.acceptableType(type) && intersects[i].object.name == ""){
+            console.log(intersects[i].object.geometry.name);
             var object = intersects[i].object;
             validClicks = true;
-            console.log(object.position)
+            console.log(object)
             this.transformControls.attach(object);
             this.activeObject=object;
             this.scene.add(this.transformControls);
+            object.updateMatrixWorld();
             break;
           }
         }
@@ -330,10 +306,10 @@ add_remove_transform(event){
 }
     
 /**
- * General Helper functions
+ * General Helper functions  
  */
   acceptableType(type){
-    return type == "CapsuleGeometry" || type == "TorusGeometry" || type == "TetrahedronGeometry" || type == "CircleGeometry" || type == "RingGeometry" || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "CylinderGeometry" || type == "ConeGeometry";
+    return type == "CapsuleGeometry" || type == "CylinderGeometry" || type == "TorusGeometry" || type == "TetrahedronGeometry" || type == "CircleGeometry" || type == "RingGeometry" || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "ConeGeometry";
   }
 
   setUpGrid(scene, divisions, gridSize){
@@ -407,7 +383,7 @@ add_remove_transform(event){
     
     var sidemenuOpen = document.createElement('div');
     sidemenuOpen.style.position = 'absolute';
-    sidemenuOpen.style.top = '100px';
+    sidemenuOpen.style.top = '25px';
     sidemenuOpen.style.left = '50px';
     sidemenuOpen.style.fontSize = '3rem';
     sidemenuOpen.innerHTML =
@@ -595,10 +571,6 @@ add_remove_transform(event){
      });
     });
   
-
-  /*
-    
-    */
   }
   /**
    * Screen shot functions
