@@ -7,10 +7,24 @@ export default function SupportFeatures() {
             Support Features
         </div>
         <div class="body">
-            There is a perspective camera used in our application. 
-            To rotate the camera in 3-dimensions, use the left click button on your mouse and drag the cursor in the direction you want your camera to point. 
-            To move the camera along the horizontal axis, simply right click on your mouse and drag. 
-            To zoom in, use your mouse to scroll down. To zoom out, use your mouse to scroll up.
+            There are 3 support features provided to increase user convenience: 
+            <ol>
+                <h3 style={{paddingLeft: '4vw'}}><li>Screenshot Feature</li></h3>
+                    <p style={{paddingLeft: '4vw'}}>
+                        If you click on the camera icon in the upper right corner of the page, a screenshot of the current environment on the plane will be downloaded. 
+                        The image's file format will be a jpeg. 
+                    </p>
+                <h3 style={{paddingLeft: '4vw'}}><li>Message Us</li></h3>
+                    <p style={{paddingLeft: '4vw'}}>
+                        In the side-menu, if the user clicks on the "Message Us" tab, the user will be taken to a page where they can send a message to the creators. 
+                        This feature is to report any issues that may arise, or to ask any questions.
+                    </p>
+                <h3 style={{paddingLeft: '4vw'}}><li>Instructions</li></h3>
+                    <p style={{paddingLeft: '4vw'}}>
+                    In the side-menu, if the user clicks on the "Instructions" tab, the user will be taken to this Instructions page. This feature is provide a review 
+                    of the app's functionality if needed.
+                    </p>
+            </ol>
         </div>
         
     </div>

@@ -377,7 +377,9 @@ add_remove_transform(event){
       '<a href="#" id="cube">Cube</a><a href="#" id="sphere">Sphere</a><a href="#" id="cone">Cone</a><a href="#" id="cylinder">Cylinder</a><a href="#" id="knot">Knot</a>'+
       '<a href="#" id="triangluar-prism">Triangular Prism</a><a href="#" id="donut">Donut</a><a href="#" id="capsule">Capsule</a></div>'+
     '<a href="#" id="2dShapes">2D Shapes</a>'+
-      '<div id=dropdown-container-2d><a href="#" id="2dRing">Ring</a><a href="#" id="2dSquare">Square</a><a href="#" id="circle">Circle</a></div><a href="#" id="Lighting">Lighting</a><div id=dropdown-container-lighting><a href="#" id="light1">Light 1</a><a href="#" id="light2">Light 2</a><a href="#" id="light3">Light 3</a><a href="#" id="light4">Light 4</a></div><a href="#" id="Support">Support</a></div>';
+      '<div id=dropdown-container-2d><a href="#" id="2dRing">Ring</a><a href="#" id="2dSquare">Square</a><a href="#" id="circle">Circle</a></div><a href="#" id="Lighting">Lighting</a><div id=dropdown-container-lighting><a href="#" id="light1">Light 1</a><a href="#" id="light2">Light 2</a><a href="#" id="light3">Light 3</a><a href="#" id="light4">Light 4</a></div>'+
+      '<a href="#" id="Support">Message Us</a>'+
+      '<a href="#" id="Instructions">Instructions</a></div>';
 
     this.mount.appendChild(this.mySidebar);
     
@@ -568,7 +570,11 @@ add_remove_transform(event){
       document.getElementById('Support').addEventListener('click', () => {
         const { navigate } = this.props;
         navigate('/message');
-     });
+      });
+      document.getElementById('Instructions').addEventListener('click', () => {
+        const { navigate } = this.props;
+        navigate('/InstructionsPage/GettingStarted');
+      });
     });
   
   }
