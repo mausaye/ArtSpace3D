@@ -76,6 +76,7 @@ export default function SignUp() {
             if (status === 201) {
                 const loginUserData = await response.json();
                 localStorage.setItem('userInfo', JSON.stringify(loginUserData));
+                window.alert('Welcome in!');
                 navigate('/StartPage');
             } else if (status === 400) {
                 // api error
