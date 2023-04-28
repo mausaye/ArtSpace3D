@@ -11,6 +11,7 @@ export default function LogIn() {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -39,6 +40,10 @@ export default function LogIn() {
             setPasswordError('Please enter a password');
         }
     };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
     
     const navigate = useNavigate();
     const handleSubmit = event => {
@@ -46,7 +51,6 @@ export default function LogIn() {
 
         navigate('/StartPage');
     };
-
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -107,13 +111,22 @@ export default function LogIn() {
 
                     <div class="login-content">
                         <input 
-                            type="password" 
+                            type={showPassword ? 'text' : 'password'}
                             placeholder="Enter password" 
                             onChange={(e) => handlePasswordChange(e)}
-                            onBlur = {(e) => passwordBlur(e)} />
-                            {passwordError && 
-                                    <div class = "passworderror"> {passwordError} 
-                                    </div>}
+                            onBlur = {(e) => passwordBlur(e)} 
+                        />
+                        <label class="showPassword">
+                                <input
+                                    type="checkbox"
+                                    checked={(e) => showPassword(e)}
+                                    onChange={(e) => handleClickShowPassword(e)}
+                                />
+                                Show Password
+                            </label>
+                        {passwordError && 
+                            <div class = "passworderror"> {passwordError} 
+                            </div>}
                     </div>
 
                     <div>

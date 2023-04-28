@@ -1,34 +1,74 @@
 
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
-import StartPage from './StartPage'
-import validator from "validator";
 
 export default function SignUp() {
-    const [message, setMessage] = useState('');
-    const [errorEmail, setErrorEmail] = useState(null);
     const [firstName, setFirstName] = useState('');
+    const [firstNameError, setFirstNameError] = useState('');
     const [lastName, setLastName] = useState('');
+    const [lastNameError, setLastNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [showConstraints, setShowConstraints] = useState(false);
+
+
+    //First Name 
+    const handleFirstName = (e) => {
+        setFirstName(e.target.value);
+        setFirstNameError('');
+    };
+
+    const firstNameBlur = (e) => {
+        var firstName = e.target.value;
+        if (firstName === '') {
+            setFirstNameError('Please enter your first name');
+        }
+        if (firstName.length < 2){
+            setFirstNameError('Please enter a valid first name');
+        }
+    };
+    //Last Name
+    const handleLastName = (e) => {
+        setFirstName(e.target.value);
+        setLastNameError('');
+    };
+
+    const lastNameBlur = (e) => {
+        var lastname = e.target.value;
+        if (lastname === '') {
+            setLastNameError('Please enter your last name');
+        }
+        if (lastname .length < 2){
+            setLastNameError('Please enter a valid last name');
+        }
+    };
+    
+    //Email
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const validEmail = (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+
+    const emailBlur = (e) => {
+        var email = e.target.value;
+        if (email === ''){
+            setEmailError('Please enter an email!');
+        } else if(!validEmail(email)){
+            setEmailError('This is not a valid email!');
+        }
+    };
+
+    //Password 
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasSpecialChar = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/@#]/.test(password);
     const isLongEnough = password.length >= 8;
-
-    const validateEmail = (e) => {
-        const email = e.target.value;
-
-        if (validator.isEmail(email)) {
-            setErrorEmail(null)
-            setEmail(email);
-        } else {
-            setErrorEmail("This is not a valid email");
-        }
-    };
+    const navigate = useNavigate();
 
     const validatePassword = (e) => {
         setPassword(e.target.value);
@@ -39,9 +79,14 @@ export default function SignUp() {
         setShowConstraints(true);
     };
 
-    const handleBlur = () => {
+    const passwordleBlur = () => {
         setShowConstraints(false);
     };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     const constraints = [
         { label: 'At least one uppercase letter', satisfied: hasUppercase },
         { label: 'At least one lowercase letter', satisfied: hasLowercase },
@@ -50,8 +95,6 @@ export default function SignUp() {
         { label: 'At least 8 characters long', satisfied: isLongEnough },
     ];
 
-
-    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -91,6 +134,8 @@ export default function SignUp() {
             return;
         };
     };
+
+    
     return (
         <div class="signup">
             <div class="heading">
@@ -100,22 +145,54 @@ export default function SignUp() {
             <div class="login-container">
                 <form class="login-form" onSubmit={handleSubmit}>
                     <div class="signup-content" id="firstname">
-                        <input type="text" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)}/>
+                        <input 
+                            type="text" 
+                            placeholder="First Name" 
+                            onChange={(e) => handleFirstName(e)}
+                            onBlur = {(e) => firstNameBlur(e)} />
+                            {firstNameError && 
+                                <div class = "error"> {firstNameError} 
+                                </div>}
                     </div>
                     <div class="signup-content" id="lastname">
-                        <input type="text" placeholder="Last Name" onChange={(e) => setLastName(e.target.value)}/>
+                        <input 
+                            type="text" 
+                            placeholder="Last Name" 
+                            onChange={(e) => handleLastName(e)}
+                            onBlur = {(e) => lastNameBlur(e)}/>
+                            {lastNameError && 
+                                <div class = "error"> {lastNameError} 
+                                </div>}
                     </div>
 
                     <div class="signup-content" id="email">
-                        <input type="email" placeholder="Enter email" onChange={(e) => validateEmail(e)} />
-                        {errorEmail &&
-                            <div style={{ color: 'red' }} class="errorEmail">
-                                {errorEmail}
+                        <input 
+                            type="email" 
+                            placeholder="Enter email" 
+                            onChange={(e) => handleEmailChange(e)}
+                            onBlur = {(e) => emailBlur(e)} />
+                        {emailError &&
+                            <div class="error">
+                                {emailError}
                             </div>}
                     </div>
 
                     <div class="signup-content" id="password">
-                        <input type="password" placeholder="Enter password" onChange={validatePassword} onFocus={handleFocus} onBlur={handleBlur} />
+                        <input 
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Enter password" 
+                            onChange={(e) => validatePassword(e)} 
+                            onFocus={(e) => handleFocus(e)} 
+                            onBlur={(e) => passwordleBlur(e)} 
+                            />
+                            <label class="showPassword">
+                                <input
+                                    type="checkbox"
+                                    checked={(e) => showPassword(e)}
+                                    onChange={(e) => handleClickShowPassword(e)}
+                                />
+                                Show Password
+                            </label>
                         {showConstraints && (
                             <div class="constraint">
                                 {constraints.map((constraint, index) => (
