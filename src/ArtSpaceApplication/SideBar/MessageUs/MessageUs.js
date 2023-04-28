@@ -36,7 +36,7 @@ const MessageUs = () => {
             <input className="inputBoxes" type='email' placeholder='Email' name='user_email' required /> 
             <input className="inputBoxes" type='text' placeholder='Subject' name='subject' required /> 
             <textarea className="inputBoxes messageContainer" name='message' cols='30' rows='10' > </textarea>
-            <button type='submit' className='--btn --btn-primary '> Send Message </button>
+            <button type='submit' className='send-button'> SEND MESSAGE </button>
            
 
 

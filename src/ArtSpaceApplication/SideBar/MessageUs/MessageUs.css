@@ -87,3 +87,25 @@
     min-height: 20vh;
   }
 
+  .send-button {
+    position: absolute;
+    top: 85%;
+    left: 39%;
+    color: black;
+    border: 6px solid lightseagreen;
+    border-radius:15px;
+    padding: 10px 25px;
+    font-size: 40px;
+    font-family: bernierShade;
+    letter-spacing:5px;
+    cursor: pointer;
+    filter: drop-shadow(0 0 15px lightseagreen) drop-shadow(0 0 50px lightseagreen) contrast(2) brightness(2);
+    transition: .5s;
+  }
+  
+  .send-button:hover {
+    color: black;
+    background-color: lightseagreen;
+    filter: drop-shadow(0 0 20px lightseagreen) contrast(2) brightness(2);
+  }
+
