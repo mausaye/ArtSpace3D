@@ -277,13 +277,12 @@ add_remove_transform(event){
 
         for(var i = 0; i < intersects.length; i++){
           var type = intersects[i].object.geometry.type;
-
+          console.log(intersects[i].object)
           // Check to see if what we clicked is something we can move
-          if(this.acceptableType(type) && intersects[i].object.name == ""){
-            console.log(intersects[i].object.geometry.name);
+          if(this.acceptableType(type, intersects[i].object.name)){
             var object = intersects[i].object;
             validClicks = true;
-            console.log(object)
+           
             this.transformControls.attach(object);
             this.activeObject=object;
             this.scene.add(this.transformControls);
@@ -311,8 +310,10 @@ add_remove_transform(event){
 /**
  * General Helper functions  
  */
-  acceptableType(type){
-    return type == "CapsuleGeometry" || type == "CylinderGeometry" || type == "TorusGeometry" || type == "TetrahedronGeometry" || type == "CircleGeometry" || type == "RingGeometry" || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "ConeGeometry";
+  acceptableType(type, name){
+    if(name == "square" && type == "PlaneGeometry") return true;
+    
+    return (name ==  "") && (type == "CapsuleGeometry" || type == "CylinderGeometry" || type == "TorusGeometry" || type == "TetrahedronGeometry" || type == "CircleGeometry" || type == "RingGeometry" || type == "TorusKnotGeometry" || type == "BoxGeometry" || type == "SphereGeometry" || type == "ConeGeometry");
   }
 
   setUpGrid(scene, divisions, gridSize){
@@ -494,6 +495,7 @@ add_remove_transform(event){
             const material = new MeshPhongMaterial({ color: this.props.color });
             const square = new Mesh(geometry, material);
             square.castShadow = true;
+            square.name = "square";
             this.sceneObjects.push(square); 
             this.scene.add(square); 
           });
