@@ -35,4 +35,20 @@
     font-size: 5vh;
 }
 
+.instImg{
+    position: relative;
+    top: 5%;
+    left: 0%;
+}
+
+.lighting{
+    height: 50vh;
+    width: 20vw;
+}
+
+.instructions{
+    height: 50vh;
+    width: 20vw;
+}
+
 

@@ -1,7 +1,7 @@
 
 @font-face{
     font-family: brittany;
-    src: url('../../../../assets/Fonts/BrittanySignature.ttf');
+    src: url('../../../assets/Fonts/BrittanySignature.ttf');
   }
   
   .container {
@@ -70,7 +70,7 @@
       color: #db3eb1;
       font-family: "brittany";
       font-size: 4em;
-      
+      padding-bottom: 15%;
       
   }
   .login{

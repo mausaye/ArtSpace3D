@@ -1,15 +1,9 @@
 import './MainMenuRoot.css';
 import {useNavigate} from 'react-router-dom';
-import { useEffect } from 'react';
 
 
 export default function MainMenuRoot() {
     const navigate = useNavigate();
-
-    /*
-    function clickStartButton(event){
-       navigate('/EnvironmentCreationPage');
-    }*/
 
     function clickLogIn(event){
         navigate('/LogIn');
@@ -22,10 +16,6 @@ export default function MainMenuRoot() {
 
     function clickInstructionsButton(event){
         navigate('/InstructionsPage/GettingStarted');
-    }
-
-    function clickTest(event){
-        navigate('/animationTest');
     }
 
     return (

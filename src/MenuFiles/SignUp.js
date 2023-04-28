@@ -1,12 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
-import StartPage from './StartPage'
 import validator from "validator";
 
 export default function SignUp() {
-    const [message, setMessage] = useState('');
     const [errorEmail, setErrorEmail] = useState(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
