@@ -11,10 +11,9 @@
     overflow-x: hidden;
 }
 .heading{
-
-    position: relative;
+    position: absolute;
     top: 7vh;
-    width: 5px;
+    width: 50vw;
     min-height: 23vh;
     display: flex;
     justify-content: center;
@@ -25,11 +24,10 @@
 }
 
 .body{
-
     overflow-y: auto;
     max-width: 63vw;
     position: relative;
-    top: 9vh;
+    top: 30vh;
     margin: 0;
     height: 60vh;
     font-family: architectsDaughter;

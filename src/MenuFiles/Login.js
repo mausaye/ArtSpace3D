@@ -76,7 +76,7 @@ export default function LogIn() {
 
     return (
         <div class="login">
-            <div class="heading">
+            <div class="login-heading">
                 Log In
             </div>
 

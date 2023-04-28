@@ -92,7 +92,7 @@ export default function SignUp() {
     };
     return (
         <div class="signup">
-            <div class="heading">
+            <div class="signup-heading">
                 Sign Up
             </div>
 

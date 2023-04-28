@@ -21,10 +21,11 @@
   left: 0 !important;
 }
 
-.heading{
+.signup-heading{
+    position: absolute;
     top: 7vh;
     margin: 0;
-    left: 33%;
+    left: 40%;
     display: flex;
     justify-content: center;
     color: #db3eb1;
