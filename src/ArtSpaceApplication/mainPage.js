@@ -13,8 +13,9 @@ import Rotation from '../MenuFiles/InstructionsTabs/Rotation';
 import ErrorPage from '../MenuFiles/ErrorPage';
 import LogIn from '../MenuFiles/Login';
 import SignUp from '../MenuFiles/SignUp';
-import MessageUs from './SideBar/MessageUs/MessageUs';
+import MessageUs from './MessageUs/MessageUs';
 import StartPage from '../MenuFiles/StartPage.js'
+import Lighting from '../MenuFiles/InstructionsTabs/Lighting';
 import{
   createBrowserRouter, 
 } from "react-router-dom";
@@ -80,6 +81,10 @@ export default createBrowserRouter([
       {
         path: "Rotation",
         element: <Rotation />
+      },
+      {
+        path: "Lighting",
+        element: <Lighting />
       },
     ],
     

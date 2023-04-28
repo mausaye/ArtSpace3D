@@ -1,13 +1,9 @@
-
 import React, { useState } from 'react'
 import * as FaIcons from 'react-icons/fa';
 import { Link } from 'react-router-dom'
-import './ArtSpaceApplication/SideBar/SideBar.css'
-import {SideBarData}  from './ArtSpaceApplication/SideBar/SideBarData';
 import {IconContext} from 'react-icons/lib';
 import './App.css'; 
 import styled from 'styled-components';
-import SubMenu from './ArtSpaceApplication/SideBar/SubMenu';
 import ShapeRenderer from '../src/ArtSpaceApplication/ShapeRenderer.js';
 import { ChromePicker } from 'react-color';
 
@@ -73,25 +69,11 @@ const App = () => {
     
   };
 
-  //  <Nav style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
- // <h1 style={{ color: 'white', textAlign: 'center', flexGrow: 3 }}> Art Space 3D </h1>
-  //</Nav>
-
  return (
     <>
 
     
      <IconContext.Provider value={{ color: '#fff' }}>
-        <SidebarNav sidebar={sidebar}>
-          <SidebarWrap>
-            <NavIcon to='#'>
-              <FaIcons.FaBars onClick={showSidebar} />
-            </NavIcon>
-            {SideBarData.map((item, index) => {
-              return <SubMenu item={item} key={index}  props={{ color }} ></SubMenu>;
-            })}
-          </SidebarWrap>
-        </SidebarNav>
         <ColorPickerContainer className="moveSize">
         <ChromePicker
           color={color}

@@ -25,6 +25,9 @@ export default function InstructionsPage() {
     function clickColorsButton(event){
         navigate('/InstructionsPage/Color');
     }
+    function clickLighButton(event){
+        navigate('/InstructionsPage/Lighting');
+    }
     function clickMainMenuButton(event){
         navigate('/StartPage');
     }
@@ -41,7 +44,8 @@ export default function InstructionsPage() {
                     <div class="tabButton" type="button" onClick={clickShapeButton}>SHAPES</div>
                     <div class="tabButton" type="button" onClick={clickSizingButton}>SIZING</div>
                     <div class="tabButton" type="button" onClick={clickRotationButton}>ROTATION</div>
-                    <div class="tabButton" type="button" onClick={clickColorsButton}>COLORS</div>
+                    <div class="tabButton" type="button" onClick={clickColorsButton}>COLOR</div>
+                    <div class="tabButton" type="button" onClick={clickLighButton}>LIGHTING</div>
                     <div class="tabButton" type="button" onClick={clickSupportButton}>SUPPORT FEATURES</div>
                 </nav>
         

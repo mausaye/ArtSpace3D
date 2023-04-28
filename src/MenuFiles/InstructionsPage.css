@@ -26,7 +26,7 @@
     position: relative;
     margin: 18vh 8vh;
     min-width: 40vh;
-    min-height: 70vh;
+    min-height: 75vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,7 +37,7 @@
 .containerInner{
     position: absolute;
     min-width: 35vh;
-    min-height: 65vh;
+    min-height: 70vh;
     border: 5px solid;
     display: flex;
     align-items: center;
