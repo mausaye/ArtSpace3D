@@ -32,7 +32,7 @@ export default function SignUp() {
     };
     //Last Name
     const handleLastName = (e) => {
-        setFirstName(e.target.value);
+        setLastName(e.target.value);
         setLastNameError('');
     };
 
