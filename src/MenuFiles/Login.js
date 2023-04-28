@@ -1,16 +1,45 @@
+// source: https://www.w3resource.com/javascript/form/email-validation.php for email
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import './LogIn.css';
 import StartPage from './StartPage'
 import SignUp from './SignUp'
 import { useState } from "react";
-import validator from "validator";
 
 export default function LogIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const validEmail = (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+
+    const emailBlur = (e) => {
+        var email = e.target.value;
+        if (email === ''){
+            setEmailError('Please enter an email!');
+        } else if(!validEmail(email)){
+            setEmailError('This is not a valid email!');
+        }
+    };
+
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        setPasswordError('');
+    };
+
+    const passwordBlur = (e) => {
+        var password = e.target.value;
+        if (password === '') {
+            setPasswordError('Please enter a password');
+        }
+    };
+    
     const navigate = useNavigate();
     const handleSubmit = event => {
         event.preventDefault();
@@ -18,20 +47,6 @@ export default function LogIn() {
         navigate('/StartPage');
     };
 
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState(null);
-
-    const validateEmail = (e) => {
-        var email = e.target.value;
-
-        if (validator.isEmail(email)) {
-            setMessage("Thank you");
-            setError(null)
-            setEmail(email);
-        } else {
-            setError("Please, enter valid Email!");
-        }
-    };
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -70,9 +85,6 @@ export default function LogIn() {
         }
     }
 
-    const backToSignUp = (e) => {
-        navigate('/SignUp'); 
-    }
 
     return (
         <div class="login">
@@ -80,22 +92,35 @@ export default function LogIn() {
                 Log In
             </div>
 
-            <div class="login-container">
-                <form class="login-form" onSubmit={handleSubmit}>
+            <div class = "login-container">
+                <form class = "login-form" onSubmit = {handleSubmit}>
                     <div class="login-content">
-                        <input type="email" placeholder="Enter email" onChange={(e) => validateEmail(e)} />
-                        {error &&
-                            <div style={{ color: 'red' }} class="error">
-                                {error}
-                            </div>}
+                        <input 
+                            type = "email" 
+                            placeholder = "Enter email" 
+                            onChange = {(e) => handleEmailChange(e)}
+                            onBlur = {(e) => emailBlur(e)} />
+                            {emailError && 
+                                <div class = "emailerror"> {emailError} 
+                                </div>}
                     </div>
 
                     <div class="login-content">
-                        <input type="password" placeholder="Enter password" onChange={(e) => setPassword(e.target.value)} />
+                        <input 
+                            type="password" 
+                            placeholder="Enter password" 
+                            onChange={(e) => handlePasswordChange(e)}
+                            onBlur = {(e) => passwordBlur(e)} />
+                            {passwordError && 
+                                    <div class = "passworderror"> {passwordError} 
+                                    </div>}
                     </div>
 
                     <div>
-                        <div class="login-submit" type="button" onClick={onSubmit}> LOG IN </div>
+                        <div 
+                            class="login-submit" 
+                            type="button" 
+                            onClick={onSubmit}> LOG IN </div>
                     </div>
                 </form>
             </div>
