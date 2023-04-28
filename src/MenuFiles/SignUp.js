@@ -76,11 +76,10 @@ export default function SignUp() {
             if (status === 201) {
                 const loginUserData = await response.json();
                 localStorage.setItem('userInfo', JSON.stringify(loginUserData));
+                navigate('/StartPage');
             } else if (status === 400) {
                 // api error
                 window.alert('Email is already used');
-                navigate('/SignUp');
-
             } else {
                 // other api error
                 window.alert(statusText);
@@ -90,7 +89,6 @@ export default function SignUp() {
             window.alert(error);
             return;
         };
-        navigate('/StartPage');
     };
     return (
         <div class="signup">
