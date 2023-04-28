@@ -22,7 +22,7 @@
     "react-icons": "^4.8.0",
     "react-password-checklist": "^1.4.3",
     "react-router-dom": "^6.8.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "styled-components": "^5.3.8",
     "three": "^0.150.1",
     "validator": "^13.9.0",

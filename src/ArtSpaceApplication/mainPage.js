@@ -8,7 +8,7 @@ import InstructionsPage from '../MenuFiles/InstructionsPage';
 import GettingStartedInst from '../MenuFiles/InstructionsTabs/GettingStartedInst';
 import Shapes from '../MenuFiles/InstructionsTabs/Shapes';
 import Color from '../MenuFiles/InstructionsTabs/Color';
-import Camera from '../MenuFiles/InstructionsTabs/Camera';
+import SupportFeatures from '../MenuFiles/InstructionsTabs/SupportFeatures';
 import Sizing from '../MenuFiles/InstructionsTabs/Sizing';
 import Rotation from '../MenuFiles/InstructionsTabs/Rotation';
 import ErrorPage from '../MenuFiles/ErrorPage';
@@ -78,8 +78,8 @@ export default createBrowserRouter([
         element: <Color />
       },
       {
-        path: "Camera",
-        element: <Camera />
+        path: "SupportFeatures",
+        element: <SupportFeatures />
       },
       {
         path: "Sizing",

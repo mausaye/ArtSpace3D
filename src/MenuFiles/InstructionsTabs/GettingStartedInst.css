@@ -6,12 +6,15 @@
     font-family: architectsDaughter;
     src: url('../../../assets/Fonts/ArchitectsDaughter-Regular.ttf');
 }
-
+.parent{
+    width: 100%;
+    overflow-x: hidden;
+}
 .heading{
+
     position: relative;
     top: 7vh;
-    margin: 0;
-    min-width: 65vw;
+    width: 5px;
     min-height: 23vh;
     display: flex;
     justify-content: center;
@@ -22,6 +25,7 @@
 }
 
 .body{
+
     overflow-y: auto;
     max-width: 63vw;
     position: relative;

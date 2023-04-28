@@ -64,6 +64,7 @@ span{
     margin-left: 16px;
 }
 
+
 #camera{
     position: absolute;
     z-index: 100;
@@ -97,4 +98,3 @@ span{
     color: white;
     cursor: pointer;
   }
-
