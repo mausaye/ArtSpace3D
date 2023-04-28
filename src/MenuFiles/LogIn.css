@@ -1,3 +1,4 @@
+
 @font-face{
     font-family: brittany;
     src: url('../../assets/Fonts/BrittanySignature.ttf');
@@ -74,7 +75,7 @@ input[type=email]{
 }
 
 input[type=password]{
-    width: 200px;
+    width: 250px;
     height: 50px;
     border: 2px solid #11FFEE;
     border-radius: 10px ;
@@ -114,6 +115,23 @@ input[type=password]{
   .error{
     font-family: bernierShade;
   }
+
+
+  .emailerror {
+    font-family: bernierShade;
+    color: red;
+    padding: 2% 0 0 0 ;
+  }
   
+  .passworderror {
+    font-family: bernierShade;
+    color: red;
+    padding: 2% 0 0 0 ;
+  }
+
+  .showPassword {
+    font-family: bernierShade;
+    color: #11FFEE
+  }
   
 

@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
-
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.2",
     "@react-three/fiber": "^8.12.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -17,7 +19,6 @@
     "html2canvas": "^1.4.1",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
-
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-password-checklist": "^1.4.3",

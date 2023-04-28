@@ -10,15 +10,15 @@
 
 .signup{
     background-color: #280034 !important;
-  background-size: cover !important;
-  height: 100vh !important;
-  width: 100% !important;
-  display: flex !important;
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
+    background-size: cover !important;
+    height: 100vh !important;
+    width: 100% !important;
+    display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
 }
 
 .signup-heading{
@@ -122,14 +122,21 @@ input[type=password]{
     background-color: #11FFEE;
     filter: drop-shadow(0 0 20px #11FFEE) contrast(2) brightness(2);
   }
-  
-  .errorEmail{
-    font-family: bernierShade;
-  }
 
   .constraint{
     font-family: bernierShade;
     align-items: center;
     width: 300px;
     justify-content: space-between;
+  }
+
+  .error {
+    font-family: bernierShade;
+    color: red;
+    padding: 2% 0 0 0 ;
+  }
+
+  .showPassword {
+    font-family: bernierShade;
+    color: #11FFEE
   }

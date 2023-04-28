@@ -1,3 +1,4 @@
+//source: https://www.bezkoder.com/node-js-mongodb-auth-jwt/
 import mongoose from 'mongoose';
 
 const connectDB = async () => {
